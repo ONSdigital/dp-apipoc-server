@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/ONSdigital/dp-apipoc-server/upstream"
 	"github.com/ONSdigital/go-ns/log"
 	"github.com/julienschmidt/httprouter"
-	"github.com/sem247/anthill/upstream"
 )
 
 type HasErrors bool

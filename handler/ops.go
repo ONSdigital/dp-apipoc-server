@@ -3,10 +3,10 @@ package handler
 import (
 	"net/http"
 
+	"github.com/ONSdigital/dp-apipoc-server/model"
+	"github.com/ONSdigital/dp-apipoc-server/upstream"
 	"github.com/ONSdigital/go-ns/log"
 	"github.com/julienschmidt/httprouter"
-	"github.com/sem247/anthill/model"
-	"github.com/sem247/anthill/upstream"
 )
 
 type (

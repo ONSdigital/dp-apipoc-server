@@ -3,12 +3,11 @@ package router
 import (
 	"net/http"
 
+	"github.com/ONSdigital/dp-apipoc-server/handler"
 	"github.com/julienschmidt/httprouter"
-	"github.com/sem247/anthill/handler"
-	"github.com/sem247/anthill/model"
 )
 
-func GetRoutes(configuration *model.Configuration, opsHandler *handler.OpsHandler, metaHandler *handler.MetadataHandler) http.Handler {
+func GetRoutes(opsHandler *handler.OpsHandler, metaHandler *handler.MetadataHandler) http.Handler {
 	router := httprouter.New()
 
 	router.HEAD("/api/ops/ping", opsHandler.PingHandler)

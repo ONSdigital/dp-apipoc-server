@@ -3,8 +3,8 @@ package upstream
 import (
 	"encoding/json"
 
+	"github.com/ONSdigital/dp-apipoc-server/model"
 	"github.com/ONSdigital/go-ns/log"
-	"github.com/sem247/anthill/model"
 	"gopkg.in/olivere/elastic.v3"
 )
 

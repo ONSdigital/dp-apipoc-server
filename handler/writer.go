@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/sem247/anthill/model"
+	"github.com/ONSdigital/dp-apipoc-server/model"
 )
 
 type (

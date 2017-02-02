@@ -6,38 +6,34 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/ONSdigital/dp-apipoc-server/handler"
+	"github.com/ONSdigital/dp-apipoc-server/routing"
+	"github.com/ONSdigital/dp-apipoc-server/upstream"
 	"github.com/ONSdigital/go-ns/handlers/requestID"
 	"github.com/ONSdigital/go-ns/handlers/timeout"
 	"github.com/ONSdigital/go-ns/log"
 	"github.com/justinas/alice"
-	"github.com/sem247/anthill/config"
-	"github.com/sem247/anthill/handler"
-	"github.com/sem247/anthill/routing"
-	"github.com/sem247/anthill/upstream"
+	"github.com/namsral/flag"
 	"gopkg.in/tylerb/graceful.v1"
 )
 
 func main() {
-	/*
-		if v := os.Getenv("BIND_ADDR"); len(v) > 0 {
-			config.BindAddr = v
-		}
-		if v := os.Getenv("SITE_DOMAIN"); len(v) > 0 {
-			config.SiteDomain = v
-		}
-	*/
-	log.Namespace = "dp-api"
+	log.Namespace = "dp-apipoc-server"
 
-	configuration := config.GetConfig()
+	var port = 3000
+	var elasticUrl = "http://localhost:9200"
+	flag.IntVar(&port, "port", port, "Port number")
+	flag.StringVar(&elasticUrl, "elesticsearch", elasticUrl, "ElasticSearch URL")
+	flag.Parse()
 
-	elasticService := upstream.NewElasticService(configuration.ElasticsearchUrl)
+	elasticService := upstream.NewElasticService(elasticUrl)
 
 	httpWriter := handler.NewHttpWriter()
 
 	opsHandler := handler.NewOpsHandler(elasticService, httpWriter)
 	elHandler := handler.NewMetadataHandler(elasticService, httpWriter)
 
-	routes := router.GetRoutes(configuration, opsHandler, elHandler)
+	routes := router.GetRoutes(opsHandler, elHandler)
 
 	middleware := []alice.Constructor{
 		requestID.Handler(16),
@@ -47,7 +43,7 @@ func main() {
 
 	alice := alice.New(middleware...).Then(routes)
 
-	address := ":" + strconv.Itoa(configuration.Port)
+	address := ":" + strconv.Itoa(port)
 
 	server := &graceful.Server{
 		Timeout: 10 * time.Second,
