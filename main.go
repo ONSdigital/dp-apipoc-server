@@ -22,18 +22,20 @@ func main() {
 
 	var port = 3000
 	var elasticUrl = "http://localhost:9200"
+	var websiteUrl = "https://www.ons.gov.uk"
 	flag.IntVar(&port, "port", port, "Port number")
 	flag.StringVar(&elasticUrl, "elesticsearch", elasticUrl, "ElasticSearch URL")
+	flag.StringVar(&websiteUrl, "website", websiteUrl, "Website URL")
 	flag.Parse()
 
 	elasticService := upstream.NewElasticService(elasticUrl)
+	websiteClient := upstream.NewWebsiteClient(websiteUrl)
 
-	httpWriter := handler.NewHttpWriter()
+	opsHandler := handler.NewOpsHandler(elasticService, websiteClient)
+	elHandler := handler.NewMetadataHandler(elasticService)
+	dhHandler := handler.NewDataHandler(elasticService)
 
-	opsHandler := handler.NewOpsHandler(elasticService, httpWriter)
-	elHandler := handler.NewMetadataHandler(elasticService, httpWriter)
-
-	routes := router.GetRoutes(opsHandler, elHandler)
+	routes := router.GetRoutes(opsHandler, elHandler, dhHandler)
 
 	middleware := []alice.Constructor{
 		requestID.Handler(16),

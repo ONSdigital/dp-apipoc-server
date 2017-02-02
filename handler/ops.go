@@ -5,19 +5,18 @@ import (
 
 	"github.com/ONSdigital/dp-apipoc-server/model"
 	"github.com/ONSdigital/dp-apipoc-server/upstream"
-	"github.com/ONSdigital/go-ns/log"
 	"github.com/julienschmidt/httprouter"
 )
 
 type (
 	OpsHandler struct {
 		elasticService upstream.ElasticService
-		httpWriter     *HttpWriter
+		websiteClient  upstream.WebsiteClient
 	}
 )
 
-func NewOpsHandler(elasticService upstream.ElasticService, httpWriter *HttpWriter) *OpsHandler {
-	return &OpsHandler{elasticService, httpWriter}
+func NewOpsHandler(elasticService upstream.ElasticService, websiteClient upstream.WebsiteClient) *OpsHandler {
+	return &OpsHandler{elasticService, websiteClient}
 }
 
 func (ops OpsHandler) PingHandler(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
@@ -26,17 +25,12 @@ func (ops OpsHandler) PingHandler(w http.ResponseWriter, r *http.Request, p http
 
 func (ops OpsHandler) StatusHandler(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	elasticRes, err := ops.elasticService.Ping()
+	logOut(r, err)
 
-	check(r, err)
+	websiteRes, err2 := ops.websiteClient.Ping()
+	logOut(r, err2)
 
-	status := model.Status{ApplicationName: "Anthill - POC API Server", Dependencies: &model.Dependency{Elasticsearch: elasticRes.Body}}
+	status := model.Status{ApplicationName: "API POC Server", Dependencies: &model.Dependency{Elasticsearch: elasticRes.Body, Website: websiteRes.Body}}
 
-	ops.httpWriter.writeResponse(w, elasticRes.Code, status)
-}
-
-func check(r *http.Request, err error) {
-
-	if err != nil {
-		log.ErrorR(r, err, nil)
-	}
+	writeResponse(w, Max(elasticRes.Code, websiteRes.Code), status)
 }

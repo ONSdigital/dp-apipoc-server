@@ -14,12 +14,11 @@ type HasErrors bool
 type (
 	MetadataHandler struct {
 		elasticService upstream.ElasticService
-		httpWriter     *HttpWriter
 	}
 )
 
-func NewMetadataHandler(elasticService upstream.ElasticService, httpWriter *HttpWriter) *MetadataHandler {
-	return &MetadataHandler{elasticService, httpWriter}
+func NewMetadataHandler(elasticService upstream.ElasticService) *MetadataHandler {
+	return &MetadataHandler{elasticService}
 }
 
 func (mh MetadataHandler) GetDatasets(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
@@ -30,9 +29,9 @@ func (mh MetadataHandler) GetDatasets(w http.ResponseWriter, r *http.Request, p 
 	} else {
 		elasticRes, err := mh.elasticService.GetPagedData("dataset", startIndex, pageSize)
 
-		check(r, err)
+		logOut(r, err)
 
-		mh.httpWriter.writeResponse(w, elasticRes.Code, elasticRes.Body)
+		writeResponse(w, elasticRes.Code, elasticRes.Body)
 	}
 }
 
@@ -44,26 +43,26 @@ func (mh MetadataHandler) GetTimeseries(w http.ResponseWriter, r *http.Request, 
 	} else {
 		elasticRes, err := mh.elasticService.GetPagedData("timeseries", startIndex, pageSize)
 
-		check(r, err)
+		logOut(r, err)
 
-		mh.httpWriter.writeResponse(w, elasticRes.Code, elasticRes.Body)
+		writeResponse(w, elasticRes.Code, elasticRes.Body)
 	}
 }
 
 func (mh MetadataHandler) GetSpecificDataset(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	elasticRes, err := mh.elasticService.GetDataById("dataset", "description.datasetId", p.ByName("datasetId"))
 
-	check(r, err)
+	logOut(r, err)
 
-	mh.httpWriter.writeResponse(w, elasticRes.Code, elasticRes.Body)
+	writeResponse(w, elasticRes.Code, elasticRes.Body)
 }
 
 func (mh MetadataHandler) GetSpecificTimeseries(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	elasticRes, err := mh.elasticService.GetDataById("timeseries", "description.cdid", p.ByName("timeseriesId"))
 
-	check(r, err)
+	logOut(r, err)
 
-	mh.httpWriter.writeResponse(w, elasticRes.Code, elasticRes.Body)
+	writeResponse(w, elasticRes.Code, elasticRes.Body)
 }
 
 func (mh MetadataHandler) GetSpecificDatasetTimeSeries(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
@@ -74,9 +73,9 @@ func (mh MetadataHandler) GetSpecificDatasetTimeSeries(w http.ResponseWriter, r 
 	} else {
 		elasticRes, err := mh.elasticService.GetPagedDataById("timeseries", "description.datasetId", p.ByName("datasetId"), startIndex, pageSize)
 
-		check(r, err)
+		logOut(r, err)
 
-		mh.httpWriter.writeResponse(w, elasticRes.Code, elasticRes.Body)
+		writeResponse(w, elasticRes.Code, elasticRes.Body)
 	}
 }
 
@@ -88,18 +87,18 @@ func (mh MetadataHandler) GetSpecificTimeseriesDatasets(w http.ResponseWriter, r
 	} else {
 		elasticRes, err := mh.elasticService.GetPagedDataById("dataset", "description.cdid", p.ByName("timeseriesId"), startIndex, pageSize)
 
-		check(r, err)
+		logOut(r, err)
 
-		mh.httpWriter.writeResponse(w, elasticRes.Code, elasticRes.Body)
+		writeResponse(w, elasticRes.Code, elasticRes.Body)
 	}
 }
 
 func (mh MetadataHandler) GetSpecificTimeSeriesSpecificDataset(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	elasticRes, err := mh.elasticService.GetSpecificTimeSeriesSpecificDataset(p.ByName("datasetId"), p.ByName("timeseriesId"))
 
-	check(r, err)
+	logOut(r, err)
 
-	mh.httpWriter.writeResponse(w, elasticRes.Code, elasticRes.Body)
+	writeResponse(w, elasticRes.Code, elasticRes.Body)
 }
 
 func (mh MetadataHandler) DoSearch(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
@@ -110,9 +109,9 @@ func (mh MetadataHandler) DoSearch(w http.ResponseWriter, r *http.Request, p htt
 	} else {
 		elasticRes, err := mh.elasticService.SearchData(r.URL.Query().Get("q"), startIndex, pageSize)
 
-		check(r, err)
+		logOut(r, err)
 
-		mh.httpWriter.writeResponse(w, elasticRes.Code, elasticRes.Body)
+		writeResponse(w, elasticRes.Code, elasticRes.Body)
 	}
 }
 

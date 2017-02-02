@@ -7,7 +7,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func GetRoutes(opsHandler *handler.OpsHandler, metaHandler *handler.MetadataHandler) http.Handler {
+func GetRoutes(opsHandler *handler.OpsHandler, metaHandler *handler.MetadataHandler, dataHandler *handler.DataHandler) http.Handler {
 	router := httprouter.New()
 
 	router.HEAD("/api/ops/ping", opsHandler.PingHandler)
@@ -26,6 +26,9 @@ func GetRoutes(opsHandler *handler.OpsHandler, metaHandler *handler.MetadataHand
 	router.GET("/api/timeseries/:timeseriesId/dataset/:datasetId", metaHandler.GetSpecificTimeSeriesSpecificDataset)
 
 	router.GET("/api/search", metaHandler.DoSearch)
+
+	router.GET("/api/dataset/:datasetId/timeseries/:timeseriesId/data", dataHandler.GetData)
+	router.GET("/api/timeseries/:timeseriesId/dataset/:datasetId/data", dataHandler.GetData)
 
 	return router
 }
