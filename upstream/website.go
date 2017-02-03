@@ -1,56 +1,42 @@
 package upstream
 
 import (
-	"net"
-	"net/http"
-	"time"
+	"bytes"
 
 	"github.com/ONSdigital/dp-apipoc-server/model"
-
-	/*
-		"encoding/json"
-
-		"github.com/ONSdigital/go-ns/log"
-	*/)
+)
 
 type WebsiteClient interface {
 	Ping() (model.Response, error)
 	GetData(uri string) (model.Response, error)
+	buildRequest(uri string) string
 }
 
 func NewWebsiteClient(baseUrl string) WebsiteClient {
-	var netTransport = &http.Transport{
-		Dial: (&net.Dialer{
-			Timeout: 5 * time.Second,
-		}).Dial,
-		TLSHandshakeTimeout: 5 * time.Second,
-	}
-	var netClient = &http.Client{
-		Timeout:   time.Second * 10,
-		Transport: netTransport,
-	}
-
-	return &httpService{baseUrl: baseUrl, httpClient: netClient}
+	return &websiteService{baseUrl: baseUrl, httpClient: NewHttpClient()}
 }
 
-type httpService struct {
+type websiteService struct {
 	baseUrl    string
-	httpClient *http.Client
+	httpClient HttpClient
 }
 
-func (s *httpService) Ping() (model.Response, error) {
-	resp, err := s.httpClient.Get(s.baseUrl)
-
-	if err != nil {
-		return model.Response{Code: model.DEPENDENCY_CONNECTION_ERROR, Body: nil}, err
-	}
-	if resp.StatusCode == http.StatusOK {
-		return model.Response{Code: model.OK, Body: &model.WebsiteStatus{Status: "RUNNING", StatusCode: resp.StatusCode}}, nil
-	}
-
-	return model.Response{Code: model.OK, Body: &model.WebsiteStatus{Status: "NOT_AVAILABLE", StatusCode: resp.StatusCode}}, err
+func (w *websiteService) Ping() (model.Response, error) {
+	return w.httpClient.Ping(w.baseUrl)
 }
 
-func (s *httpService) GetData(uri string) (model.Response, error) {
-	return model.Response{Code: model.OK, Body: nil}, nil
+func (w *websiteService) GetData(uri string) (model.Response, error) {
+	url := w.buildRequest(uri)
+
+	return w.httpClient.GetData(url)
+}
+
+func (w *websiteService) buildRequest(uri string) string {
+	var buffer bytes.Buffer
+
+	buffer.WriteString(w.baseUrl)
+	buffer.WriteString(uri)
+	buffer.WriteString("/data")
+
+	return buffer.String()
 }

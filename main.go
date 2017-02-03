@@ -33,7 +33,7 @@ func main() {
 
 	opsHandler := handler.NewOpsHandler(elasticService, websiteClient)
 	elHandler := handler.NewMetadataHandler(elasticService)
-	dhHandler := handler.NewDataHandler(elasticService)
+	dhHandler := handler.NewDataHandler(elasticService, websiteClient)
 
 	routes := router.GetRoutes(opsHandler, elHandler, dhHandler)
 

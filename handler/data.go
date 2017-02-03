@@ -12,11 +12,12 @@ import (
 type (
 	DataHandler struct {
 		elasticService upstream.ElasticService
+		websiteClient  upstream.WebsiteClient
 	}
 )
 
-func NewDataHandler(elasticService upstream.ElasticService) *DataHandler {
-	return &DataHandler{elasticService}
+func NewDataHandler(elasticService upstream.ElasticService, websiteClient upstream.WebsiteClient) *DataHandler {
+	return &DataHandler{elasticService, websiteClient}
 }
 
 func (dh DataHandler) GetData(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
@@ -32,8 +33,10 @@ func (dh DataHandler) GetData(w http.ResponseWriter, r *http.Request, p httprout
 			logOut(r, e)
 			writeResponse(w, model.ERROR, nil)
 		} else {
+			websiteRes, werr := dh.websiteClient.GetData(dataUri)
+			logOut(r, werr)
 
-			writeResponse(w, elasticRes.Code, dataUri)
+			writeResponse(w, websiteRes.Code, websiteRes.Body)
 		}
 	} else {
 		writeResponse(w, elasticRes.Code, nil)

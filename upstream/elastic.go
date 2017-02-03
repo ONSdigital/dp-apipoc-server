@@ -46,6 +46,7 @@ func (s *service) Ping() (model.Response, error) {
 	res, c, err := s.elasticClient.Ping("http://localhost:9200").Do()
 
 	if err != nil {
+		log.Error(err, nil)
 		return model.Response{Code: model.DEPENDENCY_CONNECTION_ERROR, Body: &model.ElasticStatus{Status: "NOT_AVAILABLE", StatusCode: 0, PingResponse: nil}}, err
 	}
 
@@ -94,6 +95,7 @@ func (s *service) buildItem(query *elastic.SearchService) (model.Response, error
 	res, _, err := s.executeQuery(query)
 
 	if err != nil {
+		log.Error(err, nil)
 		return model.Response{Code: model.ERROR, Body: nil}, err
 	}
 
@@ -108,6 +110,7 @@ func (s *service) buildItems(query *elastic.SearchService, start int, limit int)
 	res, hits, err := s.executeQuery(query)
 
 	if err != nil {
+		log.Error(err, nil)
 		return model.Response{Code: model.ERROR, Body: nil}, err
 	}
 
@@ -124,6 +127,7 @@ func (s *service) executeQuery(query *elastic.SearchService) ([]interface{}, int
 	searchResult, err := query.Do()
 
 	if err != nil {
+		log.Error(err, nil)
 		return nil, 0, err
 	}
 
@@ -138,6 +142,7 @@ func (s *service) executeQuery(query *elastic.SearchService) ([]interface{}, int
 			var item interface{}
 			e := json.Unmarshal(*h.Source, &item)
 			if e != nil {
+				log.Error(e, nil)
 				return nil, 0, e
 			}
 
