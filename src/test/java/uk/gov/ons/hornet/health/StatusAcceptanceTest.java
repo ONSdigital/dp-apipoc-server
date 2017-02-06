@@ -1,0 +1,94 @@
+package uk.gov.ons.hornet.health;
+
+import com.google.gson.JsonObject;
+import com.mashape.unirest.http.HttpResponse;
+import net.serenitybdd.junit.runners.SerenityRunner;
+import net.thucydides.core.annotations.Narrative;
+import net.thucydides.core.annotations.Title;
+import org.junit.BeforeClass;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import uk.gov.ons.hornet.BaseTest;
+
+import java.util.concurrent.TimeUnit;
+
+import static com.mashape.unirest.http.Unirest.get;
+import static com.mashape.unirest.http.Unirest.head;
+import static java.util.Collections.singletonList;
+import static org.apache.http.HttpStatus.SC_OK;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
+@Narrative(text = {
+        "In order to know the health of the API application",
+        "As a member of the Digital Publishing API team",
+        "I want to request it's status"
+})
+@RunWith(SerenityRunner.class)
+public class StatusAcceptanceTest extends BaseTest {
+    private final String healthScenarios = acceptanceScenarios + "/health";
+
+    @BeforeClass
+    public static void setUp() throws Exception {
+        TimeUnit.SECONDS.sleep(10);
+    }
+
+    @Test
+    @Title("Given that the API application is running" +
+            "<br>When I 'ping' it" +
+            "<br>Then an OK status should be returned" +
+            "<hr>")
+    public void shouldPingApplication() throws Exception {
+        final HttpResponse<String> response = head(acceptanceUrl + "/ops/ping").asString();
+
+        assertThat(response.getStatus(), is(SC_OK));
+    }
+
+    @Test
+    @Title("Given that the API application is running" +
+            "<br>And it's dependencies are healthy" +
+            "<br>When I request it's status" +
+            "<br>Then a healthy status report of application and dependencies should be returned" +
+            "<hr>")
+    public void shouldGetApplicationStatus() throws Exception {
+        final String statusTemplate = jsonReader.readFile(healthScenarios, "status.json");
+
+        final HttpResponse<String> response = get(acceptanceUrl + "/ops/status").asString();
+
+        final JsonObject actualStatus = jsonParser.parse(response.getBody()).getAsJsonObject();
+
+        final String instanceName = actualStatus.get("dependencies").getAsJsonObject()
+                .get("elasticsearch").getAsJsonObject()
+                .get("pingResponse").getAsJsonObject()
+                .get("name").getAsString();
+
+
+        final JsonObject expectedStatus = jsonParser.parse(
+                statusTemplate.replace("%{elasticsearch_instance}", instanceName)
+        ).getAsJsonObject();
+
+        assertThat(response.getStatus(), is(SC_OK));
+        assertThat(response.getHeaders().get(CONTENT_TYPE), is(singletonList(APPLICATION_JSON)));
+        assertThat(actualStatus, is(expectedStatus));
+    }
+
+    @Ignore
+    @Test
+    @Title("Given that the API application is running" +
+            "<br>And a dependency is not healthy" +
+            "<br>When I request it's status" +
+            "<br>Then a status report of application including the unhealthy dependencies should be returned" +
+            "<hr>")
+    public void shouldReportFailedDependency() throws Exception {
+        final String expectedStatus = jsonReader.readFile(acceptanceScenarios + "/health", "unhealthy_dependency_status.json");
+
+        final HttpResponse<String> response = get(acceptanceUrl + "/ops/status").asString();
+
+        final String actualStatus = jsonReader.sanitise(response.getBody());
+
+        assertThat(response.getStatus(), is(SC_OK));
+        assertThat(response.getHeaders().get(CONTENT_TYPE), is(singletonList(APPLICATION_JSON)));
+        assertThat(actualStatus, is(expectedStatus));
+    }
+}

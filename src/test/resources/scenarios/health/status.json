@@ -1,0 +1,22 @@
+{
+  "applicationName": "API POC Server",
+  "dependencies": {
+    "elasticsearch": {
+      "status": "RUNNING",
+      "statusCode": 200,
+      "pingResponse": {
+        "name": "%{elasticsearch_instance}",
+        "cluster_name": "elasticsearch",
+        "version": {
+          "number": "2.4.3",
+          "build_hash": "d38a34e7b75af4e17ead16f156feffa432b22be3",
+          "build_timestamp": "2016-12-07T16:28:56Z",
+          "build_snapshot": false,
+          "lucene_version": "5.5.2"
+        },
+        "tagline": "You Know, for Search"
+      }
+    },
+    "website":{"status":"RUNNING","statusCode":200}
+  }
+}

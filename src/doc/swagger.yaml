@@ -1,0 +1,307 @@
+swagger: '2.0'
+info:
+  title: Office for National Statistics API
+  description: The description of what this API is about goes here!
+  version: "1.0.0"
+host: api.ons.gov.uk
+schemes:
+  - https
+basePath: /
+produces:
+  - application/json
+paths:
+  /dataset:
+    get:
+      summary: Listing of datasets
+      description: |
+        Returns a list of datasets.
+        This endpoint supports pagination per the below parameters.
+      parameters:
+        - $ref: '#/parameters/startingIndex'
+        - $ref: '#/parameters/pageSize'
+      tags:
+        - Dataset
+      responses:
+        200:
+          description: The returned datasets when successful
+          schema:
+            $ref: '#/definitions/Dataset'
+        404:
+          $ref: '#/responses/ResourceDoesNotExistResponse'
+        500:
+          $ref: '#/responses/Standard500ErrorResponse'
+  /dataset/{dataset_id}:
+    get:
+      summary: Metadata for a specific dataset
+      description: Returns the metadata for a specified datasets
+      parameters:
+        - $ref: '#/parameters/datasetId'
+      tags:
+        - Dataset Metadata
+      responses:
+        200:
+          description: The specified dataset's metadata
+          schema:
+            items:
+              $ref: '#/definitions/Metadata'
+        404:
+          $ref: '#/responses/ResourceDoesNotExistResponse'
+        500:
+          $ref: '#/responses/Standard500ErrorResponse'
+  /dataset/{dataset_id}/timeseries:
+    get:
+      summary: Listing of time series in a specific dataset
+      description: |
+        Returns a list of time series in a specified dataset.
+        This endpoint supports pagination per the below parameters.
+      parameters:
+        - $ref: '#/parameters/startingIndex'
+        - $ref: '#/parameters/pageSize'
+        - $ref: '#/parameters/datasetId'
+      tags:
+        - Dataset Time Series
+      responses:
+        200:
+          description: An array of time series in the specified dataset
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Dataset'
+        404:
+          $ref: '#/responses/ResourceDoesNotExistResponse'
+        500:
+          $ref: '#/responses/Standard500ErrorResponse'
+  /dataset/{dataset_id}/timeseries/{timeseries_id}:
+    get:
+      summary: Metadata of a specific time series in a specific dataset
+      description: |
+        Returns the metadata of a specified time series in a specified dataset.
+      parameters:
+        - $ref: '#/parameters/datasetId'
+        - $ref: '#/parameters/timeseriesId'
+      tags:
+        - Dataset Time Series Metadata
+      responses:
+        200:
+          description: The specified time series' metadata in the specified dataset
+          schema:
+            $ref: '#/definitions/Metadata'
+        404:
+          $ref: '#/responses/ResourceDoesNotExistResponse'
+        500:
+          $ref: '#/responses/Standard500ErrorResponse'
+  /dataset/{dataset_id}/timeseries/{timeseries_id}/data:
+    get:
+      summary: A specific time series's data
+      description: |
+        Returns data of the specified dataset and time series.
+      parameters:
+        - $ref: '#/parameters/datasetId'
+        - $ref: '#/parameters/timeseriesId'
+      tags:
+        - Time Series Data
+      responses:
+        200:
+          description: The specified time series' data in the specified dataset.
+          schema:
+            $ref: '#/definitions/Data'
+        404:
+          $ref: '#/responses/ResourceDoesNotExistResponse'
+        500:
+          $ref: '#/responses/Standard500ErrorResponse'
+  /timeseries:
+    get:
+      summary: Listing of time series
+      description: |
+        Returns the list of time series.
+        This endpoint supports pagination per the below parameters.
+      parameters:
+        - $ref: '#/parameters/startingIndex'
+        - $ref: '#/parameters/pageSize'
+      tags:
+        - Time Series
+      responses:
+        200:
+          description: An array of time series
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Dataset'
+        404:
+          $ref: '#/responses/ResourceDoesNotExistResponse'
+        500:
+          $ref: '#/responses/Standard500ErrorResponse'
+  /timeseries/{timeseries_id}:
+    get:
+      summary: Metadata for a specific time series
+      description: |
+        Returns the list of time series.
+        This endpoint supports pagination per the below parameters.
+      parameters:
+        - $ref: '#/parameters/timeseriesId'
+      tags:
+        - Time Series Metadata
+      responses:
+        200:
+          description: Metadata of the specified time series
+          schema:
+            $ref: '#/definitions/Metadata'
+        404:
+          $ref: '#/responses/ResourceDoesNotExistResponse'
+        500:
+          $ref: '#/responses/Standard500ErrorResponse'
+  /timeseries/{timeseries_id}/dataset:
+    get:
+      summary: Listing of datasets a specific time series belongs to
+      description: |
+        Returns the list of datasets the specified time series belongs to.
+        This endpoint supports pagination per the below parameters.
+      parameters:
+        - $ref: '#/parameters/startingIndex'
+        - $ref: '#/parameters/pageSize'
+        - $ref: '#/parameters/timeseriesId'
+      tags:
+        - Time Series Datasets
+      responses:
+        200:
+          description: An array of datasets the time series belongs to
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Dataset'
+        404:
+          $ref: '#/responses/ResourceDoesNotExistResponse'
+        500:
+          $ref: '#/responses/Standard500ErrorResponse'
+  /timeseries/{timeseries_id}/dataset/{dataset_id}:
+    get:
+      summary: Metadata of a specific time series in a specific dataset
+      description: |
+        Returns the metadata of a specified time series in a specified dataset.
+      parameters:
+        - $ref: '#/parameters/datasetId'
+        - $ref: '#/parameters/timeseriesId'
+      tags:
+        - Dataset Time Series Metadata
+      responses:
+        200:
+          description: The specified time series' metadata in the specified dataset
+          schema:
+            $ref: '#/definitions/Dataset'
+        404:
+          $ref: '#/responses/ResourceDoesNotExistResponse'
+        500:
+          $ref: '#/responses/Standard500ErrorResponse'
+  /search:
+    get:
+      summary: Search dataset/time series
+      description: |
+        Returns the search results of dataset/time series search.
+        This endpoint supports pagination per the below parameters.
+      parameters:
+        - $ref: '#/parameters/keyword'
+        - $ref: '#/parameters/startingIndex'
+        - $ref: '#/parameters/pageSize'
+      tags:
+        - Search
+      responses:
+        200:
+          description: The fetch results
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Dataset'
+        404:
+          $ref: '#/responses/ResourceDoesNotExistResponse'
+        500:
+          $ref: '#/responses/Standard500ErrorResponse'
+          
+definitions:
+  Dataset:
+    title: The dataset
+    type: object
+    properties:
+      items_per_page:
+        type: integer
+        description: Number of items returned in a page of response
+      start_index:
+        type: integer
+        description: Index of the starting item
+      total_items:
+        type: integer
+        description: The total number of items in dataset
+      items:
+        description: The dataset items
+        minItems: 0
+        uniqueItems: true
+        type: array
+        items:
+          $ref: '#/definitions/Metadata'
+  Metadata:
+    title: The metadata model
+    type: object
+    properties:
+      id:
+        type: string
+        description: The metadata ID
+      kind:
+        type: string
+        description: The kind of metadata - for example, MRET
+      title:
+        type: string
+        description: The metadata's title
+      links:
+        type: array
+        items:
+          required:
+            - url
+          properties:
+            url:
+              type: string
+              description: The location of a more specific data
+  Data:
+    title: The data
+    type: object
+    properties:
+      id:
+        type: string
+        description: The ID
+responses:
+  Standard500ErrorResponse:
+    description: An unexpected error occured
+  ResourceDoesNotExistResponse:
+    description: The requested resource does not exist
+
+parameters:
+  startingIndex:
+    name: start
+    in: query
+    description: Index of first result item
+    required: false
+    type: integer
+    default: 0
+  pageSize:
+    name: limit
+    in: query
+    description: The maximum number of items to include in the response (page)
+    required: false
+    type: integer
+    default: 50
+  datasetId:
+    name: dataset_id
+    in: path
+    description: ID of the dataset being requested
+    required: true
+    type: string
+  timeseriesId:
+    name: timeseries_id
+    in: path
+    description: ID of the time series being requested
+    required: true
+    type: string
+  keyword:
+    name: q
+    in: query
+    description: The fetch term
+    required: true
+    type: string

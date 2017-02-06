@@ -1,0 +1,37 @@
+def process
+
+task acceptanceTest(type: Test) {
+    include '**/StatusAcceptanceTest.*'
+
+    //http://issues.gradle.org/browse/GRADLE-1254
+    finalizedBy 'tearDown'
+
+    doFirst {
+        println 'Starting anthill ...'
+        process = new ProcessBuilder().inheritIO()
+                .command("./run-server.sh")
+                .start()
+    }
+
+    beforeTest { descriptor ->
+        logger.lifecycle("Running test: " + descriptor)
+    }
+    onOutput { descriptor, event ->
+        logger.lifecycle("Test: " + descriptor + ":" + event.message)
+    }
+}
+
+task tearDown {
+    doLast{
+        println 'finalize'
+        process.destroy()
+
+        new ProcessBuilder().inheritIO()
+                .command("./stop-server.sh")
+                .start()
+    }
+}
+
+task publishTest(type: GradleBuild) {
+    tasks = ['acceptanceTest', 'aggregate']
+}
