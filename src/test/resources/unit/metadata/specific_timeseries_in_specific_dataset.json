@@ -1,0 +1,24 @@
+{
+  "uri": "/economy/governmentpublicsectorandtaxes/publicsectorfinance/timeseries/m9le/ukea",
+  "type": "timeseries",
+  "description": {
+    "title": "GG: Current expenditure: VAT & GNI based EU contributions (D76u): £m CPNSA",
+    "contact": {
+      "email": "sector.accounts@ons.gsi.gov.uk",
+      "name": "Michael Rizzo",
+      "telephone": "+44 (0)1633 456366"
+    },
+    "releaseDate": "2016-12-23T00:00:00.000Z",
+    "nextRelease": "31 March 2017",
+    "datasetId": "UKEA",
+    "datasetUri": "/economy/grossdomesticproductgdp/datasets/unitedkingdomeconomicaccounts",
+    "cdid": "M9LE",
+    "unit": "m",
+    "preUnit": "£",
+    "source": "",
+    "date": "2016 Q3",
+    "number": "3730",
+    "sampleSize": "0"
+  },
+  "searchBoost": []
+}

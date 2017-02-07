@@ -1,5 +1,16 @@
 def process
 
+task unitTests(type: Test) {
+    include '**/*UnitTest.*'
+
+    beforeTest { descriptor ->
+        logger.lifecycle("Running test: " + descriptor)
+    }
+    onOutput { descriptor, event ->
+        logger.lifecycle("Test: " + descriptor + ":" + event.message)
+    }
+}
+
 task acceptanceTest(type: Test) {
     include '**/StatusAcceptanceTest.*'
 

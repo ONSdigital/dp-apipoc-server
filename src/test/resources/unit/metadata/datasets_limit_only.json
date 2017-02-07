@@ -1,0 +1,33 @@
+{
+  "items_per_page": 2,
+  "start_index": 0,
+  "total_items": 11,
+  "items": [
+    {
+      "uri": "/economy/nationalaccounts/uksectoraccounts/datasets/unitedkingdomeconomicaccountsbalanceofpaymentscurrentaccount/current",
+      "type": "dataset",
+      "description": {
+        "releaseDate": "2015-12-23T00:00:00.000Z",
+        "edition": "Current",
+        "unit": "",
+        "preUnit": "",
+        "source": "",
+        "versionLabel": ""
+      },
+      "searchBoost": []
+    },
+    {
+      "uri": "/economy/nationalaccounts/uksectoraccounts/datasets/unitedkingdomeconomicaccountsbalanceofpaymentsfinancialaccount/current",
+      "type": "dataset",
+      "description": {
+        "releaseDate": "2015-12-23T00:00:00.000Z",
+        "edition": "Current",
+        "unit": "",
+        "preUnit": "",
+        "source": "",
+        "versionLabel": ""
+      },
+      "searchBoost": []
+    }
+  ]
+}

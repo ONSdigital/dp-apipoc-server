@@ -1,0 +1,72 @@
+{
+  "items_per_page": 5,
+  "start_index": 3,
+  "total_items": 11,
+  "items": [
+    {
+      "uri": "/economy/nationalaccounts/uksectoraccounts/datasets/unitedkingdomeconomicaccountsflowoffunds/current",
+      "type": "dataset",
+      "description": {
+        "releaseDate": "2015-12-23T00:00:00.000Z",
+        "edition": "Current",
+        "unit": "",
+        "preUnit": "",
+        "source": "",
+        "versionLabel": ""
+      },
+      "searchBoost": []
+    },
+    {
+      "uri": "/economy/nationalaccounts/uksectoraccounts/datasets/unitedkingdomeconomicaccountsmainaggregates/current",
+      "type": "dataset",
+      "description": {
+        "releaseDate": "2015-12-23T00:00:00.000Z",
+        "edition": "Current",
+        "unit": "",
+        "preUnit": "",
+        "source": "",
+        "versionLabel": ""
+      },
+      "searchBoost": []
+    },
+    {
+      "uri": "/economy/nationalaccounts/uksectoraccounts/datasets/unitedkingdomeconomicaccountssectorfinancialcorporations/current",
+      "type": "dataset",
+      "description": {
+        "releaseDate": "2015-12-23T00:00:00.000Z",
+        "edition": "Current",
+        "unit": "",
+        "preUnit": "",
+        "source": "",
+        "versionLabel": ""
+      },
+      "searchBoost": []
+    },
+    {
+      "uri": "/economy/nationalaccounts/uksectoraccounts/datasets/unitedkingdomeconomicaccountssectorgeneralgovernment/current",
+      "type": "dataset",
+      "description": {
+        "releaseDate": "2015-12-23T00:00:00.000Z",
+        "edition": "Current",
+        "unit": "",
+        "preUnit": "",
+        "source": "",
+        "versionLabel": ""
+      },
+      "searchBoost": []
+    },
+    {
+      "uri": "/economy/nationalaccounts/uksectoraccounts/datasets/unitedkingdomeconomicaccountssectorhouseholdsandnonprofitinstitutionsservinghouseholds/current",
+      "type": "dataset",
+      "description": {
+        "releaseDate": "2015-12-23T00:00:00.000Z",
+        "edition": "Current",
+        "unit": "",
+        "preUnit": "",
+        "source": "",
+        "versionLabel": ""
+      },
+      "searchBoost": []
+    }
+  ]
+}
