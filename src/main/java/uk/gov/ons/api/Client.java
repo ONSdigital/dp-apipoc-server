@@ -22,14 +22,14 @@ import java.util.Date;
 import static com.mashape.unirest.http.Unirest.get;
 
 public class Client {
-    private final String baseUrl = "http://localhost:4040/api";
+    private static final String ONS_WEBSITE_URL = "https://www.ons.gov.uk.api";
+    private static final Validator validator = new Validator();
+    private static String BASE_URL;
 
     private Integer start = 0;
     private Integer limit = 5;
     private String dataset;
     private String timeseries;
-
-    private static final Validator validator = new Validator();
 
     static {
         final GsonBuilder gsonBuilder = new GsonBuilder()
@@ -52,6 +52,9 @@ public class Client {
                 return gson.toJson(json);
             }
         });
+
+        final String testServerRootUrl = System.getenv("TEST_SERVER_ROOT_URL");
+        BASE_URL = testServerRootUrl != null && !testServerRootUrl.trim().isEmpty() ? testServerRootUrl : ONS_WEBSITE_URL;
     }
 
     public Client startIndex(final Integer start) {
@@ -79,8 +82,8 @@ public class Client {
     public HttpResponse<Datasets> getDatasets() throws ClientException {
         try {
             final String url = (timeseries != null && !timeseries.trim().isEmpty()) ?
-                    baseUrl + "/timeseries/" + timeseries.trim().toLowerCase() + "/dataset" :
-                    baseUrl + "/dataset";
+                    BASE_URL + "/timeseries/" + timeseries.trim().toLowerCase() + "/dataset" :
+                    BASE_URL + "/dataset";
 
             return get(url)
                     .queryString("start", start)
@@ -94,8 +97,8 @@ public class Client {
     public HttpResponse<Timeserieses> getTimeseries() throws ClientException {
         try {
             final String url = (dataset != null && !dataset.trim().isEmpty()) ?
-                baseUrl + "/dataset/" + dataset.trim().toLowerCase() + "/timeseries" :
-                baseUrl + "/timeseries";
+                BASE_URL + "/dataset/" + dataset.trim().toLowerCase() + "/timeseries" :
+                BASE_URL + "/timeseries";
 
             return get(url)
                     .queryString("start", start)
@@ -108,7 +111,7 @@ public class Client {
 
     public HttpResponse<Dataset> getDataset(final String id) throws ClientException {
         try {
-            return get(baseUrl + "/dataset/" + id.trim().toLowerCase())
+            return get(BASE_URL + "/dataset/" + id.trim().toLowerCase())
                     .asObject(Dataset.class);
         } catch (UnirestException e) {
             throw new ClientException(e);
@@ -118,8 +121,8 @@ public class Client {
     public HttpResponse<Timeseries> getTimeseries(final String id) throws ClientException {
         try {
             final String url = (dataset != null && !dataset.trim().isEmpty()) ?
-                    baseUrl + "/dataset/" + dataset.trim().toLowerCase() + "/timeseries/" + id.trim().toLowerCase() :
-                    baseUrl + "/timeseries/" + id.trim().toLowerCase();
+                    BASE_URL + "/dataset/" + dataset.trim().toLowerCase() + "/timeseries/" + id.trim().toLowerCase() :
+                    BASE_URL + "/timeseries/" + id.trim().toLowerCase();
 
 
             return get(url)

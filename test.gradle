@@ -3,6 +3,10 @@ def process
 task unitTests(type: Test) {
     include '**/*UnitTest.*'
 
+    doFirst {
+        environment "TEST_SERVER_ROOT_URL", "http://localhost:4040/api"
+    }
+
     beforeTest { descriptor ->
         logger.lifecycle("Running test: " + descriptor)
     }
