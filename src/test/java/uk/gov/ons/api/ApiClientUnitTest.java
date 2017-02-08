@@ -17,9 +17,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockserver.integration.ClientAndServer.startClientAndServer;
 
-public class ClientUnitTest extends BaseUnitTest {
-    private final Client client = new Client();
-
+public class ApiClientUnitTest extends BaseUnitTest {
     private ClientAndServer mockServer;
     private FakeServer fakeServer;
 
@@ -50,7 +48,7 @@ public class ClientUnitTest extends BaseUnitTest {
 
         final Datasets expectedDatasets = gson.fromJson(dsFile, Datasets.class);
 
-        final HttpResponse<Datasets> response = client.getDatasets();
+        final HttpResponse<Datasets> response = ApiClient.set().getDatasets();
 
         assertThat(response.getBody(), is(expectedDatasets));
     }
@@ -66,7 +64,7 @@ public class ClientUnitTest extends BaseUnitTest {
 
         final Datasets expectedDatasets = gson.fromJson(dsFile, Datasets.class);
 
-        final HttpResponse<Datasets> response = client.startIndex(3).getDatasets();
+        final HttpResponse<Datasets> response = ApiClient.set().startIndex(3).getDatasets();
 
         assertThat(response.getBody(), is(expectedDatasets));
     }
@@ -82,7 +80,7 @@ public class ClientUnitTest extends BaseUnitTest {
 
         final Datasets expectedDatasets = gson.fromJson(dsFile, Datasets.class);
 
-        final HttpResponse<Datasets> response = client.pageSize(2).getDatasets();
+        final HttpResponse<Datasets> response = ApiClient.set().itemsPerPage(2).getDatasets();
 
         assertThat(response.getBody(), is(expectedDatasets));
     }
@@ -98,7 +96,7 @@ public class ClientUnitTest extends BaseUnitTest {
 
         final Datasets expectedDatasets = gson.fromJson(dsFile, Datasets.class);
 
-        final HttpResponse<Datasets> response = client.startIndex(3).pageSize(4).getDatasets();
+        final HttpResponse<Datasets> response = ApiClient.set().startIndex(3).itemsPerPage(4).getDatasets();
 
         assertThat(response.getBody(), is(expectedDatasets));
     }
@@ -114,7 +112,7 @@ public class ClientUnitTest extends BaseUnitTest {
 
         final Timeserieses expectedTimeserieses = gson.fromJson(dsFile, Timeserieses.class);
 
-        final HttpResponse<Timeserieses> response = client.getTimeseries();
+        final HttpResponse<Timeserieses> response = ApiClient.set().getTimeseries();
 
         assertThat(response.getBody(), is(expectedTimeserieses));
     }
@@ -134,7 +132,7 @@ public class ClientUnitTest extends BaseUnitTest {
 
         final Timeseries expectedTimeseries = gson.fromJson(dsFile, Timeseries.class);
 
-        final HttpResponse<Timeseries> response = client.getTimeseries("FCCS");
+        final HttpResponse<Timeseries> response = ApiClient.set().getTimeseries("FCCS");
 
         assertThat(response.getBody(), is(expectedTimeseries));
     }
@@ -151,7 +149,7 @@ public class ClientUnitTest extends BaseUnitTest {
 
         final Timeserieses expectedTimeserieses = gson.fromJson(dsFile, Timeserieses.class);
 
-        final HttpResponse<Timeserieses> response = client.dataset("UKEA").getTimeseries();
+        final HttpResponse<Timeserieses> response = ApiClient.set().dataset("UKEA").getTimeseries();
 
         assertThat(response.getBody(), is(expectedTimeserieses));
     }
@@ -172,7 +170,7 @@ public class ClientUnitTest extends BaseUnitTest {
 
         final Timeseries expectedTimeseries = gson.fromJson(dsFile, Timeseries.class);
 
-        final HttpResponse<Timeseries> response = client.dataset("UKEA").getTimeseries("FCCS");
+        final HttpResponse<Timeseries> response = ApiClient.set().dataset("UKEA").getTimeseries("FCCS");
 
         assertThat(response.getBody(), is(expectedTimeseries));
     }
@@ -182,7 +180,7 @@ public class ClientUnitTest extends BaseUnitTest {
         exception.expect(InvalidParameterException.class);
         exception.expectMessage(containsString("Negative parameters not allowed"));
 
-        client.startIndex(-3).pageSize(4).getDatasets();
+        ApiClient.set().startIndex(-3).itemsPerPage(4).getDatasets();
     }
 
     @Test
@@ -190,7 +188,7 @@ public class ClientUnitTest extends BaseUnitTest {
         exception.expect(InvalidParameterException.class);
         exception.expectMessage(containsString("Negative parameters not allowed"));
 
-        client.startIndex(3).pageSize(-4).getDatasets();
+        ApiClient.set().startIndex(3).itemsPerPage(-4).getDatasets();
     }
 
     @Test
@@ -198,7 +196,7 @@ public class ClientUnitTest extends BaseUnitTest {
         exception.expect(InvalidParameterException.class);
         exception.expectMessage(containsString("Negative parameters not allowed"));
 
-        client.startIndex(-3).pageSize(-4).getDatasets();
+        ApiClient.set().startIndex(-3).itemsPerPage(-4).getDatasets();
     }
 
 }

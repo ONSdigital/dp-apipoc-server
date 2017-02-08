@@ -1,4 +1,4 @@
-package uk.gov.ons.api;
+package uk.gov.ons.api.request;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -21,15 +21,16 @@ import java.util.Date;
 
 import static com.mashape.unirest.http.Unirest.get;
 
-public class Client {
-    private static final String ONS_WEBSITE_URL = "https://www.ons.gov.uk.api";
-    private static final Validator validator = new Validator();
-    private static String BASE_URL;
-
+public class ApiRequest {
     private Integer start = 0;
     private Integer limit = 5;
     private String dataset;
     private String timeseries;
+
+    private static String BASE_URL;
+    private static final String ONS_WEBSITE_URL = "https://www.ons.gov.uk.api";
+
+    private final Validator validator = new Validator();
 
     static {
         final GsonBuilder gsonBuilder = new GsonBuilder()
@@ -57,24 +58,24 @@ public class Client {
         BASE_URL = testServerRootUrl != null && !testServerRootUrl.trim().isEmpty() ? testServerRootUrl : ONS_WEBSITE_URL;
     }
 
-    public Client startIndex(final Integer start) {
+    public ApiRequest startIndex(final Integer start) {
         validator.validate(start);
         this.start = start;
         return this;
     }
 
-    public Client pageSize(final Integer limit) {
+    public ApiRequest itemsPerPage(final Integer limit) {
         validator.validate(limit);
         this.limit = limit;
         return this;
     }
 
-    public Client dataset(final String dataset) {
+    public ApiRequest dataset(final String dataset) {
         this.dataset = dataset;
         return this;
     }
 
-    public Client timeseries(final String timeseries) {
+    public ApiRequest timeseries(final String timeseries) {
         this.timeseries = timeseries;
         return this;
     }
@@ -97,8 +98,8 @@ public class Client {
     public HttpResponse<Timeserieses> getTimeseries() throws ClientException {
         try {
             final String url = (dataset != null && !dataset.trim().isEmpty()) ?
-                BASE_URL + "/dataset/" + dataset.trim().toLowerCase() + "/timeseries" :
-                BASE_URL + "/timeseries";
+                    BASE_URL + "/dataset/" + dataset.trim().toLowerCase() + "/timeseries" :
+                    BASE_URL + "/timeseries";
 
             return get(url)
                     .queryString("start", start)
@@ -131,6 +132,5 @@ public class Client {
             throw new ClientException(e);
         }
     }
-
 
 }
