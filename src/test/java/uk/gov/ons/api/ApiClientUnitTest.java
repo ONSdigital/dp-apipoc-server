@@ -4,7 +4,7 @@ import com.mashape.unirest.http.HttpResponse;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
 import org.mockserver.integration.ClientAndServer;
-import uk.gov.ons.api.exception.InvalidParameterException;
+import uk.gov.ons.api.exception.IllegalParameterException;
 import uk.gov.ons.api.model.Datasets;
 import uk.gov.ons.api.model.Timeseries;
 import uk.gov.ons.api.model.Timeserieses;
@@ -177,7 +177,7 @@ public class ApiClientUnitTest extends BaseUnitTest {
 
     @Test
     public void shouldRejectRequestWhenStartingIndexIsNegative() throws Exception {
-        exception.expect(InvalidParameterException.class);
+        exception.expect(IllegalParameterException.class);
         exception.expectMessage(containsString("Negative parameters not allowed"));
 
         ApiClient.set().startIndex(-3).itemsPerPage(4).getDatasets();
@@ -185,7 +185,7 @@ public class ApiClientUnitTest extends BaseUnitTest {
 
     @Test
     public void shouldRejectRequestWhenPageSizeIsNegative() throws Exception {
-        exception.expect(InvalidParameterException.class);
+        exception.expect(IllegalParameterException.class);
         exception.expectMessage(containsString("Negative parameters not allowed"));
 
         ApiClient.set().startIndex(3).itemsPerPage(-4).getDatasets();
@@ -193,7 +193,7 @@ public class ApiClientUnitTest extends BaseUnitTest {
 
     @Test
     public void shouldRejectRequestWhenBothStartingIndexAndPageSizeAreNegative() throws Exception {
-        exception.expect(InvalidParameterException.class);
+        exception.expect(IllegalParameterException.class);
         exception.expectMessage(containsString("Negative parameters not allowed"));
 
         ApiClient.set().startIndex(-3).itemsPerPage(-4).getDatasets();
