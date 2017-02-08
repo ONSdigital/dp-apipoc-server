@@ -12,5 +12,5 @@ import uk.gov.ons.acceptance.BaseAcceptanceTest;
         "I want to request specific data"
 })
 @RunWith(SerenityRunner.class)
-public class WebsiteDataAcceptanceTest extends BaseAcceptanceTest {
+public class WebsiteDataTest extends BaseAcceptanceTest {
 }

@@ -12,7 +12,7 @@ task unitTests(type: Test) {
 }
 
 task acceptanceTest(type: Test) {
-    include '**/PaginationAcceptanceTest.*'
+    include '**/*AcceptanceTest.*'
 
     //http://issues.gradle.org/browse/GRADLE-1254
     finalizedBy 'tearDown'
