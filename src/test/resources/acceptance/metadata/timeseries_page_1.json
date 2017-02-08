@@ -1,0 +1,127 @@
+{
+  "start_index": 0,
+  "items_per_page": 5,
+  "total_items": 42679,
+  "items": [
+    {
+      "uri": "/businessindustryandtrade/changestobusiness/mergersandacquisitions/timeseries/aiha/am",
+      "type": "timeseries",
+      "description": {
+        "title": "M&A : Domestic : Number of companies acquired                           ",
+        "contact": {
+          "email": "sami.hamroush@ons.gsi.gov.uk ",
+          "name": "Sami Hamroush ",
+          "telephone": "+44 (0) 1633 455087 "
+        },
+        "releaseDate": "2016-12-06T00:00:00Z",
+        "nextRelease": "7 March 2017",
+        "datasetId": "AM",
+        "datasetUri": "/businessindustryandtrade/changestobusiness/mergersandacquisitions/datasets/mergersandacquisitionsuk",
+        "cdid": "AIHA",
+        "unit": "",
+        "preUnit": "",
+        "source": "",
+        "date": "2016 Q3",
+        "number": "72",
+        "sampleSize": "0"
+      },
+      "searchBoost": []
+    },
+    {
+      "uri": "/businessindustryandtrade/changestobusiness/mergersandacquisitions/timeseries/aihd/am",
+      "type": "timeseries",
+      "description": {
+        "title": "M&A : Domestic : Value of ordinary shares : £m                          ",
+        "contact": {
+          "email": "sami.hamroush@ons.gsi.gov.uk ",
+          "name": "Sami Hamroush ",
+          "telephone": "+44 (0) 1633 455087 "
+        },
+        "releaseDate": "2016-12-06T00:00:00Z",
+        "nextRelease": "7 March 2017",
+        "datasetId": "AM",
+        "datasetUri": "/businessindustryandtrade/changestobusiness/mergersandacquisitions/datasets/mergersandacquisitionsuk",
+        "cdid": "AIHD",
+        "unit": "m",
+        "preUnit": "£",
+        "source": "",
+        "date": "2016 Q3",
+        "number": "843",
+        "sampleSize": "0"
+      },
+      "searchBoost": []
+    },
+    {
+      "uri": "/businessindustryandtrade/changestobusiness/mergersandacquisitions/timeseries/aihe/am",
+      "type": "timeseries",
+      "description": {
+        "title": "M&A : Domestic : Value of preference & loan stock : £m                  ",
+        "contact": {
+          "email": "sami.hamroush@ons.gsi.gov.uk ",
+          "name": "Sami Hamroush ",
+          "telephone": "+44 (0) 1633 455087 "
+        },
+        "releaseDate": "2016-12-06T00:00:00Z",
+        "nextRelease": "7 March 2017",
+        "datasetId": "AM",
+        "datasetUri": "/businessindustryandtrade/changestobusiness/mergersandacquisitions/datasets/mergersandacquisitionsuk",
+        "cdid": "AIHE",
+        "unit": "m",
+        "preUnit": "£",
+        "source": "",
+        "date": "2016 Q3",
+        "number": "68",
+        "sampleSize": "0"
+      },
+      "searchBoost": []
+    },
+    {
+      "uri": "/businessindustryandtrade/changestobusiness/mergersandacquisitions/timeseries/cbaq/am",
+      "type": "timeseries",
+      "description": {
+        "title": "M&A : Outward : Number of acquisitions                                  ",
+        "contact": {
+          "email": "sami.hamroush@ons.gsi.gov.uk ",
+          "name": "Sami Hamroush ",
+          "telephone": "+44 (0) 1633 455087 "
+        },
+        "releaseDate": "2016-12-06T00:00:00Z",
+        "nextRelease": "7 March 2017",
+        "datasetId": "AM",
+        "datasetUri": "/businessindustryandtrade/changestobusiness/mergersandacquisitions/datasets/mergersandacquisitionsuk",
+        "cdid": "CBAQ",
+        "unit": "",
+        "preUnit": "",
+        "source": "",
+        "date": "2016 Q3",
+        "number": "27",
+        "sampleSize": "0"
+      },
+      "searchBoost": []
+    },
+    {
+      "uri": "/businessindustryandtrade/changestobusiness/mergersandacquisitions/timeseries/cbas/am",
+      "type": "timeseries",
+      "description": {
+        "title": "M&A : Outward : Number of disposals                                     ",
+        "contact": {
+          "email": "sami.hamroush@ons.gsi.gov.uk ",
+          "name": "Sami Hamroush ",
+          "telephone": "+44 (0) 1633 455087 "
+        },
+        "releaseDate": "2016-12-06T00:00:00Z",
+        "nextRelease": "7 March 2017",
+        "datasetId": "AM",
+        "datasetUri": "/businessindustryandtrade/changestobusiness/mergersandacquisitions/datasets/mergersandacquisitionsuk",
+        "cdid": "CBAS",
+        "unit": "",
+        "preUnit": "",
+        "source": "",
+        "date": "2016 Q2",
+        "number": "11",
+        "sampleSize": "0"
+      },
+      "searchBoost": []
+    }
+  ]
+}

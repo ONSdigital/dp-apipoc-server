@@ -35,7 +35,7 @@ public class GetByIdAcceptanceTest extends BaseAcceptanceTest {
     public void shouldGetSpecificDataset() throws Exception {
         final JsonObject expectedDatasets = jsonParser.parse("{}").getAsJsonObject();
 
-        final HttpResponse<String> response = get(acceptanceUrl + "/dataset/UKEA").asString();
+        final HttpResponse<String> response = get(apiServerUrl + "/dataset/UKEA").asString();
 
         final JsonObject actualDataset = jsonParser.parse(response.getBody()).getAsJsonObject();
 
@@ -54,7 +54,7 @@ public class GetByIdAcceptanceTest extends BaseAcceptanceTest {
                 .getJson(dataDir, "specific_timeseries.json")
                 .getAsJsonObject();
 
-        final HttpResponse<String> response = get(acceptanceUrl + "/timeseries/FCCS").asString();
+        final HttpResponse<String> response = get(apiServerUrl + "/timeseries/FCCS").asString();
 
         final JsonObject actualTimeseries = jsonParser.parse(response.getBody()).getAsJsonObject();
 
@@ -72,7 +72,7 @@ public class GetByIdAcceptanceTest extends BaseAcceptanceTest {
     public void shouldGetDatasetsSpecificTimeSeriesBelongsTo() throws Exception {
         final JsonObject expectedDataset = jsonParser.parse("{}").getAsJsonObject();
 
-        final HttpResponse<String> response = get(acceptanceUrl + "/timeseries/nmcu/dataset").asString();
+        final HttpResponse<String> response = get(apiServerUrl + "/timeseries/nmcu/dataset").asString();
 
         final JsonObject actualDataset = jsonParser.parse(response.getBody()).getAsJsonObject();
 
@@ -91,7 +91,7 @@ public class GetByIdAcceptanceTest extends BaseAcceptanceTest {
                 .getJson(dataDir, "timeseries_in_specific_dataset.json")
                 .getAsJsonObject();
 
-        final HttpResponse<String> response = get(acceptanceUrl + "/dataset/ukea/timeseries").asString();
+        final HttpResponse<String> response = get(apiServerUrl + "/dataset/ukea/timeseries").asString();
 
         final JsonObject actualTimeseries = jsonParser.parse(response.getBody()).getAsJsonObject();
 
@@ -110,7 +110,7 @@ public class GetByIdAcceptanceTest extends BaseAcceptanceTest {
                 .getJson(dataDir, "specific_timeseries_in_specific_dataset.json")
                 .getAsJsonObject();
 
-        final HttpResponse<String> response = get(acceptanceUrl + "/dataset/UKEA/timeseries/M9LE").asString();
+        final HttpResponse<String> response = get(apiServerUrl + "/dataset/UKEA/timeseries/M9LE").asString();
 
         final JsonObject actualDataset = jsonParser.parse(response.getBody()).getAsJsonObject();
 
@@ -129,7 +129,7 @@ public class GetByIdAcceptanceTest extends BaseAcceptanceTest {
                 .getJson(dataDir, "specific_timeseries_in_specific_dataset.json")
                 .getAsJsonObject();
 
-        final HttpResponse<String> response = get(acceptanceUrl + "/timeseries/M9LE/dataset/UKEA").asString();
+        final HttpResponse<String> response = get(apiServerUrl + "/timeseries/M9LE/dataset/UKEA").asString();
 
         final JsonObject actualDataset = jsonParser.parse(response.getBody()).getAsJsonObject();
 

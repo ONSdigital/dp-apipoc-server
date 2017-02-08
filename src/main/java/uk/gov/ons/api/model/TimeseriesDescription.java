@@ -1,13 +1,12 @@
 package uk.gov.ons.api.model;
 
 import java.time.Instant;
-import java.util.Date;
 
 public class TimeseriesDescription {
     private String title;
     private Contact contact;
     private Instant releaseDate;
-    private Date nextRelease;
+    private String nextRelease;
     private String datasetId;
     private String datasetUri;
     private String cdid;
@@ -42,11 +41,11 @@ public class TimeseriesDescription {
         this.releaseDate = releaseDate;
     }
 
-    public Date getNextRelease() {
+    public String getNextRelease() {
         return nextRelease;
     }
 
-    public void setNextRelease(Date nextRelease) {
+    public void setNextRelease(String nextRelease) {
         this.nextRelease = nextRelease;
     }
 

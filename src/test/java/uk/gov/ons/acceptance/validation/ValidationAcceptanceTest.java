@@ -26,7 +26,7 @@ public class ValidationAcceptanceTest extends BaseAcceptanceTest {
             "<br>Then a response indicating bad request should be returned" +
             "<hr>")
     public void shouldGetBadRequestWhenStartingIndexIsNotNumeric() throws Exception {
-        final HttpResponse<String> response = get(acceptanceUrl + "/dataset?start=abc").asString();
+        final HttpResponse<String> response = get(apiServerUrl + "/dataset?start=abc").asString();
 
         assertThat(response.getStatus(), is(SC_BAD_REQUEST));
     }
@@ -38,7 +38,7 @@ public class ValidationAcceptanceTest extends BaseAcceptanceTest {
             "<br>Then a response indicating bad request should be returned" +
             "<hr>")
     public void shouldGetBadRequestWhenPageSizeIsNotNumeric() throws Exception {
-        final HttpResponse<String> response = get(acceptanceUrl + "/timeseries?limit=quit").asString();
+        final HttpResponse<String> response = get(apiServerUrl + "/timeseries?limit=quit").asString();
 
         assertThat(response.getStatus(), is(SC_BAD_REQUEST));
     }
@@ -50,7 +50,7 @@ public class ValidationAcceptanceTest extends BaseAcceptanceTest {
             "<br>Then a response indicating bad request should be returned" +
             "<hr>")
     public void shouldGetBadRequestWhenStartingIndexIsNumericButPageSizeIsNotNumeric() throws Exception {
-        final HttpResponse<String> response = get(acceptanceUrl + "/timeseries?start=3&limit=vue").asString();
+        final HttpResponse<String> response = get(apiServerUrl + "/timeseries?start=3&limit=vue").asString();
 
         assertThat(response.getStatus(), is(SC_BAD_REQUEST));
     }
@@ -62,7 +62,7 @@ public class ValidationAcceptanceTest extends BaseAcceptanceTest {
             "<br>Then a response indicating bad request should be returned" +
             "<hr>")
     public void shouldGetBadRequestWhenStartingIndexIsNotNumericButPageSizeIsNumeric() throws Exception {
-        final HttpResponse<String> response = get(acceptanceUrl + "/timeseries/CPCM/dataset?start=goodyear&limit=39").asString();
+        final HttpResponse<String> response = get(apiServerUrl + "/timeseries/CPCM/dataset?start=goodyear&limit=39").asString();
 
         assertThat(response.getStatus(), is(SC_BAD_REQUEST));
     }
@@ -74,7 +74,7 @@ public class ValidationAcceptanceTest extends BaseAcceptanceTest {
             "<br>Then a response indicating bad request should be returned" +
             "<hr>")
     public void shouldGetBadRequestWhenStartingIndexIsNotNumericButPageSizeIsNotNumeric() throws Exception {
-        final HttpResponse<String> response = get(acceptanceUrl + "/dataset/UKEA/timeseries?start=forget&limit=therapy").asString();
+        final HttpResponse<String> response = get(apiServerUrl + "/dataset/UKEA/timeseries?start=forget&limit=therapy").asString();
 
         assertThat(response.getStatus(), is(SC_BAD_REQUEST));
     }

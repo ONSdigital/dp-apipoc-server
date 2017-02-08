@@ -7,7 +7,6 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.ObjectMapper;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import uk.gov.ons.api.converter.DateConverter;
 import uk.gov.ons.api.converter.InstantConverter;
 import uk.gov.ons.api.exception.ClientException;
 import uk.gov.ons.api.model.Dataset;
@@ -17,7 +16,6 @@ import uk.gov.ons.api.model.Timeserieses;
 import uk.gov.ons.api.validation.Validator;
 
 import java.time.Instant;
-import java.util.Date;
 
 import static com.mashape.unirest.http.Unirest.get;
 
@@ -35,10 +33,7 @@ public class ApiRequest {
     static {
         final GsonBuilder gsonBuilder = new GsonBuilder()
                 .registerTypeAdapter(new TypeToken<Instant>() {
-                }.getType(), new InstantConverter())
-                .registerTypeAdapter(new TypeToken<Date>() {
-                }.getType(), new DateConverter())
-                .serializeNulls();
+                }.getType(), new InstantConverter());
 
         Unirest.setObjectMapper(new ObjectMapper() {
             final Gson gson = gsonBuilder.create();

@@ -9,8 +9,10 @@ import net.thucydides.core.annotations.Title;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.gov.ons.acceptance.BaseAcceptanceTest;
+import uk.gov.ons.api.ApiClient;
+import uk.gov.ons.api.model.Datasets;
+import uk.gov.ons.api.model.Timeserieses;
 
-import static com.mashape.unirest.http.Unirest.get;
 import static java.util.Collections.singletonList;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.hamcrest.CoreMatchers.is;
@@ -32,12 +34,14 @@ public class GetByTypeAcceptanceTest extends BaseAcceptanceTest {
             "<hr>")
     public void shouldGetDataSet() throws Exception {
         final JsonObject expectedDatasets = jsonReader
-                .getJson(dataDir, "datasets_default_page_1.json")
+                .getJson(dataDir, "datasets_page_1.json")
                 .getAsJsonObject();
 
-        final HttpResponse<String> response = get(acceptanceUrl + "/dataset").asString();
+        final HttpResponse<Datasets> response = ApiClient.set().getDatasets();
 
-        final JsonObject actualDatasets = jsonParser.parse(response.getBody()).getAsJsonObject();
+        //final HttpResponse<String> response = get(apiServerUrl + "/dataset").asString();
+
+        final JsonObject actualDatasets = jsonParser.parse(gson.toJson(response.getBody())).getAsJsonObject();
 
         assertThat(response.getStatus(), is(SC_OK));
         assertThat(response.getHeaders().get(CONTENT_TYPE), is(singletonList(APPLICATION_JSON)));
@@ -54,9 +58,11 @@ public class GetByTypeAcceptanceTest extends BaseAcceptanceTest {
                 .getJson(dataDir, "timeseries_page_1.json")
                 .getAsJsonObject();
 
-        final HttpResponse<String> response = get(acceptanceUrl + "/timeseries").asString();
+        final HttpResponse<Timeserieses> response = ApiClient.set().getTimeseries();
 
-        final JsonObject actualTimeseries = jsonParser.parse(response.getBody()).getAsJsonObject();
+        //final HttpResponse<String> response = get(apiServerUrl + "/timeseries").asString();
+
+        final JsonObject actualTimeseries = jsonParser.parse(gson.toJson(response.getBody())).getAsJsonObject();
 
         assertThat(response.getStatus(), is(SC_OK));
         assertThat(response.getHeaders().get(CONTENT_TYPE), is(singletonList(APPLICATION_JSON)));

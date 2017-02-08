@@ -40,7 +40,7 @@ public class StatusAcceptanceTest extends BaseAcceptanceTest {
             "<br>Then an OK status should be returned" +
             "<hr>")
     public void shouldPingApplication() throws Exception {
-        final HttpResponse<String> response = head(acceptanceUrl + "/ops/ping").asString();
+        final HttpResponse<String> response = head(apiServerUrl + "/ops/ping").asString();
 
         assertThat(response.getStatus(), is(SC_OK));
     }
@@ -54,7 +54,7 @@ public class StatusAcceptanceTest extends BaseAcceptanceTest {
     public void shouldGetApplicationStatus() throws Exception {
         final String statusTemplate = jsonReader.readFile(healthScenarios, "status.json");
 
-        final HttpResponse<String> response = get(acceptanceUrl + "/ops/status").asString();
+        final HttpResponse<String> response = get(apiServerUrl + "/ops/status").asString();
 
         final JsonObject actualStatus = jsonParser.parse(response.getBody()).getAsJsonObject();
 
@@ -86,7 +86,7 @@ public class StatusAcceptanceTest extends BaseAcceptanceTest {
                 "unhealthy_dependency_status.json"
         ).getAsJsonObject();
 
-        final HttpResponse<String> response = get(acceptanceUrl + "/ops/status").asString();
+        final HttpResponse<String> response = get(apiServerUrl + "/ops/status").asString();
 
         final JsonObject actualStatus = jsonParser.parse(response.getBody()).getAsJsonObject();
 

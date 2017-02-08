@@ -36,7 +36,7 @@ public class PaginationAcceptanceTest extends BaseAcceptanceTest {
                 .getJson(dataDir, "datasets_default_page_1.json")
                 .getAsJsonObject();
 
-        final HttpResponse<String> response = get(acceptanceUrl + "/dataset").asString();
+        final HttpResponse<String> response = get(apiServerUrl + "/dataset").asString();
 
         final JsonObject actualDatasets = jsonParser.parse(response.getBody()).getAsJsonObject();
 
@@ -57,7 +57,7 @@ public class PaginationAcceptanceTest extends BaseAcceptanceTest {
                 .getJson(dataDir, "datasets_start_index_only.json")
                 .getAsJsonObject();
 
-        final HttpResponse<String> response = get(acceptanceUrl + "/dataset?start=3").asString();
+        final HttpResponse<String> response = get(apiServerUrl + "/dataset?start=3").asString();
 
         final JsonObject actualDatasets = jsonParser.parse(response.getBody()).getAsJsonObject();
 
@@ -78,7 +78,7 @@ public class PaginationAcceptanceTest extends BaseAcceptanceTest {
                 .getJson(dataDir, "datasets_limit_only.json")
                 .getAsJsonObject();
 
-        final HttpResponse<String> response = get(acceptanceUrl + "/dataset?limit=2").asString();
+        final HttpResponse<String> response = get(apiServerUrl + "/dataset?limit=2").asString();
 
         final JsonObject actualDatasets = jsonParser.parse(response.getBody())
                 .getAsJsonObject();
@@ -100,7 +100,7 @@ public class PaginationAcceptanceTest extends BaseAcceptanceTest {
                 .getJson(dataDir, "datasets_start_index_and_limit.json")
                 .getAsJsonObject();
 
-        final HttpResponse<String> response = get(acceptanceUrl + "/dataset?start=3&limit=4").asString();
+        final HttpResponse<String> response = get(apiServerUrl + "/dataset?start=3&limit=4").asString();
 
         final JsonObject actualDatasets = jsonParser.parse(response.getBody()).getAsJsonObject();
 

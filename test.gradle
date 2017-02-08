@@ -16,13 +16,15 @@ task unitTests(type: Test) {
 }
 
 task acceptanceTest(type: Test) {
-    include '**/StatusAcceptanceTest.*'
+    include '**/GetByTypeAcceptanceTest.*'
 
     //http://issues.gradle.org/browse/GRADLE-1254
     finalizedBy 'tearDown'
 
     doFirst {
-        println 'Starting anthill ...'
+        environment "TEST_SERVER_ROOT_URL", "http://localhost:3000/api"
+
+        println 'Starting API Server ...'
         process = new ProcessBuilder().inheritIO()
                 .command("./run-server.sh")
                 .start()
