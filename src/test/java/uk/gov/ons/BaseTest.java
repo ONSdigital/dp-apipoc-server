@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import uk.gov.ons.acceptance.reader.JsonReader;
-import uk.gov.ons.api.converter.InstantConverter;
+import uk.gov.ons.api.common.InstantConverter;
 
 import java.lang.reflect.Type;
 import java.time.Instant;

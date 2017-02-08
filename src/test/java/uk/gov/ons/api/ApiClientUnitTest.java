@@ -4,6 +4,7 @@ import com.mashape.unirest.http.HttpResponse;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
 import org.mockserver.integration.ClientAndServer;
+import uk.gov.ons.api.exception.ApiClientException;
 import uk.gov.ons.api.exception.IllegalParameterException;
 import uk.gov.ons.api.model.Datasets;
 import uk.gov.ons.api.model.Timeseries;
@@ -173,6 +174,14 @@ public class ApiClientUnitTest extends BaseUnitTest {
         final HttpResponse<Timeseries> response = ApiClient.set().dataset("UKEA").getTimeseries("FCCS");
 
         assertThat(response.getBody(), is(expectedTimeseries));
+    }
+
+    @Test
+    public void shouldRejectRequestWhenNoDatasetIdIsSetAndGetTimeseriesWithParameterIsCalled() throws Exception {
+        exception.expect(ApiClientException.class);
+        exception.expectMessage(containsString("dataset is not set"));
+
+        ApiClient.set().getTimeseries("FCCS");
     }
 
     @Test

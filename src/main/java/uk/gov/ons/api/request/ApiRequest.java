@@ -7,8 +7,8 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.ObjectMapper;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import uk.gov.ons.api.converter.InstantConverter;
-import uk.gov.ons.api.exception.ClientException;
+import uk.gov.ons.api.common.InstantConverter;
+import uk.gov.ons.api.exception.ApiClientException;
 import uk.gov.ons.api.model.Dataset;
 import uk.gov.ons.api.model.Datasets;
 import uk.gov.ons.api.model.Timeseries;
@@ -18,6 +18,7 @@ import uk.gov.ons.api.validation.Validator;
 import java.time.Instant;
 
 import static com.mashape.unirest.http.Unirest.get;
+import static org.apache.http.util.TextUtils.isBlank;
 
 public class ApiRequest {
     private Integer start = 0;
@@ -75,7 +76,7 @@ public class ApiRequest {
         return this;
     }
 
-    public HttpResponse<Datasets> getDatasets() throws ClientException {
+    public HttpResponse<Datasets> getDatasets() throws ApiClientException {
         try {
             final String url = (timeseries != null && !timeseries.trim().isEmpty()) ?
                     BASE_URL + "/timeseries/" + timeseries.trim().toLowerCase() + "/dataset" :
@@ -86,11 +87,11 @@ public class ApiRequest {
                     .queryString("limit", limit)
                     .asObject(Datasets.class);
         } catch (UnirestException e) {
-            throw new ClientException(e);
+            throw new ApiClientException(e);
         }
     }
 
-    public HttpResponse<Timeserieses> getTimeseries() throws ClientException {
+    public HttpResponse<Timeserieses> getTimeseries() throws ApiClientException {
         try {
             final String url = isBlank(dataset) ?
                     BASE_URL + "/timeseries" + (isBlank(timeseries) ? "" : "/" + timeseries.trim().toLowerCase()) :
@@ -101,35 +102,30 @@ public class ApiRequest {
                     .queryString("limit", limit)
                     .asObject(Timeserieses.class);
         } catch (UnirestException e) {
-            throw new ClientException(e);
+            throw new ApiClientException(e);
         }
     }
 
-    public HttpResponse<Dataset> getDataset(final String id) throws ClientException {
+    public HttpResponse<Dataset> getDataset(final String id) throws ApiClientException {
         try {
             return get(BASE_URL + "/dataset/" + id.trim().toLowerCase())
                     .asObject(Dataset.class);
         } catch (UnirestException e) {
-            throw new ClientException(e);
+            throw new ApiClientException(e);
         }
     }
 
-    public HttpResponse<Timeseries> getTimeseries(final String id) throws ClientException {
+    public HttpResponse<Timeseries> getTimeseries(final String id) throws ApiClientException {
         try {
-            final String url = (dataset != null && !dataset.trim().isEmpty()) ?
-                    BASE_URL + "/dataset/" + dataset.trim().toLowerCase() + "/timeseries/" + id.trim().toLowerCase() :
-                    BASE_URL + "/timeseries/" + id.trim().toLowerCase();
+            validator.validateParameter("dataset", dataset);
 
+            final String url = BASE_URL + "/dataset/" + dataset.trim().toLowerCase() + "/timeseries/" + id.trim().toLowerCase();
 
             return get(url)
                     .asObject(Timeseries.class);
         } catch (UnirestException e) {
-            throw new ClientException(e);
+            throw new ApiClientException(e);
         }
-    }
-
-    private Boolean isBlank(final String value) {
-        return value == null || value.trim().isEmpty();
     }
 
 }

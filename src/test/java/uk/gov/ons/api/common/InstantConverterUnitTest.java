@@ -1,4 +1,4 @@
-package uk.gov.ons.api.converter;
+package uk.gov.ons.api.common;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
