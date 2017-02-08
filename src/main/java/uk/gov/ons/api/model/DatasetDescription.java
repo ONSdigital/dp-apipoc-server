@@ -138,40 +138,42 @@ public class DatasetDescription {
 
         DatasetDescription that = (DatasetDescription) o;
 
-        if (!title.equals(that.title)) return false;
-        if (!summary.equals(that.summary)) return false;
-        if (!keywords.equals(that.keywords)) return false;
-        if (!metaDescription.equals(that.metaDescription)) return false;
-        if (!nationalStatistic.equals(that.nationalStatistic)) return false;
-        if (!contact.equals(that.contact)) return false;
-        if (!releaseDate.equals(that.releaseDate)) return false;
-        if (!nextRelease.equals(that.nextRelease)) return false;
-        if (!edition.equals(that.edition)) return false;
-        if (!datasetId.equals(that.datasetId)) return false;
-        if (!unit.equals(that.unit)) return false;
-        if (!preUnit.equals(that.preUnit)) return false;
-        if (!source.equals(that.source)) return false;
-        return versionLabel.equals(that.versionLabel);
+        if (title != null ? !title.equals(that.title) : that.title != null) return false;
+        if (summary != null ? !summary.equals(that.summary) : that.summary != null) return false;
+        if (keywords != null ? !keywords.equals(that.keywords) : that.keywords != null) return false;
+        if (metaDescription != null ? !metaDescription.equals(that.metaDescription) : that.metaDescription != null)
+            return false;
+        if (nationalStatistic != null ? !nationalStatistic.equals(that.nationalStatistic) : that.nationalStatistic != null)
+            return false;
+        if (contact != null ? !contact.equals(that.contact) : that.contact != null) return false;
+        if (releaseDate != null ? !releaseDate.equals(that.releaseDate) : that.releaseDate != null) return false;
+        if (nextRelease != null ? !nextRelease.equals(that.nextRelease) : that.nextRelease != null) return false;
+        if (edition != null ? !edition.equals(that.edition) : that.edition != null) return false;
+        if (datasetId != null ? !datasetId.equals(that.datasetId) : that.datasetId != null) return false;
+        if (unit != null ? !unit.equals(that.unit) : that.unit != null) return false;
+        if (preUnit != null ? !preUnit.equals(that.preUnit) : that.preUnit != null) return false;
+        if (source != null ? !source.equals(that.source) : that.source != null) return false;
+        return versionLabel != null ? versionLabel.equals(that.versionLabel) : that.versionLabel == null;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
 
-        int result = title.hashCode();
-        result = prime * result + summary.hashCode();
-        result = prime * result + keywords.hashCode();
-        result = prime * result + metaDescription.hashCode();
-        result = prime * result + nationalStatistic.hashCode();
-        result = prime * result + contact.hashCode();
-        result = prime * result + releaseDate.hashCode();
-        result = prime * result + nextRelease.hashCode();
-        result = prime * result + edition.hashCode();
-        result = prime * result + datasetId.hashCode();
-        result = prime * result + unit.hashCode();
-        result = prime * result + preUnit.hashCode();
-        result = prime * result + source.hashCode();
-        result = prime * result + versionLabel.hashCode();
+        int result = title != null ? title.hashCode() : 0;
+        result = prime * result + (summary != null ? summary.hashCode() : 0);
+        result = prime * result + (keywords != null ? keywords.hashCode() : 0);
+        result = prime * result + (metaDescription != null ? metaDescription.hashCode() : 0);
+        result = prime * result + (nationalStatistic != null ? nationalStatistic.hashCode() : 0);
+        result = prime * result + (contact != null ? contact.hashCode() : 0);
+        result = prime * result + (releaseDate != null ? releaseDate.hashCode() : 0);
+        result = prime * result + (nextRelease != null ? nextRelease.hashCode() : 0);
+        result = prime * result + (edition != null ? edition.hashCode() : 0);
+        result = prime * result + (datasetId != null ? datasetId.hashCode() : 0);
+        result = prime * result + (unit != null ? unit.hashCode() : 0);
+        result = prime * result + (preUnit != null ? preUnit.hashCode() : 0);
+        result = prime * result + (source != null ? source.hashCode() : 0);
+        result = prime * result + (versionLabel != null ? versionLabel.hashCode() : 0);
         return result;
     }
 

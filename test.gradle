@@ -3,10 +3,6 @@ def process
 task unitTests(type: Test) {
     include '**/*UnitTest.*'
 
-    doFirst {
-        environment "TEST_SERVER_ROOT_URL", "http://localhost:4040/api"
-    }
-
     beforeTest { descriptor ->
         logger.lifecycle("Running test: " + descriptor)
     }
@@ -16,14 +12,12 @@ task unitTests(type: Test) {
 }
 
 task acceptanceTest(type: Test) {
-    include '**/GetByTypeAcceptanceTest.*'
+    include '**/GetByIdAcceptanceTest.*'
 
     //http://issues.gradle.org/browse/GRADLE-1254
     finalizedBy 'tearDown'
 
     doFirst {
-        environment "TEST_SERVER_ROOT_URL", "http://localhost:3000/api"
-
         println 'Starting API Server ...'
         process = new ProcessBuilder().inheritIO()
                 .command("./run-server.sh")

@@ -128,38 +128,38 @@ public class TimeseriesDescription {
 
         TimeseriesDescription that = (TimeseriesDescription) o;
 
-        if (!title.equals(that.title)) return false;
-        if (!contact.equals(that.contact)) return false;
-        if (!releaseDate.equals(that.releaseDate)) return false;
-        if (!nextRelease.equals(that.nextRelease)) return false;
-        if (!datasetId.equals(that.datasetId)) return false;
-        if (!datasetUri.equals(that.datasetUri)) return false;
-        if (!cdid.equals(that.cdid)) return false;
-        if (!unit.equals(that.unit)) return false;
-        if (!preUnit.equals(that.preUnit)) return false;
-        if (!source.equals(that.source)) return false;
-        if (!date.equals(that.date)) return false;
-        if (!number.equals(that.number)) return false;
-        return sampleSize.equals(that.sampleSize);
+        if (title != null ? !title.equals(that.title) : that.title != null) return false;
+        if (contact != null ? !contact.equals(that.contact) : that.contact != null) return false;
+        if (releaseDate != null ? !releaseDate.equals(that.releaseDate) : that.releaseDate != null) return false;
+        if (nextRelease != null ? !nextRelease.equals(that.nextRelease) : that.nextRelease != null) return false;
+        if (datasetId != null ? !datasetId.equals(that.datasetId) : that.datasetId != null) return false;
+        if (datasetUri != null ? !datasetUri.equals(that.datasetUri) : that.datasetUri != null) return false;
+        if (cdid != null ? !cdid.equals(that.cdid) : that.cdid != null) return false;
+        if (unit != null ? !unit.equals(that.unit) : that.unit != null) return false;
+        if (preUnit != null ? !preUnit.equals(that.preUnit) : that.preUnit != null) return false;
+        if (source != null ? !source.equals(that.source) : that.source != null) return false;
+        if (date != null ? !date.equals(that.date) : that.date != null) return false;
+        if (number != null ? !number.equals(that.number) : that.number != null) return false;
+        return sampleSize != null ? sampleSize.equals(that.sampleSize) : that.sampleSize == null;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
 
-        int result = title.hashCode();
-        result = prime * result + contact.hashCode();
-        result = prime * result + releaseDate.hashCode();
-        result = prime * result + nextRelease.hashCode();
-        result = prime * result + datasetId.hashCode();
-        result = prime * result + datasetUri.hashCode();
-        result = prime * result + cdid.hashCode();
-        result = prime * result + unit.hashCode();
-        result = prime * result + preUnit.hashCode();
-        result = prime * result + source.hashCode();
-        result = prime * result + date.hashCode();
-        result = prime * result + number.hashCode();
-        result = prime * result + sampleSize.hashCode();
+        int result = title != null ? title.hashCode() : 0;
+        result = prime * result + (contact != null ? contact.hashCode() : 0);
+        result = prime * result + (releaseDate != null ? releaseDate.hashCode() : 0);
+        result = prime * result + (nextRelease != null ? nextRelease.hashCode() : 0);
+        result = prime * result + (datasetId != null ? datasetId.hashCode() : 0);
+        result = prime * result + (datasetUri != null ? datasetUri.hashCode() : 0);
+        result = prime * result + (cdid != null ? cdid.hashCode() : 0);
+        result = prime * result + (unit != null ? unit.hashCode() : 0);
+        result = prime * result + (preUnit != null ? preUnit.hashCode() : 0);
+        result = prime * result + (source != null ? source.hashCode() : 0);
+        result = prime * result + (date != null ? date.hashCode() : 0);
+        result = prime * result + (number != null ? number.hashCode() : 0);
+        result = prime * result + (sampleSize != null ? sampleSize.hashCode() : 0);
         return result;
     }
 

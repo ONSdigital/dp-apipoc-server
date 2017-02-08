@@ -22,7 +22,7 @@ public class ApiClientUnitTest extends BaseUnitTest {
     private FakeServer fakeServer;
 
     @Rule
-    public ExpectedException exception = ExpectedException.none();
+    public final ExpectedException exception = ExpectedException.none();
 
     @Before
     public void setup() throws Exception {
@@ -130,9 +130,9 @@ public class ApiClientUnitTest extends BaseUnitTest {
                 dsFile
         );
 
-        final Timeseries expectedTimeseries = gson.fromJson(dsFile, Timeseries.class);
+        final Timeserieses expectedTimeseries = gson.fromJson(dsFile, Timeserieses.class);
 
-        final HttpResponse<Timeseries> response = ApiClient.set().getTimeseries("FCCS");
+        final HttpResponse<Timeserieses> response = ApiClient.set().timeseries("FCCS").getTimeseries();
 
         assertThat(response.getBody(), is(expectedTimeseries));
     }

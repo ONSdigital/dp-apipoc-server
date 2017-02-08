@@ -111,9 +111,9 @@ paths:
           $ref: '#/responses/Standard500ErrorResponse'
   /timeseries:
     get:
-      summary: Listing of time series
+      summary: Listing of time series metadata
       description: |
-        Returns the list of time series.
+        Returns listing of time series metadata.
         This endpoint supports pagination per the below parameters.
       parameters:
         - $ref: '#/parameters/startingIndex'
@@ -133,19 +133,23 @@ paths:
           $ref: '#/responses/Standard500ErrorResponse'
   /timeseries/{timeseries_id}:
     get:
-      summary: Metadata for a specific time series
+      summary: Listing of metadata for a specific time series
       description: |
-        Returns the list of time series.
+        Returns a listing of metadata for a specific time series.
         This endpoint supports pagination per the below parameters.
       parameters:
         - $ref: '#/parameters/timeseriesId'
+        - $ref: '#/parameters/startingIndex'
+        - $ref: '#/parameters/pageSize'
       tags:
-        - Time Series Metadata
+        - Specific Time Series Metadata
       responses:
         200:
           description: Metadata of the specified time series
           schema:
-            $ref: '#/definitions/Metadata'
+            type: array
+            items:
+              $ref: '#/definitions/Dataset'
         404:
           $ref: '#/responses/ResourceDoesNotExistResponse'
         500:

@@ -92,9 +92,9 @@ public class ApiRequest {
 
     public HttpResponse<Timeserieses> getTimeseries() throws ClientException {
         try {
-            final String url = (dataset != null && !dataset.trim().isEmpty()) ?
-                    BASE_URL + "/dataset/" + dataset.trim().toLowerCase() + "/timeseries" :
-                    BASE_URL + "/timeseries";
+            final String url = isBlank(dataset) ?
+                    BASE_URL + "/timeseries" + (isBlank(timeseries) ? "" : "/" + timeseries.trim().toLowerCase()) :
+                    BASE_URL + "/dataset/" + dataset.trim().toLowerCase() + "/timeseries";
 
             return get(url)
                     .queryString("start", start)
@@ -126,6 +126,10 @@ public class ApiRequest {
         } catch (UnirestException e) {
             throw new ClientException(e);
         }
+    }
+
+    private Boolean isBlank(final String value) {
+        return value == null || value.trim().isEmpty();
     }
 
 }

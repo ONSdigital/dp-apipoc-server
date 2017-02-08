@@ -10,6 +10,11 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.gov.ons.acceptance.BaseAcceptanceTest;
+import uk.gov.ons.api.ApiClient;
+import uk.gov.ons.api.model.Dataset;
+import uk.gov.ons.api.model.Datasets;
+import uk.gov.ons.api.model.Timeseries;
+import uk.gov.ons.api.model.Timeserieses;
 
 import static com.mashape.unirest.http.Unirest.get;
 import static java.util.Collections.singletonList;
@@ -35,9 +40,11 @@ public class GetByIdAcceptanceTest extends BaseAcceptanceTest {
     public void shouldGetSpecificDataset() throws Exception {
         final JsonObject expectedDatasets = jsonParser.parse("{}").getAsJsonObject();
 
-        final HttpResponse<String> response = get(apiServerUrl + "/dataset/UKEA").asString();
+        final HttpResponse<Dataset> response = ApiClient.set().getDataset("UKEA");
 
-        final JsonObject actualDataset = jsonParser.parse(response.getBody()).getAsJsonObject();
+        //final HttpResponse<String> response = get(apiServerUrl + "/dataset/UKEA").asString();
+
+        final JsonObject actualDataset = jsonParser.parse(gson.toJson(response.getBody())).getAsJsonObject();
 
         assertThat(response.getStatus(), is(SC_OK));
         assertThat(response.getHeaders().get(CONTENT_TYPE), is(singletonList(APPLICATION_JSON)));
@@ -54,9 +61,11 @@ public class GetByIdAcceptanceTest extends BaseAcceptanceTest {
                 .getJson(dataDir, "specific_timeseries.json")
                 .getAsJsonObject();
 
-        final HttpResponse<String> response = get(apiServerUrl + "/timeseries/FCCS").asString();
+        final HttpResponse<Timeserieses> response = ApiClient.set().timeseries("FCCS").getTimeseries();
 
-        final JsonObject actualTimeseries = jsonParser.parse(response.getBody()).getAsJsonObject();
+        //final HttpResponse<String> response = get(apiServerUrl + "/timeseries/FCCS").asString();
+
+        final JsonObject actualTimeseries = jsonParser.parse(gson.toJson(response.getBody())).getAsJsonObject();
 
         assertThat(response.getStatus(), is(SC_OK));
         assertThat(response.getHeaders().get(CONTENT_TYPE), is(singletonList(APPLICATION_JSON)));
@@ -72,9 +81,11 @@ public class GetByIdAcceptanceTest extends BaseAcceptanceTest {
     public void shouldGetDatasetsSpecificTimeSeriesBelongsTo() throws Exception {
         final JsonObject expectedDataset = jsonParser.parse("{}").getAsJsonObject();
 
-        final HttpResponse<String> response = get(apiServerUrl + "/timeseries/nmcu/dataset").asString();
+        final HttpResponse<Datasets> response = ApiClient.set().timeseries("nmcu").getDatasets();
 
-        final JsonObject actualDataset = jsonParser.parse(response.getBody()).getAsJsonObject();
+        //final HttpResponse<String> response = get(apiServerUrl + "/timeseries/nmcu/dataset").asString();
+
+        final JsonObject actualDataset = jsonParser.parse(gson.toJson(response.getBody())).getAsJsonObject();
 
         assertThat(response.getStatus(), is(SC_OK));
         assertThat(response.getHeaders().get(CONTENT_TYPE), is(singletonList(APPLICATION_JSON)));
@@ -91,9 +102,10 @@ public class GetByIdAcceptanceTest extends BaseAcceptanceTest {
                 .getJson(dataDir, "timeseries_in_specific_dataset.json")
                 .getAsJsonObject();
 
-        final HttpResponse<String> response = get(apiServerUrl + "/dataset/ukea/timeseries").asString();
+        final HttpResponse<Timeserieses> response = ApiClient.set().dataset("ukea").getTimeseries();
+        //final HttpResponse<String> response = get(apiServerUrl + "/dataset/ukea/timeseries").asString();
 
-        final JsonObject actualTimeseries = jsonParser.parse(response.getBody()).getAsJsonObject();
+        final JsonObject actualTimeseries = jsonParser.parse(gson.toJson(response.getBody())).getAsJsonObject();
 
         assertThat(response.getStatus(), is(SC_OK));
         assertThat(response.getHeaders().get(CONTENT_TYPE), is(singletonList(APPLICATION_JSON)));
@@ -106,17 +118,19 @@ public class GetByIdAcceptanceTest extends BaseAcceptanceTest {
             "<br>Then the metadata of my specified time series in the specified data set should be returned" +
             "<hr>")
     public void shouldGetSpecificDatasetSpecificTimeSeries() throws Exception {
-        final JsonObject expectedDatasets = jsonReader
+        final JsonObject expectedTimeseries = jsonReader
                 .getJson(dataDir, "specific_timeseries_in_specific_dataset.json")
                 .getAsJsonObject();
 
-        final HttpResponse<String> response = get(apiServerUrl + "/dataset/UKEA/timeseries/M9LE").asString();
+        final HttpResponse<Timeseries> response = ApiClient.set().dataset("UKEA").getTimeseries("M9LE");
 
-        final JsonObject actualDataset = jsonParser.parse(response.getBody()).getAsJsonObject();
+        //final HttpResponse<String> response = get(apiServerUrl + "/dataset/UKEA/timeseries/M9LE").asString();
+
+        final JsonObject actualTimeseries = jsonParser.parse(gson.toJson(response.getBody())).getAsJsonObject();
 
         assertThat(response.getStatus(), is(SC_OK));
         assertThat(response.getHeaders().get(CONTENT_TYPE), is(singletonList(APPLICATION_JSON)));
-        assertThat(actualDataset, is(expectedDatasets));
+        assertThat(actualTimeseries, is(expectedTimeseries));
     }
 
     @Test
@@ -125,17 +139,19 @@ public class GetByIdAcceptanceTest extends BaseAcceptanceTest {
             "<br>Then the metadata of the specified time series in the specified data set should be returned" +
             "<hr>")
     public void shouldGetSpecificTimeSeriesInSpecificDataset() throws Exception {
-        final JsonObject expectedDatasets = jsonReader
+        final JsonObject expectedTimeseries = jsonReader
                 .getJson(dataDir, "specific_timeseries_in_specific_dataset.json")
                 .getAsJsonObject();
 
-        final HttpResponse<String> response = get(apiServerUrl + "/timeseries/M9LE/dataset/UKEA").asString();
+        final HttpResponse<Timeseries> response = ApiClient.set().dataset("UKEA").getTimeseries("M9LE");
 
-        final JsonObject actualDataset = jsonParser.parse(response.getBody()).getAsJsonObject();
+        //final HttpResponse<String> response = get(apiServerUrl + "/timeseries/M9LE/dataset/UKEA").asString();
+
+        final JsonObject actualTimeseries = jsonParser.parse(gson.toJson(response.getBody())).getAsJsonObject();
 
         assertThat(response.getStatus(), is(SC_OK));
         assertThat(response.getHeaders().get(CONTENT_TYPE), is(singletonList(APPLICATION_JSON)));
-        assertThat(actualDataset, is(expectedDatasets));
+        assertThat(actualTimeseries, is(expectedTimeseries));
     }
 
 
