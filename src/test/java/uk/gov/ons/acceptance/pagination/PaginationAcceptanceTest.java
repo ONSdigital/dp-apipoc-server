@@ -8,8 +8,10 @@ import net.thucydides.core.annotations.Title;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.gov.ons.acceptance.BaseAcceptanceTest;
+import uk.gov.ons.api.ApiClient;
+import uk.gov.ons.api.model.Datasets;
+import uk.gov.ons.api.model.Timeserieses;
 
-import static com.mashape.unirest.http.Unirest.get;
 import static java.util.Collections.singletonList;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.hamcrest.CoreMatchers.is;
@@ -33,12 +35,14 @@ public class PaginationAcceptanceTest extends BaseAcceptanceTest {
             "<hr>")
     public void shouldGetDataSet() throws Exception {
         final JsonObject expectedDatasets = jsonReader
-                .getJson(dataDir, "datasets_default_page_1.json")
+                .getJson(dataDir, "datasets_page_1.json")
                 .getAsJsonObject();
 
-        final HttpResponse<String> response = get(apiServerUrl + "/dataset").asString();
+        final HttpResponse<Datasets> response = ApiClient.set().getDatasets();
 
-        final JsonObject actualDatasets = jsonParser.parse(response.getBody()).getAsJsonObject();
+        //final HttpResponse<String> response = get(apiServerUrl + "/dataset").asString();
+
+        final JsonObject actualDatasets = jsonParser.parse(gson.toJson(response.getBody())).getAsJsonObject();
 
         assertThat(response.getStatus(), is(SC_OK));
         assertThat(response.getHeaders().get(CONTENT_TYPE), is(singletonList(APPLICATION_JSON)));
@@ -57,9 +61,11 @@ public class PaginationAcceptanceTest extends BaseAcceptanceTest {
                 .getJson(dataDir, "datasets_start_index_only.json")
                 .getAsJsonObject();
 
-        final HttpResponse<String> response = get(apiServerUrl + "/dataset?start=3").asString();
+        final HttpResponse<Datasets> response = ApiClient.set().startIndex(3).getDatasets();
 
-        final JsonObject actualDatasets = jsonParser.parse(response.getBody()).getAsJsonObject();
+        //final HttpResponse<String> response = get(apiServerUrl + "/dataset?start=3").asString();
+
+        final JsonObject actualDatasets = jsonParser.parse(gson.toJson(response.getBody())).getAsJsonObject();
 
         assertThat(response.getStatus(), is(SC_OK));
         assertThat(response.getHeaders().get(CONTENT_TYPE), is(singletonList(APPLICATION_JSON)));
@@ -78,10 +84,11 @@ public class PaginationAcceptanceTest extends BaseAcceptanceTest {
                 .getJson(dataDir, "datasets_limit_only.json")
                 .getAsJsonObject();
 
-        final HttpResponse<String> response = get(apiServerUrl + "/dataset?limit=2").asString();
+        final HttpResponse<Timeserieses> response = ApiClient.set().itemsPerPage(2).getTimeseries();
 
-        final JsonObject actualDatasets = jsonParser.parse(response.getBody())
-                .getAsJsonObject();
+        //final HttpResponse<String> response = get(apiServerUrl + "/timeseries?limit=2").asString();
+
+        final JsonObject actualDatasets = jsonParser.parse(gson.toJson(response.getBody())).getAsJsonObject();
 
         assertThat(response.getStatus(), is(SC_OK));
         assertThat(response.getHeaders().get(CONTENT_TYPE), is(singletonList(APPLICATION_JSON)));
@@ -100,9 +107,11 @@ public class PaginationAcceptanceTest extends BaseAcceptanceTest {
                 .getJson(dataDir, "datasets_start_index_and_limit.json")
                 .getAsJsonObject();
 
-        final HttpResponse<String> response = get(apiServerUrl + "/dataset?start=3&limit=4").asString();
+        final HttpResponse<Timeserieses> response = ApiClient.set().startIndex(3).itemsPerPage(4).getTimeseries();
 
-        final JsonObject actualDatasets = jsonParser.parse(response.getBody()).getAsJsonObject();
+        //final HttpResponse<String> response = get(apiServerUrl + "/timeseries?start=3&limit=4").asString();
+
+        final JsonObject actualDatasets = jsonParser.parse(gson.toJson(response.getBody())).getAsJsonObject();
 
         assertThat(response.getStatus(), is(SC_OK));
         assertThat(response.getHeaders().get(CONTENT_TYPE), is(singletonList(APPLICATION_JSON)));

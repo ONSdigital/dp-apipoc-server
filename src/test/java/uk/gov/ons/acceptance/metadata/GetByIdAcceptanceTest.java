@@ -16,7 +16,6 @@ import uk.gov.ons.api.model.Datasets;
 import uk.gov.ons.api.model.Timeseries;
 import uk.gov.ons.api.model.Timeserieses;
 
-import static com.mashape.unirest.http.Unirest.get;
 import static java.util.Collections.singletonList;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.hamcrest.CoreMatchers.is;
