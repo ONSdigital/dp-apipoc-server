@@ -4,4 +4,10 @@
 docker start dp-api-elastic
 waitforit/wait-for-it.sh -t 0 localhost:9200
 
+export API_APP_PORT=3000
+export ELASTICSEARCH_ROOT=http://localhost:9200
+export ZEBEDEE_ROOT=http://localhost:8082
+export WEBSITE_ROOT=https://www.ons.gov.uk
+export USE_WEBSITE=false
+
 go run $(pwd)/src/main/go/github.com/ONSdigital/dp-apipoc-server/main.go

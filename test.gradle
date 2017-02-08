@@ -48,5 +48,5 @@ task tearDown {
 }
 
 task publishTest(type: GradleBuild) {
-    tasks = ['acceptanceTest', 'aggregate']
+    tasks = ['unitTest', 'acceptanceTest', 'aggregate']
 }

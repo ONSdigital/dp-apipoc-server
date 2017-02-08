@@ -26,14 +26,14 @@ func main() {
 	var zebedeeUrl = "http://localhost:8082"
 	var useWebsite = false
 
-	flag.IntVar(&port, "port", port, "Port number")
+	flag.IntVar(&port, "API_APP_PORT", port, "Port number")
 
-	flag.StringVar(&elasticUrl, "elesticsearch", elasticUrl, "ElasticSearch URL")
+	flag.StringVar(&elasticUrl, "ELASTICSEARCH_ROOT", elasticUrl, "ElasticSearch URL")
 
-	flag.StringVar(&zebedeeUrl, "zebedee", zebedeeUrl, "Zebedee URL")
+	flag.StringVar(&zebedeeUrl, "ZEBEDEE_ROOT", zebedeeUrl, "Zebedee URL")
 
-	flag.StringVar(&websiteUrl, "website", websiteUrl, "Website URL")
-	flag.BoolVar(&useWebsite, "useWebsite", useWebsite, "Use Website")
+	flag.StringVar(&websiteUrl, "WEBSITE_ROOT", websiteUrl, "Website URL")
+	flag.BoolVar(&useWebsite, "USE_WEBSITE", useWebsite, "Use Website")
 
 	flag.Parse()
 
