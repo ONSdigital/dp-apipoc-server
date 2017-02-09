@@ -25,9 +25,7 @@ paths:
         200:
           description: The returned datasets when successful
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/Dataset'
+            $ref: '#/definitions/Datasets'
         404:
           $ref: '#/responses/ResourceDoesNotExistResponse'
         500:
@@ -46,9 +44,7 @@ paths:
         200:
           description: The specified dataset's metadata
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/Dataset'
+            $ref: '#/definitions/Datasets'
         404:
           $ref: '#/responses/ResourceDoesNotExistResponse'
         500:
@@ -69,9 +65,7 @@ paths:
         200:
           description: An array of time series in the specified dataset
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/Dataset'
+            $ref: '#/definitions/Datasets'
         404:
           $ref: '#/responses/ResourceDoesNotExistResponse'
         500:
@@ -129,9 +123,7 @@ paths:
         200:
           description: An array of time series
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/Dataset'
+            $ref: '#/definitions/Datasets'
         404:
           $ref: '#/responses/ResourceDoesNotExistResponse'
         500:
@@ -152,9 +144,7 @@ paths:
         200:
           description: Metadata of the specified time series
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/Dataset'
+            $ref: '#/definitions/Datasets'
         404:
           $ref: '#/responses/ResourceDoesNotExistResponse'
         500:
@@ -175,9 +165,7 @@ paths:
         200:
           description: An array of datasets the time series belongs to
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/Dataset'
+            $ref: '#/definitions/Datasets'
         404:
           $ref: '#/responses/ResourceDoesNotExistResponse'
         500:
@@ -196,7 +184,7 @@ paths:
         200:
           description: The specified time series' metadata in the specified dataset
           schema:
-            $ref: '#/definitions/Dataset'
+            $ref: '#/definitions/Datasets'
         404:
           $ref: '#/responses/ResourceDoesNotExistResponse'
         500:
@@ -217,25 +205,23 @@ paths:
         200:
           description: The fetch results
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/Dataset'
+            $ref: '#/definitions/Datasets'
         404:
           $ref: '#/responses/ResourceDoesNotExistResponse'
         500:
           $ref: '#/responses/Standard500ErrorResponse'
           
 definitions:
-  Dataset:
+  Datasets:
     title: The dataset
     type: object
     properties:
-      items_per_page:
-        type: integer
-        description: Number of items returned in a page of response
       start_index:
         type: integer
         description: Index of the starting item
+      items_per_page:
+        type: integer
+        description: Number of items returned in a page of response
       total_items:
         type: integer
         description: The total number of items in dataset
