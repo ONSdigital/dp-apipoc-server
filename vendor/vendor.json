@@ -39,6 +39,12 @@
 			"revisionTime": "2016-09-10T10:38:22Z"
 		},
 		{
+			"checksumSHA1": "CIK3BBNX3nuUQCmNqTQydNfMNKI=",
+			"path": "github.com/mgutz/ansi",
+			"revision": "9520e82c474b0a04dd04f8a40959027271bab992",
+			"revisionTime": "2017-02-06T15:57:36Z"
+		},
+		{
 			"checksumSHA1": "kTQ58DAXtXAHAjGYSj0yNnfW9k0=",
 			"path": "github.com/namsral/flag",
 			"revision": "7fa59bdb55485001d702d9b6e15367cdf26bfde8",
