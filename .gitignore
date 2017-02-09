@@ -19,6 +19,4 @@ build.meta
 *.log
 
 # Binary
-src/main/go/github.com/ONSdigital/dp-apipoc-server/dp-apipoc-server
-src/main/resources/
-src/test/resources/acceptance/validation/
+dp-apipoc-server
