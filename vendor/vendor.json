@@ -1,0 +1,61 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "J9OiPnhPHFPhQ+R+dq6LFj+dTxE=",
+			"path": "github.com/ONSdigital/go-ns/handlers/requestID",
+			"revision": "0469a29634d80289f574b96d6b423cd2121e0ee8",
+			"revisionTime": "2017-01-10T09:37:55Z"
+		},
+		{
+			"checksumSHA1": "HgL/HLG5D1WNPb1lrb/hpywtm9o=",
+			"path": "github.com/ONSdigital/go-ns/handlers/timeout",
+			"revision": "0469a29634d80289f574b96d6b423cd2121e0ee8",
+			"revisionTime": "2017-01-10T09:37:55Z"
+		},
+		{
+			"checksumSHA1": "nVbb+x6nwEFqcpNDF+aw8WHy+k4=",
+			"path": "github.com/ONSdigital/go-ns/log",
+			"revision": "0469a29634d80289f574b96d6b423cd2121e0ee8",
+			"revisionTime": "2017-01-10T09:37:55Z"
+		},
+		{
+			"checksumSHA1": "GnYsUxBxUHGDBIaCeQbMdYUCzkA=",
+			"path": "github.com/jmoiron/jsonq",
+			"revision": "e874b168d07ecc7808bc950a17998a8aa3141d82",
+			"revisionTime": "2015-05-11T02:39:44Z"
+		},
+		{
+			"checksumSHA1": "Y3U6on66N0BszKXYvb2Q+qpG6f4=",
+			"path": "github.com/julienschmidt/httprouter",
+			"revision": "8a45e95fc75cb77048068a62daed98cc22fdac7c",
+			"revisionTime": "2017-01-04T18:58:16Z"
+		},
+		{
+			"checksumSHA1": "OBvAHqWjdI4NQVAqTkcQAdTuCFY=",
+			"path": "github.com/justinas/alice",
+			"revision": "1051eaf52fcafdd87ead59d28b065f1fcb8274ec",
+			"revisionTime": "2016-09-10T10:38:22Z"
+		},
+		{
+			"checksumSHA1": "kTQ58DAXtXAHAjGYSj0yNnfW9k0=",
+			"path": "github.com/namsral/flag",
+			"revision": "7fa59bdb55485001d702d9b6e15367cdf26bfde8",
+			"revisionTime": "2016-12-28T15:00:38Z"
+		},
+		{
+			"checksumSHA1": "hZK2INUflZPHu5jchrop3EjjPgs=",
+			"path": "gopkg.in/olivere/elastic.v3",
+			"revision": "96b262cf1d25006d71bd495fd99b590493cff29e",
+			"revisionTime": "2017-01-10T10:38:13Z"
+		},
+		{
+			"checksumSHA1": "lgNSTxay86o7/HxemA3ilBfazIk=",
+			"path": "gopkg.in/tylerb/graceful.v1",
+			"revision": "0e9129e9c6d47da90dc0c188b26bd7bb1dab53cd",
+			"revisionTime": "2017-01-16T09:04:26Z"
+		}
+	],
+	"rootPath": "github.com/ONSdigital/dp-apipoc-server"
+}
