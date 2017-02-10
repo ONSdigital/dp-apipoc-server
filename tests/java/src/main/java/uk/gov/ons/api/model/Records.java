@@ -4,14 +4,14 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Datasets {
+public class Records {
     @SerializedName("start_index")
     private Integer startIndex;
     @SerializedName("items_per_page")
     private Integer itemsPerPage;
     @SerializedName("total_items")
     private Integer totalItems;
-    private List<Dataset> items;
+    private List<Record> items;
 
     public Integer getStartIndex() {
         return startIndex;
@@ -37,11 +37,11 @@ public class Datasets {
         this.totalItems = totalItems;
     }
 
-    public List<Dataset> getItems() {
+    public List<Record> getItems() {
         return items;
     }
 
-    public void setItems(List<Dataset> items) {
+    public void setItems(List<Record> items) {
         this.items = items;
     }
 
@@ -50,7 +50,7 @@ public class Datasets {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Datasets datasets = (Datasets) o;
+        Records datasets = (Records) o;
 
         if (!startIndex.equals(datasets.startIndex)) return false;
         if (!itemsPerPage.equals(datasets.itemsPerPage)) return false;

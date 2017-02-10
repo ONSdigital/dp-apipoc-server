@@ -22,6 +22,9 @@ task acceptanceTest(type: Test) {
         process = new ProcessBuilder().inheritIO()
                 .command("./run-server.sh")
                 .start()
+
+        // Wait for the server to come up
+        sleep(10*1000)
     }
 
     beforeTest { descriptor ->

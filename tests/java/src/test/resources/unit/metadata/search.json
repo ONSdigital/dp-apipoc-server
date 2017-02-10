@@ -1,0 +1,79 @@
+{
+  "start_index": 0,
+  "items_per_page": 5,
+  "total_items": 3,
+  "items": [
+    {
+      "uri": "/economy/nationalaccounts/balanceofpayments/timeseries/fjtw/pb",
+      "type": "timeseries",
+      "description": {
+        "title": "BoP: Trade in Services: Personal Travel Balance: CPNSA                  ",
+        "contact": {
+          "email": "bop@ons.gsi.gov.uk",
+          "name": "Craig Taylor",
+          "telephone": "+44 (0)1633 456333"
+        },
+        "releaseDate": "2016-07-28T23:00:00Z",
+        "nextRelease": "October 2017",
+        "datasetId": "PB",
+        "datasetUri": "/economy/nationalaccounts/balanceofpayments/datasets/pinkbook",
+        "cdid": "FJTW",
+        "unit": "",
+        "preUnit": "",
+        "source": "",
+        "date": "2015",
+        "number": "-11277",
+        "sampleSize": "0"
+      },
+      "searchBoost": []
+    },
+    {
+      "uri": "/economy/economicoutputandproductivity/output/timeseries/s2he/ios1",
+      "type": "timeseries",
+      "description": {
+        "title": "IoS:79:Travel agency tour op and other reservation service and related act:CVMSA",
+        "contact": {
+          "email": "ios.enquiries@ons.gsi.gov.uk ",
+          "name": "Robert Kent-Smith",
+          "telephone": "+44 (0)1633 651618"
+        },
+        "releaseDate": "2016-12-23T00:00:00Z",
+        "nextRelease": "26 January 2017",
+        "datasetId": "IOS1",
+        "datasetUri": "/economy/economicoutputandproductivity/output/datasets/indexofservices",
+        "cdid": "S2HE",
+        "unit": "",
+        "preUnit": "",
+        "source": "",
+        "date": "2016 OCT",
+        "number": "7.1",
+        "sampleSize": "0"
+      },
+      "searchBoost": []
+    },
+    {
+      "uri": "/economy/inflationandpriceindices/timeseries/cdkd/mm23",
+      "type": "timeseries",
+      "description": {
+        "title": "RPI:Weights (parts per 1000) Two-person pensioner - Fares and other travel costs",
+        "contact": {
+          "email": "cpi@ons.gsi.gov.uk",
+          "name": "James Tucker",
+          "telephone": "+44 (0)1633 456900"
+        },
+        "releaseDate": "2017-01-17T00:00:00Z",
+        "nextRelease": "14 February 2017",
+        "datasetId": "MM23",
+        "datasetUri": "/economy/inflationandpriceindices/datasets/consumerpriceindices",
+        "cdid": "CDKD",
+        "unit": "Parts per 1000",
+        "preUnit": "",
+        "source": "",
+        "date": "2016",
+        "number": "12",
+        "sampleSize": "0"
+      },
+      "searchBoost": []
+    }
+  ]
+}

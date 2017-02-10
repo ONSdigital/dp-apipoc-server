@@ -10,8 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.gov.ons.acceptance.BaseAcceptanceTest;
 import uk.gov.ons.api.ApiClient;
-import uk.gov.ons.api.model.Datasets;
-import uk.gov.ons.api.model.Timeserieses;
+import uk.gov.ons.api.model.Records;
 
 import static java.util.Collections.singletonList;
 import static org.apache.http.HttpStatus.SC_OK;
@@ -37,7 +36,7 @@ public class GetByTypeAcceptanceTest extends BaseAcceptanceTest {
                 .getJson(dataDir, "datasets_page_1.json")
                 .getAsJsonObject();
 
-        final HttpResponse<Datasets> response = ApiClient.set().getDatasets();
+        final HttpResponse<Records> response = ApiClient.set().getDatasets();
 
         //final HttpResponse<String> response = get(apiServerUrl + "/dataset").asString();
 
@@ -58,7 +57,7 @@ public class GetByTypeAcceptanceTest extends BaseAcceptanceTest {
                 .getJson(dataDir, "timeseries_page_1.json")
                 .getAsJsonObject();
 
-        final HttpResponse<Timeserieses> response = ApiClient.set().getTimeseries();
+        final HttpResponse<Records> response = ApiClient.set().getTimeseries();
 
         //final HttpResponse<String> response = get(apiServerUrl + "/timeseries").asString();
 

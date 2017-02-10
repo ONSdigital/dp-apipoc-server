@@ -2,7 +2,7 @@ package uk.gov.ons.api.model;
 
 import java.util.List;
 
-public class Dataset {
+public class Record {
     private String uri;
     private String type;
     private Description description;
@@ -45,7 +45,7 @@ public class Dataset {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Dataset dataset = (Dataset) o;
+        Record dataset = (Record) o;
 
         if (!uri.equals(dataset.uri)) return false;
         if (!type.equals(dataset.type)) return false;

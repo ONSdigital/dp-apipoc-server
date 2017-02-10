@@ -5,13 +5,10 @@ import com.mashape.unirest.http.HttpResponse;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Narrative;
 import net.thucydides.core.annotations.Title;
-import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.gov.ons.acceptance.BaseAcceptanceTest;
-
-import java.util.concurrent.TimeUnit;
 
 import static com.mashape.unirest.http.Unirest.get;
 import static com.mashape.unirest.http.Unirest.head;
@@ -28,11 +25,6 @@ import static org.junit.Assert.assertThat;
 @RunWith(SerenityRunner.class)
 public class StatusAcceptanceTest extends BaseAcceptanceTest {
     private final String healthScenarios = acceptanceScenarios + "/health";
-
-    @BeforeClass
-    public static void setUp() throws Exception {
-        TimeUnit.SECONDS.sleep(10);
-    }
 
     @Test
     @Title("Given that the API application is running" +

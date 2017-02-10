@@ -10,10 +10,8 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import uk.gov.ons.api.common.Encoder;
 import uk.gov.ons.api.common.InstantConverter;
 import uk.gov.ons.api.exception.ApiClientException;
-import uk.gov.ons.api.model.Dataset;
-import uk.gov.ons.api.model.Datasets;
-import uk.gov.ons.api.model.Timeseries;
-import uk.gov.ons.api.model.Timeserieses;
+import uk.gov.ons.api.model.Record;
+import uk.gov.ons.api.model.Records;
 import uk.gov.ons.api.validation.Validator;
 
 import java.io.UnsupportedEncodingException;
@@ -79,7 +77,7 @@ public class ApiRequest {
         return this;
     }
 
-    public HttpResponse<Datasets> getDatasets() throws ApiClientException {
+    public HttpResponse<Records> getDatasets() throws ApiClientException {
         try {
             final String uri = isBlank(timeseries) ?
                     "/dataset" + (isBlank(dataset) ? "" : "/" + ENCODER.encodeUriComponent(dataset.trim().toLowerCase())) :
@@ -88,13 +86,13 @@ public class ApiRequest {
             return get(BASE_URL + uri)
                     .queryString("start", start)
                     .queryString("limit", limit)
-                    .asObject(Datasets.class);
+                    .asObject(Records.class);
         } catch (UnirestException | UnsupportedEncodingException e) {
             throw new ApiClientException(e);
         }
     }
 
-    public HttpResponse<Timeserieses> getTimeseries() throws ApiClientException {
+    public HttpResponse<Records> getTimeseries() throws ApiClientException {
         try {
             final String uri = isBlank(dataset) ?
                     "/timeseries" + (isBlank(timeseries) ? "" : "/" + ENCODER.encodeUriComponent(timeseries.trim().toLowerCase())) :
@@ -103,30 +101,41 @@ public class ApiRequest {
             return get(BASE_URL + uri)
                     .queryString("start", start)
                     .queryString("limit", limit)
-                    .asObject(Timeserieses.class);
+                    .asObject(Records.class);
         } catch (UnirestException | UnsupportedEncodingException e) {
             throw new ApiClientException(e);
         }
     }
 
-    public HttpResponse<Dataset> getDataset(final String id) throws ApiClientException {
+    public HttpResponse<Record> getDataset(final String id) throws ApiClientException {
         try {
-            return get(BASE_URL + "/dataset/" + id.trim().toLowerCase()).asObject(Dataset.class);
+            return get(BASE_URL + "/dataset/" + id.trim().toLowerCase()).asObject(Record.class);
         } catch (UnirestException e) {
             throw new ApiClientException(e);
         }
     }
 
-    public HttpResponse<Timeseries> getTimeseries(final String id) throws ApiClientException {
+    public HttpResponse<Record> getTimeseries(final String id) throws ApiClientException {
         try {
             VALIDATOR.validateParameter("dataset", dataset);
 
             final String uri = "/dataset/" + dataset.trim().toLowerCase() + "/timeseries/" + id.trim().toLowerCase();
 
-            return get(BASE_URL + uri).asObject(Timeseries.class);
+            return get(BASE_URL + uri).asObject(Record.class);
         } catch (UnirestException e) {
             throw new ApiClientException(e);
         }
     }
 
+    public HttpResponse<Records> search(final String term) throws ApiClientException {
+        try {
+            return get(BASE_URL + "/search")
+                    .queryString("q", term.trim().toLowerCase())
+                    .queryString("start", start)
+                    .queryString("limit", limit)
+                    .asObject(Records.class);
+        } catch (UnirestException e) {
+            throw new ApiClientException(e);
+        }
+    }
 }

@@ -11,10 +11,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.gov.ons.acceptance.BaseAcceptanceTest;
 import uk.gov.ons.api.ApiClient;
-import uk.gov.ons.api.model.Dataset;
-import uk.gov.ons.api.model.Datasets;
-import uk.gov.ons.api.model.Timeseries;
-import uk.gov.ons.api.model.Timeserieses;
+import uk.gov.ons.api.model.Record;
+import uk.gov.ons.api.model.Records;
 
 import static java.util.Collections.singletonList;
 import static org.apache.http.HttpStatus.SC_OK;
@@ -40,7 +38,7 @@ public class GetByIdAcceptanceTest extends BaseAcceptanceTest {
                 .getJson(dataDir, "specific_datasets.json")
                 .getAsJsonObject();
 
-        final HttpResponse<Datasets> response = ApiClient.set().dataset("ASHE: Table 6").getDatasets();
+        final HttpResponse<Records> response = ApiClient.set().dataset("ASHE: Table 6").getDatasets();
 
         //final HttpResponse<String> response = get(apiServerUrl + "/dataset/UKEA").asString();
 
@@ -61,7 +59,7 @@ public class GetByIdAcceptanceTest extends BaseAcceptanceTest {
                 .getJson(dataDir, "specific_timeseries.json")
                 .getAsJsonObject();
 
-        final HttpResponse<Timeserieses> response = ApiClient.set().timeseries("FCCS").getTimeseries();
+        final HttpResponse<Records> response = ApiClient.set().timeseries("FCCS").getTimeseries();
 
         //final HttpResponse<String> response = get(apiServerUrl + "/timeseries/FCCS").asString();
 
@@ -81,7 +79,7 @@ public class GetByIdAcceptanceTest extends BaseAcceptanceTest {
     public void shouldGetDatasetsSpecificTimeSeriesBelongsTo() throws Exception {
         final JsonObject expectedDataset = jsonParser.parse("{}").getAsJsonObject();
 
-        final HttpResponse<Datasets> response = ApiClient.set().timeseries("nmcu").getDatasets();
+        final HttpResponse<Records> response = ApiClient.set().timeseries("nmcu").getDatasets();
 
         //final HttpResponse<String> response = get(apiServerUrl + "/timeseries/nmcu/dataset").asString();
 
@@ -102,7 +100,7 @@ public class GetByIdAcceptanceTest extends BaseAcceptanceTest {
                 .getJson(dataDir, "timeseries_in_specific_dataset.json")
                 .getAsJsonObject();
 
-        final HttpResponse<Timeserieses> response = ApiClient.set().dataset("ukea").getTimeseries();
+        final HttpResponse<Records> response = ApiClient.set().dataset("ukea").getTimeseries();
         //final HttpResponse<String> response = get(apiServerUrl + "/dataset/ukea/timeseries").asString();
 
         final JsonObject actualTimeseries = jsonParser.parse(gson.toJson(response.getBody())).getAsJsonObject();
@@ -122,7 +120,7 @@ public class GetByIdAcceptanceTest extends BaseAcceptanceTest {
                 .getJson(dataDir, "specific_timeseries_in_specific_dataset.json")
                 .getAsJsonObject();
 
-        final HttpResponse<Timeseries> response = ApiClient.set().dataset("UKEA").getTimeseries("M9LE");
+        final HttpResponse<Record> response = ApiClient.set().dataset("UKEA").getTimeseries("M9LE");
 
         //final HttpResponse<String> response = get(apiServerUrl + "/dataset/UKEA/timeseries/M9LE").asString();
 
@@ -143,7 +141,7 @@ public class GetByIdAcceptanceTest extends BaseAcceptanceTest {
                 .getJson(dataDir, "specific_timeseries_in_specific_dataset.json")
                 .getAsJsonObject();
 
-        final HttpResponse<Timeseries> response = ApiClient.set().dataset("UKEA").getTimeseries("M9LE");
+        final HttpResponse<Record> response = ApiClient.set().dataset("UKEA").getTimeseries("M9LE");
 
         //final HttpResponse<String> response = get(apiServerUrl + "/timeseries/M9LE/dataset/UKEA").asString();
 

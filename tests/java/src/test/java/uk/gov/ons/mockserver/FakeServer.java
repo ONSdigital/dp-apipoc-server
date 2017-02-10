@@ -38,6 +38,10 @@ public class FakeServer {
         mockGetJsonObject("/api/dataset/" + datasetId + "/timeseries", startIndex, pageSize, body);
     }
 
+    public void mockSearch(String term, Integer startIndex, Integer pageSize, String body) {
+        mockGetJsonObject("/api/search", term, startIndex, pageSize, body);
+    }
+
     private void mockGetJsonObject(String path, Integer startIndex, Integer pageSize, String body) {
         mockServer.when(
                         request()
@@ -48,6 +52,27 @@ public class FakeServer {
                                         new Parameter("limit", pageSize.toString())
                                 )
                 )
+                .respond(
+                        response()
+                                .withStatusCode(200)
+                                .withHeaders(
+                                        new Header("Content-Type", "application/json; charset=utf-8")
+                                )
+                                .withBody(body)
+                );
+    }
+
+    private void mockGetJsonObject(String path, String param, Integer startIndex, Integer pageSize, String body) {
+        mockServer.when(
+                request()
+                        .withMethod("GET")
+                        .withPath(path)
+                        .withQueryStringParameters(
+                                new Parameter("q", param),
+                                new Parameter("start", startIndex.toString()),
+                                new Parameter("limit", pageSize.toString())
+                        )
+        )
                 .respond(
                         response()
                                 .withStatusCode(200)

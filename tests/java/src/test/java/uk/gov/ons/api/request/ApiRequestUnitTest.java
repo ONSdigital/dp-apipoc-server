@@ -1,14 +1,14 @@
-package uk.gov.ons.api;
+package uk.gov.ons.api.request;
 
 import com.mashape.unirest.http.HttpResponse;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
 import org.mockserver.integration.ClientAndServer;
+import uk.gov.ons.api.BaseUnitTest;
 import uk.gov.ons.api.exception.ApiClientException;
 import uk.gov.ons.api.exception.IllegalParameterException;
-import uk.gov.ons.api.model.Datasets;
-import uk.gov.ons.api.model.Timeseries;
-import uk.gov.ons.api.model.Timeserieses;
+import uk.gov.ons.api.model.Record;
+import uk.gov.ons.api.model.Records;
 import uk.gov.ons.mockserver.FakeServer;
 
 import java.util.concurrent.TimeUnit;
@@ -18,9 +18,11 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockserver.integration.ClientAndServer.startClientAndServer;
 
-public class ApiClientUnitTest extends BaseUnitTest {
+public class ApiRequestUnitTest extends BaseUnitTest {
     private ClientAndServer mockServer;
     private FakeServer fakeServer;
+    
+    private final ApiRequest apiRequest = new ApiRequest();
 
     @Rule
     public final ExpectedException exception = ExpectedException.none();
@@ -47,9 +49,9 @@ public class ApiClientUnitTest extends BaseUnitTest {
                 dsFile
         );
 
-        final Datasets expectedDatasets = gson.fromJson(dsFile, Datasets.class);
+        final Records expectedDatasets = gson.fromJson(dsFile, Records.class);
 
-        final HttpResponse<Datasets> response = ApiClient.set().getDatasets();
+        final HttpResponse<Records> response = apiRequest.getDatasets();
 
         assertThat(response.getBody(), is(expectedDatasets));
     }
@@ -63,9 +65,9 @@ public class ApiClientUnitTest extends BaseUnitTest {
                 dsFile
         );
 
-        final Datasets expectedDatasets = gson.fromJson(dsFile, Datasets.class);
+        final Records expectedDatasets = gson.fromJson(dsFile, Records.class);
 
-        final HttpResponse<Datasets> response = ApiClient.set().startIndex(3).getDatasets();
+        final HttpResponse<Records> response = apiRequest.startIndex(3).getDatasets();
 
         assertThat(response.getBody(), is(expectedDatasets));
     }
@@ -79,9 +81,9 @@ public class ApiClientUnitTest extends BaseUnitTest {
                 dsFile
         );
 
-        final Datasets expectedDatasets = gson.fromJson(dsFile, Datasets.class);
+        final Records expectedDatasets = gson.fromJson(dsFile, Records.class);
 
-        final HttpResponse<Datasets> response = ApiClient.set().itemsPerPage(2).getDatasets();
+        final HttpResponse<Records> response = apiRequest.itemsPerPage(2).getDatasets();
 
         assertThat(response.getBody(), is(expectedDatasets));
     }
@@ -95,9 +97,9 @@ public class ApiClientUnitTest extends BaseUnitTest {
                 dsFile
         );
 
-        final Datasets expectedDatasets = gson.fromJson(dsFile, Datasets.class);
+        final Records expectedDatasets = gson.fromJson(dsFile, Records.class);
 
-        final HttpResponse<Datasets> response = ApiClient.set().startIndex(3).itemsPerPage(4).getDatasets();
+        final HttpResponse<Records> response = apiRequest.startIndex(3).itemsPerPage(4).getDatasets();
 
         assertThat(response.getBody(), is(expectedDatasets));
     }
@@ -111,9 +113,9 @@ public class ApiClientUnitTest extends BaseUnitTest {
                 dsFile
         );
 
-        final Timeserieses expectedTimeserieses = gson.fromJson(dsFile, Timeserieses.class);
+        final Records expectedTimeserieses = gson.fromJson(dsFile, Records.class);
 
-        final HttpResponse<Timeserieses> response = ApiClient.set().getTimeseries();
+        final HttpResponse<Records> response = apiRequest.getTimeseries();
 
         assertThat(response.getBody(), is(expectedTimeserieses));
     }
@@ -123,9 +125,9 @@ public class ApiClientUnitTest extends BaseUnitTest {
         final String dsFile = jsonReader.readFile(unitScenarios + "/metadata", "specific_datasets.json");
         fakeServer.mockGetDataset("ashe:%20table%206", 0, 7, dsFile);
 
-        final Datasets expectedDatasets = gson.fromJson(dsFile, Datasets.class);
+        final Records expectedDatasets = gson.fromJson(dsFile, Records.class);
 
-        final HttpResponse<Datasets> response = ApiClient.set().itemsPerPage(7).dataset("ASHE: Table 6").getDatasets();
+        final HttpResponse<Records> response = apiRequest.itemsPerPage(7).dataset("ASHE: Table 6").getDatasets();
 
         assertThat(response.getBody(), is(expectedDatasets));
     }
@@ -138,9 +140,9 @@ public class ApiClientUnitTest extends BaseUnitTest {
                 dsFile
         );
 
-        final Timeserieses expectedTimeseries = gson.fromJson(dsFile, Timeserieses.class);
+        final Records expectedTimeseries = gson.fromJson(dsFile, Records.class);
 
-        final HttpResponse<Timeserieses> response = ApiClient.set().timeseries("FCCS").getTimeseries();
+        final HttpResponse<Records> response = apiRequest.timeseries("FCCS").getTimeseries();
 
         assertThat(response.getBody(), is(expectedTimeseries));
     }
@@ -155,9 +157,9 @@ public class ApiClientUnitTest extends BaseUnitTest {
                 dsFile
         );
 
-        final Timeserieses expectedTimeserieses = gson.fromJson(dsFile, Timeserieses.class);
+        final Records expectedTimeserieses = gson.fromJson(dsFile, Records.class);
 
-        final HttpResponse<Timeserieses> response = ApiClient.set().dataset("UKEA").getTimeseries();
+        final HttpResponse<Records> response = apiRequest.dataset("UKEA").getTimeseries();
 
         assertThat(response.getBody(), is(expectedTimeserieses));
     }
@@ -176,11 +178,28 @@ public class ApiClientUnitTest extends BaseUnitTest {
                 dsFile
         );
 
-        final Timeseries expectedTimeseries = gson.fromJson(dsFile, Timeseries.class);
+        final Record expectedTimeseries = gson.fromJson(dsFile, Record.class);
 
-        final HttpResponse<Timeseries> response = ApiClient.set().dataset("UKEA").getTimeseries("FCCS");
+        final HttpResponse<Record> response = apiRequest.dataset("UKEA").getTimeseries("FCCS");
 
         assertThat(response.getBody(), is(expectedTimeseries));
+    }
+
+    @Test
+    public void shouldGetMatchingTimeseriesWhenISearch() throws Exception {
+        final String dsFile = jsonReader.readFile(unitScenarios + "/metadata", "search.json");
+        fakeServer.mockSearch(
+                "travel",
+                0,
+                5,
+                dsFile
+        );
+
+        final Records expectedTimeserieses = gson.fromJson(dsFile, Records.class);
+
+        final HttpResponse<Records> response = apiRequest.search("Travel");
+
+        assertThat(response.getBody(), is(expectedTimeserieses));
     }
 
     @Test
@@ -188,7 +207,7 @@ public class ApiClientUnitTest extends BaseUnitTest {
         exception.expect(ApiClientException.class);
         exception.expectMessage(containsString("dataset is not set"));
 
-        ApiClient.set().getTimeseries("FCCS");
+        apiRequest.getTimeseries("FCCS");
     }
 
     @Test
@@ -196,7 +215,7 @@ public class ApiClientUnitTest extends BaseUnitTest {
         exception.expect(IllegalParameterException.class);
         exception.expectMessage(containsString("Negative parameters not allowed"));
 
-        ApiClient.set().startIndex(-3).itemsPerPage(4).getDatasets();
+        apiRequest.startIndex(-3).itemsPerPage(4).getDatasets();
     }
 
     @Test
@@ -204,7 +223,7 @@ public class ApiClientUnitTest extends BaseUnitTest {
         exception.expect(IllegalParameterException.class);
         exception.expectMessage(containsString("Negative parameters not allowed"));
 
-        ApiClient.set().startIndex(3).itemsPerPage(-4).getDatasets();
+        apiRequest.startIndex(3).itemsPerPage(-4).getDatasets();
     }
 
     @Test
@@ -212,7 +231,7 @@ public class ApiClientUnitTest extends BaseUnitTest {
         exception.expect(IllegalParameterException.class);
         exception.expectMessage(containsString("Negative parameters not allowed"));
 
-        ApiClient.set().startIndex(-3).itemsPerPage(-4).getDatasets();
+        apiRequest.startIndex(-3).itemsPerPage(-4).getDatasets();
     }
-
+    
 }
