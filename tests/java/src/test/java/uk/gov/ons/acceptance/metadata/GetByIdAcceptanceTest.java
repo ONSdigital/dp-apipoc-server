@@ -7,15 +7,19 @@ import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Narrative;
 import net.thucydides.core.annotations.Title;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import uk.gov.ons.acceptance.BaseAcceptanceTest;
 import uk.gov.ons.api.ApiClient;
+import uk.gov.ons.api.exception.ApiClientException;
 import uk.gov.ons.api.model.Record;
 import uk.gov.ons.api.model.Records;
 
 import static java.util.Collections.singletonList;
 import static org.apache.http.HttpStatus.SC_OK;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -27,6 +31,9 @@ import static org.junit.Assert.assertThat;
 @RunWith(SerenityRunner.class)
 public class GetByIdAcceptanceTest extends BaseAcceptanceTest {
     private final String dataDir = acceptanceScenarios + "/metadata";
+
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
 
     @Test
     @Title("Given that data sets exist with identifiers" +
@@ -152,5 +159,16 @@ public class GetByIdAcceptanceTest extends BaseAcceptanceTest {
         assertThat(actualTimeseries, is(expectedTimeseries));
     }
 
+    @Test
+    @Title("Given that dataset is not set" +
+            "<br>When I request a specific time series in a specific data set" +
+            "<br>Then an exception should be thrown" +
+            "<hr>")
+    public void shouldThrowExceptionWhenSpecificTimeSeriesInSpecificDatasetIsRequestedWithoutSettingDataset() throws Exception {
+        exception.expect(ApiClientException.class);
+        exception.expectMessage(containsString("dataset is not set"));
+
+        ApiClient.set().getTimeseries("M9LE");
+    }
 
 }

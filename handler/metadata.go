@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"errors"
 	"net/http"
 	"strconv"
 
@@ -144,11 +145,19 @@ func (mh MetadataHandler) parsePageParameters(r *http.Request) (int, int, HasErr
 			log.ErrorR(r, e1, nil)
 			hasErrors = true
 		}
+		if startIndex < 0 {
+			log.ErrorR(r, errors.New("Invalid starting index: must be positive integer"), nil)
+			hasErrors = true
+		}
 	}
 	if limit != "" {
 		pageSize, e2 = strconv.Atoi(limit)
 		if e2 != nil {
 			log.ErrorR(r, e2, nil)
+			hasErrors = true
+		}
+		if pageSize < 0 {
+			log.ErrorR(r, errors.New("Invalid page size: must be positive integer"), nil)
 			hasErrors = true
 		}
 	}
