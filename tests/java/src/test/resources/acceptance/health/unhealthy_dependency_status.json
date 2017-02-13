@@ -1,8 +1,0 @@
-{
-  "applicationName": "Anthill - POC API Server",
-  "dependencies": {
-    "elasticsearch": {
-      "status": "NOT_AVAILABLE"
-    }
-  }
-}

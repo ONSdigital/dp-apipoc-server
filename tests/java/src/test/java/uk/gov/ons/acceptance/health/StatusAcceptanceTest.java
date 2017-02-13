@@ -64,26 +64,4 @@ public class StatusAcceptanceTest extends BaseAcceptanceTest {
         assertThat(response.getHeaders().get(CONTENT_TYPE), is(singletonList(APPLICATION_JSON)));
         assertThat(actualStatus, is(expectedStatus));
     }
-
-    @Ignore
-    @Test
-    @Title("Given that the API application is running" +
-            "<br>And a dependency is not healthy" +
-            "<br>When I request it's status" +
-            "<br>Then a status report of application including the unhealthy dependencies should be returned" +
-            "<hr>")
-    public void shouldReportFailedDependency() throws Exception {
-        final JsonObject expectedStatus = jsonReader.getJson(
-                acceptanceScenarios + "/health",
-                "unhealthy_dependency_status.json"
-        ).getAsJsonObject();
-
-        final HttpResponse<String> response = get(apiServerUrl + "/ops/status").asString();
-
-        final JsonObject actualStatus = jsonParser.parse(response.getBody()).getAsJsonObject();
-
-        assertThat(response.getStatus(), is(SC_OK));
-        assertThat(response.getHeaders().get(CONTENT_TYPE), is(singletonList(APPLICATION_JSON)));
-        assertThat(actualStatus, is(expectedStatus));
-    }
 }
