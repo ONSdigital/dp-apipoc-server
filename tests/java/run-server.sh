@@ -10,6 +10,6 @@ export API_APP_PORT=3000
 export ELASTICSEARCH_ROOT=http://localhost:9200
 export ZEBEDEE_ROOT=http://localhost:8082
 export WEBSITE_ROOT=https://www.ons.gov.uk
-export USE_WEBSITE=false
+export USE_WEBSITE=true
 
 go run $(pwd)/../../main.go
