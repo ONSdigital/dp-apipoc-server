@@ -10,18 +10,16 @@ import (
 
 type ElasticService interface {
 	Ping() (model.Response, error)
-	GetPagedData(document string, start int, limit int) (model.Response, error)
-	GetDataById(document string, field string, dataId string) (model.Response, error)
-	GetPagedDataById(document string, field string, dataId string, start int, limit int) (model.Response, error)
+	GetByType(document string, start int, limit int) (model.Response, error)
+	GetById(document string, field string, dataId string, start int, limit int) (model.Response, error)
 	GetSpecificTimeSeriesSpecificDataset(datasetId string, timeseriesId string) (model.Response, error)
 	SearchData(term string, start int, limit int) (model.Response, error)
 
 	buildItem(query *elastic.SearchService) (model.Response, error)
 	buildItems(query *elastic.SearchService, start int, limit int) (model.Response, error)
 
-	buildPagedQuery(document string, start int, limit int) *elastic.SearchService
-	buildFieldQuery(document string, field string, term string) *elastic.SearchService
-	buildPagedFieldQuery(document string, field string, term string, start int, limit int) *elastic.SearchService
+	buildQueryByType(document string, start int, limit int) *elastic.SearchService
+	buildQueryByField(document string, field string, term string, start int, limit int) *elastic.SearchService
 	buildSearchQuery(term string, start int, limit int) *elastic.SearchService
 
 	executeQuery(query *elastic.SearchService) ([]interface{}, int64, error)
@@ -53,12 +51,6 @@ func (s *service) Ping() (model.Response, error) {
 	return model.Response{Code: model.OK, Body: &model.ElasticStatus{Status: "RUNNING", StatusCode: c, PingResponse: res}}, nil
 }
 
-func (s *service) GetDataById(document string, field string, dataId string) (model.Response, error) {
-	query := s.buildFieldQuery(document, field, dataId)
-
-	return s.buildItem(query)
-}
-
 func (s *service) GetSpecificTimeSeriesSpecificDataset(datasetId string, timeseriesId string) (model.Response, error) {
 	qs := elastic.NewBoolQuery().
 		Must(elastic.NewMatchQuery("description.datasetId", datasetId)).
@@ -73,14 +65,14 @@ func (s *service) GetSpecificTimeSeriesSpecificDataset(datasetId string, timeser
 	return s.buildItem(query)
 }
 
-func (s *service) GetPagedData(document string, start int, limit int) (model.Response, error) {
-	query := s.buildPagedQuery(document, start, limit)
+func (s *service) GetByType(document string, start int, limit int) (model.Response, error) {
+	query := s.buildQueryByType(document, start, limit)
 
 	return s.buildItems(query, start, limit)
 }
 
-func (s *service) GetPagedDataById(document string, field string, dataId string, start int, limit int) (model.Response, error) {
-	query := s.buildPagedFieldQuery(document, field, dataId, start, limit)
+func (s *service) GetById(document string, field string, dataId string, start int, limit int) (model.Response, error) {
+	query := s.buildQueryByField(document, field, dataId, start, limit)
 
 	return s.buildItems(query, start, limit)
 }
@@ -156,20 +148,7 @@ func (s *service) executeQuery(query *elastic.SearchService) ([]interface{}, int
 
 }
 
-func (s *service) buildFieldQuery(document string, field string, term string) *elastic.SearchService {
-	qs := elastic.NewBoolQuery().
-		Must(elastic.NewMatchQuery(field, term))
-
-	// qs := elastic.NewConstantScoreQuery(elastic.NewTermQuery(field, term))
-
-	return s.elasticClient.Search().
-		Index("ons").
-		Type(document).
-		Query(qs).
-		Sort("uri", true)
-}
-
-func (s *service) buildPagedQuery(document string, start int, limit int) *elastic.SearchService {
+func (s *service) buildQueryByType(document string, start int, limit int) *elastic.SearchService {
 	return s.elasticClient.Search().
 		Index("ons").
 		Type(document).
@@ -178,7 +157,7 @@ func (s *service) buildPagedQuery(document string, start int, limit int) *elasti
 		Size(limit)
 }
 
-func (s *service) buildPagedFieldQuery(document string, field string, term string, start int, limit int) *elastic.SearchService {
+func (s *service) buildQueryByField(document string, field string, term string, start int, limit int) *elastic.SearchService {
 	qs := elastic.NewBoolQuery().
 		Must(elastic.NewMatchQuery(field, term))
 

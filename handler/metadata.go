@@ -28,7 +28,7 @@ func (mh MetadataHandler) GetDatasets(w http.ResponseWriter, r *http.Request, p 
 	if hasErrors == true {
 		w.WriteHeader(http.StatusBadRequest)
 	} else {
-		elasticRes, err := mh.elasticService.GetPagedData("dataset", startIndex, pageSize)
+		elasticRes, err := mh.elasticService.GetByType("dataset", startIndex, pageSize)
 
 		logOut(r, err)
 
@@ -42,7 +42,7 @@ func (mh MetadataHandler) GetTimeseries(w http.ResponseWriter, r *http.Request, 
 	if hasErrors == true {
 		w.WriteHeader(http.StatusBadRequest)
 	} else {
-		elasticRes, err := mh.elasticService.GetPagedData("timeseries", startIndex, pageSize)
+		elasticRes, err := mh.elasticService.GetByType("timeseries", startIndex, pageSize)
 
 		logOut(r, err)
 
@@ -56,7 +56,7 @@ func (mh MetadataHandler) GetSpecificDataset(w http.ResponseWriter, r *http.Requ
 	if hasErrors == true {
 		w.WriteHeader(http.StatusBadRequest)
 	} else {
-		elasticRes, err := mh.elasticService.GetPagedDataById("dataset", "description.datasetId", p.ByName("datasetId"), startIndex, pageSize)
+		elasticRes, err := mh.elasticService.GetById("dataset", "description.datasetId", p.ByName("datasetId"), startIndex, pageSize)
 
 		logOut(r, err)
 
@@ -70,7 +70,7 @@ func (mh MetadataHandler) GetSpecificTimeseries(w http.ResponseWriter, r *http.R
 	if hasErrors == true {
 		w.WriteHeader(http.StatusBadRequest)
 	} else {
-		elasticRes, err := mh.elasticService.GetPagedDataById("timeseries", "description.cdid", p.ByName("timeseriesId"), startIndex, pageSize)
+		elasticRes, err := mh.elasticService.GetById("timeseries", "description.cdid", p.ByName("timeseriesId"), startIndex, pageSize)
 
 		logOut(r, err)
 
@@ -84,7 +84,7 @@ func (mh MetadataHandler) GetSpecificDatasetTimeSeries(w http.ResponseWriter, r 
 	if hasErrors == true {
 		w.WriteHeader(http.StatusBadRequest)
 	} else {
-		elasticRes, err := mh.elasticService.GetPagedDataById("timeseries", "description.datasetId", p.ByName("datasetId"), startIndex, pageSize)
+		elasticRes, err := mh.elasticService.GetById("timeseries", "description.datasetId", p.ByName("datasetId"), startIndex, pageSize)
 
 		logOut(r, err)
 
@@ -98,7 +98,7 @@ func (mh MetadataHandler) GetSpecificTimeseriesDatasets(w http.ResponseWriter, r
 	if hasErrors == true {
 		w.WriteHeader(http.StatusBadRequest)
 	} else {
-		elasticRes, err := mh.elasticService.GetPagedDataById("dataset", "description.cdid", p.ByName("timeseriesId"), startIndex, pageSize)
+		elasticRes, err := mh.elasticService.GetById("dataset", "description.cdid", p.ByName("timeseriesId"), startIndex, pageSize)
 
 		logOut(r, err)
 
