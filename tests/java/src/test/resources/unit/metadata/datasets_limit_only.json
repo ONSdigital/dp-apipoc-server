@@ -1,7 +1,7 @@
 {
-  "items_per_page": 2,
-  "start_index": 0,
-  "total_items": 11,
+  "startIndex": 0,
+  "itemsPerPage": 2,
+  "totalItems": 11,
   "items": [
     {
       "uri": "/economy/nationalaccounts/uksectoraccounts/datasets/unitedkingdomeconomicaccountsbalanceofpaymentscurrentaccount/current",

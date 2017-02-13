@@ -1,7 +1,7 @@
 {
-  "items_per_page": 5,
-  "start_index": 3,
-  "total_items": 11,
+  "startIndex": 3,
+  "itemsPerPage": 5,
+  "totalItems": 11,
   "items": [
     {
       "uri": "/economy/nationalaccounts/uksectoraccounts/datasets/unitedkingdomeconomicaccountsflowoffunds/current",

@@ -1,7 +1,7 @@
 {
-  "start_index": 3,
-  "items_per_page": 5,
-  "total_items": 3196,
+  "startIndex": 3,
+  "itemsPerPage": 5,
+  "totalItems": 3196,
   "items": [
     {
       "uri": "/businessindustryandtrade/business/businessinnovation/datasets/foreigndirectinvestmentinvolvingukcompaniesoutwardtables/current",

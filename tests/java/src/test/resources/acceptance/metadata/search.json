@@ -1,7 +1,7 @@
 {
-  "start_index": 0,
-  "items_per_page": 5,
-  "total_items": 119,
+  "startIndex": 0,
+  "itemsPerPage": 5,
+  "totalItems": 119,
   "items": [
     {
       "uri": "/economy/economicoutputandproductivity/output/timeseries/l4wr/ios1",

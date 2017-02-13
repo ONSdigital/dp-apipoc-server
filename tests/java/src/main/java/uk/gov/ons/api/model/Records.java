@@ -1,15 +1,10 @@
 package uk.gov.ons.api.model;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 public class Records {
-    @SerializedName("start_index")
     private Integer startIndex;
-    @SerializedName("items_per_page")
     private Integer itemsPerPage;
-    @SerializedName("total_items")
     private Integer totalItems;
     private List<Record> items;
 

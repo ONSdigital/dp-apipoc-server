@@ -1,7 +1,7 @@
 {
-  "items_per_page": 4,
-  "start_index": 3,
-  "total_items": 42679,
+  "startIndex": 3,
+  "itemsPerPage": 4,
+  "totalItems": 42679,
   "items": [
     {
       "uri": "/businessindustryandtrade/changestobusiness/mergersandacquisitions/timeseries/cbaq/am",

@@ -2,9 +2,9 @@ package model
 
 type (
 	Items struct {
-		ItemsPerPage int           `json:"items_per_page"`
-		StartIndex   int           `json:"start_index"`
-		TotalItems   int64         `json:"total_items"`
+		StartIndex   int           `json:"startIndex"`
+		ItemsPerPage int           `json:"itemsPerPage"`
+		TotalItems   int64         `json:"totalItems"`
 		Items        []interface{} `json:"items"`
 	}
 )

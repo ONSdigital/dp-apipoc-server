@@ -1,7 +1,7 @@
 {
-  "items_per_page": 5,
-  "start_index": 0,
-  "total_items": 86,
+  "startIndex": 0,
+  "itemsPerPage": 5,
+  "totalItems": 86,
   "items": [
     {
       "uri": "/economy/governmentpublicsectorandtaxes/publicsectorfinance/timeseries/adak/ukea",

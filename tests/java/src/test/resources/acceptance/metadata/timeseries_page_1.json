@@ -1,7 +1,7 @@
 {
-  "start_index": 0,
-  "items_per_page": 5,
-  "total_items": 42679,
+  "startIndex": 0,
+  "itemsPerPage": 5,
+  "totalItems": 42679,
   "items": [
     {
       "uri": "/businessindustryandtrade/changestobusiness/mergersandacquisitions/timeseries/aiha/am",
