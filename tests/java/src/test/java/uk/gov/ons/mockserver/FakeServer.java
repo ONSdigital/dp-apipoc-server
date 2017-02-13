@@ -42,6 +42,10 @@ public class FakeServer {
         mockGetJsonObject("/api/search", term, startIndex, pageSize, body);
     }
 
+    public void mockGetData(String datasetId, String timeseriesId, String body) {
+        mockGetJsonObject("/api/dataset/" + datasetId + "/timeseries/" + timeseriesId + "/data", body);
+    }
+
     private void mockGetJsonObject(String path, Integer startIndex, Integer pageSize, String body) {
         mockServer.when(
                         request()

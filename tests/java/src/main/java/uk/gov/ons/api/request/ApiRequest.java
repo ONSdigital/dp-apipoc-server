@@ -10,6 +10,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import uk.gov.ons.api.common.Encoder;
 import uk.gov.ons.api.common.InstantConverter;
 import uk.gov.ons.api.exception.ApiClientException;
+import uk.gov.ons.api.model.Data;
 import uk.gov.ons.api.model.Record;
 import uk.gov.ons.api.model.Records;
 import uk.gov.ons.api.validation.Validator;
@@ -68,20 +69,20 @@ public class ApiRequest {
     }
 
     public ApiRequest dataset(final String dataset) {
-        this.dataset = dataset;
+        this.dataset = dataset.trim().toLowerCase();
         return this;
     }
 
     public ApiRequest timeseries(final String timeseries) {
-        this.timeseries = timeseries;
+        this.timeseries = timeseries.trim().toLowerCase();
         return this;
     }
 
     public HttpResponse<Records> getDatasets() throws ApiClientException {
         try {
             final String uri = isBlank(timeseries) ?
-                    "/dataset" + (isBlank(dataset) ? "" : "/" + ENCODER.encodeUriComponent(dataset.trim().toLowerCase())) :
-                    "/timeseries/" + timeseries.trim().toLowerCase() + "/dataset";
+                    "/dataset" + (isBlank(dataset) ? "" : "/" + ENCODER.encodeUriComponent(dataset)) :
+                    "/timeseries/" + timeseries + "/dataset";
 
             return get(BASE_URL + uri)
                     .queryString("start", start)
@@ -95,8 +96,8 @@ public class ApiRequest {
     public HttpResponse<Records> getTimeseries() throws ApiClientException {
         try {
             final String uri = isBlank(dataset) ?
-                    "/timeseries" + (isBlank(timeseries) ? "" : "/" + ENCODER.encodeUriComponent(timeseries.trim().toLowerCase())) :
-                    "/dataset/" + dataset.trim().toLowerCase() + "/timeseries";
+                    "/timeseries" + (isBlank(timeseries) ? "" : "/" + ENCODER.encodeUriComponent(timeseries)) :
+                    "/dataset/" + dataset + "/timeseries";
 
             return get(BASE_URL + uri)
                     .queryString("start", start)
@@ -119,7 +120,7 @@ public class ApiRequest {
         try {
             VALIDATOR.validateParameter("dataset", dataset);
 
-            final String uri = "/dataset/" + dataset.trim().toLowerCase() + "/timeseries/" + id.trim().toLowerCase();
+            final String uri = "/dataset/" + dataset + "/timeseries/" + id.trim().toLowerCase();
 
             return get(BASE_URL + uri).asObject(Record.class);
         } catch (UnirestException e) {
@@ -139,5 +140,17 @@ public class ApiRequest {
         }
     }
 
+    public HttpResponse<Data> getData() throws ApiClientException {
+        try {
+            VALIDATOR.validateParameter("dataset", dataset);
+            VALIDATOR.validateParameter("timeseries", timeseries);
+
+            final String uri = "/dataset/" + dataset + "/timeseries/" + timeseries + "/data";
+
+            return get(BASE_URL + uri).asObject(Data.class);
+        } catch (UnirestException e) {
+            throw new ApiClientException(e);
+        }
+    }
 
 }

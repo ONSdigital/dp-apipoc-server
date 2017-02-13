@@ -11,10 +11,10 @@ public abstract class BaseAcceptanceTest extends BaseTest {
     protected final String apiServerUrl = "http://localhost:3000/api";
 
     @ClassRule
-    public static final EnvironmentVariables environmentVariables = new EnvironmentVariables();
+    public static final EnvironmentVariables ENVIRONMENT_VARIABLES = new EnvironmentVariables();
 
     @BeforeClass
     public static void prepare() {
-        environmentVariables.set("TEST_SERVER_ROOT_URL", "http://localhost:3000/api");
+        ENVIRONMENT_VARIABLES.set("TEST_SERVER_ROOT_URL", "http://localhost:3000/api");
     }
 }

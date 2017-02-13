@@ -7,6 +7,7 @@ import org.mockserver.integration.ClientAndServer;
 import uk.gov.ons.api.BaseUnitTest;
 import uk.gov.ons.api.exception.ApiClientException;
 import uk.gov.ons.api.exception.IllegalParameterException;
+import uk.gov.ons.api.model.Data;
 import uk.gov.ons.api.model.Record;
 import uk.gov.ons.api.model.Records;
 import uk.gov.ons.mockserver.FakeServer;
@@ -233,5 +234,45 @@ public class ApiRequestUnitTest extends BaseUnitTest {
 
         apiRequest.startIndex(-3).itemsPerPage(-4).getDatasets();
     }
-    
+
+    @Test
+    public void shouldGetData() throws Exception {
+        final String dsFile = jsonReader.readFile(unitScenarios + "/data", "fccs_ukea.json");
+        fakeServer.mockGetData(
+                "ukea",
+                "fccs",
+                dsFile
+        );
+
+        final Data expectedData = gson.fromJson(dsFile, Data.class);
+
+        final HttpResponse<Data> response = apiRequest.dataset("UKEA").timeseries("FCCS").getData();
+
+        assertThat(response.getBody(), is(expectedData));
+    }
+
+    @Test
+    public void shouldRejectGetDataRequestWhenDatasetAndTimeseriesAreNotSet() throws Exception {
+        exception.expect(ApiClientException.class);
+        exception.expectMessage(containsString("dataset is not set"));
+
+        apiRequest.getData();
+    }
+
+    @Test
+    public void shouldRejectGetDataRequestWhenDatasetIsSetAndTimeseriesIsNotSet() throws Exception {
+        exception.expect(ApiClientException.class);
+        exception.expectMessage(containsString("timeseries is not set"));
+
+        apiRequest.dataset("UKEA").getData();
+    }
+
+    @Test
+    public void shouldRejectGetDataRequestWhenDatasetIsNotSetAndTimeseriesIsSet() throws Exception {
+        exception.expect(ApiClientException.class);
+        exception.expectMessage(containsString("dataset is not set"));
+
+        apiRequest.timeseries("FCCS").getData();
+    }
+
 }

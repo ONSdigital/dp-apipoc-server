@@ -21,6 +21,7 @@ public class Description {
     private String source;
     private String date;
     private String number;
+    private String keyNote;
     private String sampleSize;
     private String versionLabel;
 
@@ -160,6 +161,14 @@ public class Description {
         this.number = number;
     }
 
+    public String getKeyNote() {
+        return keyNote;
+    }
+
+    public void setKeyNote(String keyNote) {
+        this.keyNote = keyNote;
+    }
+
     public String getSampleSize() {
         return sampleSize;
     }
@@ -202,6 +211,7 @@ public class Description {
         if (source != null ? !source.equals(that.source) : that.source != null) return false;
         if (date != null ? !date.equals(that.date) : that.date != null) return false;
         if (number != null ? !number.equals(that.number) : that.number != null) return false;
+        if (keyNote != null ? !keyNote.equals(that.keyNote) : that.keyNote != null) return false;
         if (sampleSize != null ? !sampleSize.equals(that.sampleSize) : that.sampleSize != null) return false;
         return versionLabel != null ? versionLabel.equals(that.versionLabel) : that.versionLabel == null;
     }
@@ -226,6 +236,7 @@ public class Description {
         result = prime * result + (source != null ? source.hashCode() : 0);
         result = prime * result + (date != null ? date.hashCode() : 0);
         result = prime * result + (number != null ? number.hashCode() : 0);
+        result = prime * result + (keyNote != null ? keyNote.hashCode() : 0);
         result = prime * result + (sampleSize != null ? sampleSize.hashCode() : 0);
         result = prime * result + (versionLabel != null ? versionLabel.hashCode() : 0);
         return result;
@@ -251,6 +262,7 @@ public class Description {
                 ", source='" + source + '\'' +
                 ", date='" + date + '\'' +
                 ", number='" + number + '\'' +
+                ", keyNote='" + keyNote + '\'' +
                 ", sampleSize='" + sampleSize + '\'' +
                 ", versionLabel='" + versionLabel + '\'' +
                 '}';
