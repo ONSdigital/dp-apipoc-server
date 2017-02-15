@@ -20,7 +20,7 @@ task acceptanceTest(type: Test) {
     doFirst {
         println 'Starting API Server ...'
         process = new ProcessBuilder().inheritIO()
-                .command("./run-server.sh")
+                .command("./start-server.sh")
                 .start()
 
         // Wait for the server to come up
