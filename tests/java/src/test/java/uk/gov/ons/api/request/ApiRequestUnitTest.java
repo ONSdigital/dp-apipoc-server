@@ -12,8 +12,10 @@ import uk.gov.ons.api.model.Record;
 import uk.gov.ons.api.model.Records;
 import uk.gov.ons.mockserver.FakeServer;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
+import static java.util.concurrent.CompletableFuture.supplyAsync;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -273,6 +275,38 @@ public class ApiRequestUnitTest extends BaseUnitTest {
         exception.expectMessage(containsString("dataset is not set"));
 
         apiRequest.timeseries("FCCS").getData();
+    }
+
+    @Ignore
+    @Test
+    public void should() {
+        final CompletableFuture<HttpResponse<Data>> httpResponseCompletableFuture = supplyAsync(() -> {
+            try {
+                return apiRequest.dataset("UKEA").timeseries("FCCS").getData();
+            } catch (ApiClientException e) {
+                throw new RuntimeException();
+            }
+        });
+
+        final CompletableFuture<HttpResponse<Records>> httpResponseCompletableFuture1 = supplyAsync(() -> {
+            try {
+                return apiRequest.dataset("UKEA").getTimeseries();
+            } catch (ApiClientException e) {
+                throw new RuntimeException();
+            }
+        });
+
+        final CompletableFuture<HttpResponse<Records>> httpResponseCompletableFuture2 = supplyAsync(() -> {
+            try {
+                return apiRequest.getDatasets();
+            } catch (ApiClientException e) {
+                throw new RuntimeException();
+            }
+        });
+
+
+
+
     }
 
 }
