@@ -24,7 +24,9 @@ task acceptanceTest(type: Test) {
                 .start()
 
         // Wait for the server to come up
-        sleep(10*1000)
+        println 'Waiting for Server to start up ...'
+        sleep(60*1000)
+        println 'Waited for 60 sec'
     }
 
     beforeTest { descriptor ->

@@ -41,10 +41,10 @@ public class DataAcceptanceTest extends BaseAcceptanceTest {
             "<hr>")
     public void shouldGetDataWhenRecordExits() throws Exception {
         final JsonObject expectedData = jsonReader
-                .getJson(dataDir, "chaw_mm23.json")
+                .getJson(dataDir, "abml_ukea.json")
                 .getAsJsonObject();
 
-        final HttpResponse<Data> response = ApiClient.set().dataset("MM23").timeseries("CHAW").getData();
+        final HttpResponse<Data> response = ApiClient.set().dataset("UKEA").timeseries("ABML").getData();
 
         final JsonObject actualData = jsonParser.parse(gson.toJson(response.getBody())).getAsJsonObject();
 
