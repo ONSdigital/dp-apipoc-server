@@ -31,4 +31,4 @@ tasks.withType(Compile) {
     options.compilerArgs << "-Xlint:deprecation"
 }
 
-defaultTasks 'clean','publishTest'
+defaultTasks 'clean','allTests'

@@ -19,14 +19,24 @@ task acceptanceTest(type: Test) {
 
     doFirst {
         println 'Starting API Server ...'
+        def start = System.currentTimeMillis()
         process = new ProcessBuilder().inheritIO()
                 .command("./start-server.sh")
                 .start()
 
-        // Wait for the server to come up
-        println 'Waiting for Server to start up ...'
-        sleep(60*1000)
-        println 'Waited for 60 sec'
+        def ready = false
+        while (!ready) {
+            sleep(10*1000)
+            try {
+                new Socket("localhost", 3000)
+                ready = true
+            } catch (IOException ignored) {
+                ready = false
+            }
+        }
+
+        def duration = (System.currentTimeMillis() - start)/1000
+        println 'Server start up took ' + duration + ' seconds'
     }
 
     beforeTest { descriptor ->
@@ -38,7 +48,7 @@ task acceptanceTest(type: Test) {
 }
 
 task tearDown {
-    doLast{
+    doLast {
         println 'finalize'
         process.destroy()
 
