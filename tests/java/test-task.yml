@@ -1,0 +1,12 @@
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+      repository: dockerfile/java
+      tag: 'latest'
+inputs:
+  - name: sources
+outputs:
+  - name: test-report
+run:
+  path: ./sources/tests/java/test.sh
