@@ -3,8 +3,8 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-      repository: dockerfile/java
-      tag: 'oracle-java8'
+      repository: nitram509/alpine-oraclejdk8-maven-cmake-gcc
+      tag: latest
 inputs:
   - name: sources
 outputs:
