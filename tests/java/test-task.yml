@@ -10,5 +10,5 @@ inputs:
 outputs:
   - name: test-report
 run:
-  path: test.sh
+  path: ./test.sh
   dir: ./sources/tests/java
