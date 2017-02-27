@@ -11,3 +11,4 @@ outputs:
   - name: test-report
 run:
   path: ./sources/tests/java/test.sh
+  dir: ./sources/tests/java
