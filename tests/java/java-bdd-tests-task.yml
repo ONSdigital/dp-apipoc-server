@@ -3,12 +3,33 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-      repository: sem247/dp-apipoc-devtools
-      tag: "1.0.1"
+    repository: amidos/dcind
 inputs:
 - name: project-src
+- name: devtools
+- name: elasticns
 outputs:
 - name: test-report
 run:
-  path: ./bdd-test.sh
-  dir: ./project-src/tests/java
+  path: sh
+  args:
+    - -exc
+    - |
+      source /docker-lib.sh
+      start_docker
+      # Strictly speaking, preloading of the image is not required. However you might want it for a couple of reasons:
+      # - If the image is from a private repository, it is much easier to let concourse pull it, and then pass it through to the task.
+      # - When the image is passed to the task, Concourse can often get the image from its cache.
+      docker load -i devtools/image
+      docker tag "$(cat devtools/image-id)" "$(cat devtools/repository):$(cat devtools/tag)"
+      docker load -i elasticns/image
+      docker tag "$(cat elasticns/image-id)" "$(cat elasticns/repository):$(cat elasticns/tag)"
+      # This is just to visually check in the log that image have been loaded successfully.
+      docker images
+      # Run the tests container and its dependencies.
+      docker-compose -f project-src/tests/java/bdd.yml run tests
+      # Cleanup.
+      # Not sure that this is required.
+      # It's quite possible that Concourse is smart enough to clean up the Docker mess itself.
+      docker-compose -f project-src/tests/java/bdd.yml down
+      docker volume rm $(docker volume ls -q)
