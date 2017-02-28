@@ -58,6 +58,10 @@ task tearDown {
     }
 }
 
+task bddTests(type: GradleBuild) {
+    tasks = ['acceptanceTest', 'aggregate']
+}
+
 task allTests(type: GradleBuild) {
     tasks = ['unitTest', 'acceptanceTest', 'aggregate']
 }

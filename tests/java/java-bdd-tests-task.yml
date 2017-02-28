@@ -10,5 +10,5 @@ inputs:
 outputs:
 - name: test-report
 run:
-  path: ./unit-test.sh
+  path: ./bdd-test.sh
   dir: ./project-src/tests/java
