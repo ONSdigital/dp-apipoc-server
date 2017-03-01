@@ -32,3 +32,13 @@ tasks.withType(Compile) {
 }
 
 defaultTasks 'clean','allTests'
+
+version = '1.0.0'
+
+jar {
+    archiveName "ons-apipoc-client-$version" + ".jar"
+    manifest {
+        attributes 'Implementation-Title': 'POC API Server',
+                'Implementation-Version': version
+    }
+}
