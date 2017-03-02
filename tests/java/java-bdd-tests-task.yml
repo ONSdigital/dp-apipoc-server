@@ -27,7 +27,7 @@ run:
       # This is just to visually check in the log that image have been loaded successfully.
       docker images
       # Run the tests container and its dependencies.
-      docker-compose -f project-src/tests/java/bdd.yml run bdd-tests
+      docker-compose -f project-src/tests/java/bdd.yml run devtools:0.0.1
       # Cleanup.
       # Not sure that this is required.
       # It's quite possible that Concourse is smart enough to clean up the Docker mess itself.
