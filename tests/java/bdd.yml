@@ -1,9 +1,8 @@
 version: "2"
 
 services:
-  elasticns:
+  elasticsearch:
     image: elasticns:2.4.3_1
-    container_name: elasticsearch
     ports:
       - "9200:9200"
       - "9300:9300"
