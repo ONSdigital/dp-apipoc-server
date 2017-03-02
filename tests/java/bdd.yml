@@ -3,6 +3,7 @@ version: "2"
 services:
   elasticns:
     image: elasticns:2.4.3_1
+    container_name: elasticsearch
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -10,5 +11,5 @@ services:
   bdd-tests:
     image: devtools:0.0.1
     depends_on:
-      - elasticns
+      - elasticsearch
     command: /project-src/tests/java/bdd-test.sh
