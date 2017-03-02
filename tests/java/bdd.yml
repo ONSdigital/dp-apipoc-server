@@ -10,7 +10,7 @@ services:
 
   tests:
     image: devtools:0.0.1
-    container_name: mytests
+    container_name: bdd-tests
     depends_on:
       - elasticns
-    command: "true"
+    command: /project-src/tests/java/bdd-test.sh
