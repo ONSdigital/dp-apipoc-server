@@ -1,4 +1,3 @@
-FROM apipoc-devkit
 FROM sem247/devtools:1.0.0
 
 WORKDIR /project/src/github.com/ONSdigital
