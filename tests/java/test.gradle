@@ -1,5 +1,3 @@
-def process
-
 task unitTests(type: Test) {
     include '**/*UnitTest.*'
 
@@ -14,47 +12,11 @@ task unitTests(type: Test) {
 task acceptanceTest(type: Test) {
     include '**/*AcceptanceTest.*'
 
-    //http://issues.gradle.org/browse/GRADLE-1254
-    finalizedBy 'tearDown'
-
-    doFirst {
-        println 'Starting API Server ...'
-        def start = System.currentTimeMillis()
-        process = new ProcessBuilder().inheritIO()
-                .command("./start-server.sh")
-                .start()
-
-        def ready = false
-        while (!ready) {
-            sleep(10*1000)
-            try {
-                new Socket("localhost", 3000)
-                ready = true
-            } catch (IOException ignored) {
-                ready = false
-            }
-        }
-
-        def duration = (System.currentTimeMillis() - start)/1000
-        println 'Server start up took ' + duration + ' seconds'
-    }
-
     beforeTest { descriptor ->
         logger.lifecycle("Running test: " + descriptor)
     }
     onOutput { descriptor, event ->
         logger.lifecycle("Test: " + descriptor + ":" + event.message)
-    }
-}
-
-task tearDown {
-    doLast {
-        println 'finalize'
-        process.destroy()
-
-        new ProcessBuilder().inheritIO()
-                .command("./stop-server.sh")
-                .start()
     }
 }
 

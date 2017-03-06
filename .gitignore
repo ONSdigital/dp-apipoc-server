@@ -5,13 +5,11 @@
 *.ipr
 *.iws
 .idea
-out/
 
 # Target directories
 target/
 build/
 .gradle/
-classes/
 
 # Build metadata
 build-progess.meta

@@ -1,0 +1,22 @@
+version: "2"
+
+services:
+  bdd-elasticns:
+    image: sem247/elasticns:2.4.3_1
+
+  bdd-zbdreader:
+    image: sem247/zbdreader:1.0.0
+
+  bdd-tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ci-bdd-tests
+    depends_on:
+    - bdd-elasticns
+    - bdd-zbdreader
+    ports:
+    - "3000:3000"
+    environment:
+    - ELASTICSEARCH_ROOT=http://bdd-elasticns:9200
+    - ZEBEDEE_ROOT=http://bdd-zbdreader:8082

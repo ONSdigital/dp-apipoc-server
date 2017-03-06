@@ -1,0 +1,33 @@
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: amidos/dcind
+inputs:
+- name: project-src
+- name: elasticns
+- name: zbdreader
+- name: devtools
+outputs:
+- name: test-report
+run:
+  path: sh
+  args:
+    - -exc
+    - |
+      source /docker-lib.sh
+      start_docker
+      docker load -i elasticns/image
+      docker tag "$(cat elasticns/image-id)" "$(cat elasticns/repository):$(cat elasticns/tag)"
+      docker load -i zbdreader/image
+      docker tag "$(cat zbdreader/image-id)" "$(cat zbdreader/repository):$(cat zbdreader/tag)"
+      docker load -i devtools/image
+      docker tag "$(cat devtools/image-id)" "$(cat devtools/repository):$(cat devtools/tag)"
+      docker images
+      # Run the tests container and its dependencies.
+      docker-compose -f project-src/docker-compose-tests.yml build
+      docker-compose -f project-src/docker-compose-tests.yml run bdd-tests
+      # Cleanup.
+      docker-compose -f project-src/docker-compose-tests.yml down
+      docker volume rm $(docker volume ls -q)
