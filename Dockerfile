@@ -1,4 +1,4 @@
-FROM sem247/devtools:1.0.0
+FROM sem247/dp-apipoc-devtools:1.0.0
 
 WORKDIR /project/src/github.com/ONSdigital
 
