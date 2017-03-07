@@ -10,7 +10,7 @@ services:
   bdd-tests:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-tests
     image: ci-bdd-tests
     depends_on:
     - bdd-elasticns

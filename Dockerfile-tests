@@ -1,0 +1,18 @@
+FROM sem247/dp-apipoc-devtools:1.0.1
+
+WORKDIR /project/src/github.com/ONSdigital
+
+RUN git clone https://github.com/ONSdigital/dp-apipoc-server.git
+
+ENV API_APP_PORT=3000
+ENV WEBSITE_ROOT=https://www.ons.gov.uk
+ENV USE_WEBSITE=false
+
+ENV GOPATH=/project
+ENV PATH $PATH:$GOPATH/bin
+
+EXPOSE 3000
+
+WORKDIR /project/src/github.com/ONSdigital/dp-apipoc-server
+
+CMD ["sh", "run-tests.sh"]
