@@ -17,3 +17,5 @@ tests/java/waitforit/wait-for-it.sh -t 0 -h localhost -p 3000
 cd tests/java
 
 gradle clean bddTests
+
+kill $(lsof -n -i :3000 | awk '/LISTEN/ {print $2}')
