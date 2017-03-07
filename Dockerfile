@@ -2,7 +2,7 @@ FROM sem247/dp-apipoc-devtools:1.0.0
 
 WORKDIR /project/src/github.com/ONSdigital
 
-RUN git clone https://github.com/ONSdigital/dp-apipoc-spec.git
+RUN git clone https://github.com/ONSdigital/dp-apipoc-server.git
 
 #COPY handler /project/src/github.com/ONSdigital/dp-apipoc-server/handler
 #COPY model /project/src/github.com/ONSdigital/dp-apipoc-server/model
@@ -24,4 +24,4 @@ EXPOSE 3000
 
 WORKDIR /project/src/github.com/ONSdigital/dp-apipoc-server
 
-CMD ["sleep", "1m"]
+CMD ["sh", "run-tests.sh"]
