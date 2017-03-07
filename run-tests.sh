@@ -18,4 +18,8 @@ cd tests/java
 
 gradle clean bddTests
 
+tests_result=$?
+
 kill $(lsof -n -i :3000 | awk '/LISTEN/ {print $2}')
+
+return $tests_result
