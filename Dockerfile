@@ -24,4 +24,4 @@ EXPOSE 3000
 
 WORKDIR /project/src/github.com/ONSdigital/dp-apipoc-server
 
-CMD ["sh", "./run-tests.sh"]
+CMD ["sleep", "1m"]
