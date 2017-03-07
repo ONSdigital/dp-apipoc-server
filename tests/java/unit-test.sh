@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./gradlew clean unitTests
+gradle clean unitTests
