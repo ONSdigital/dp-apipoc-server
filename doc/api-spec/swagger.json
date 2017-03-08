@@ -1,0 +1,644 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Office for National Statistics API",
+        "description": "The description of what this API is about goes here!",
+        "version": "1.0.0"
+    },
+    "host": "api.ons.gov.uk",
+    "schemes": [
+        "https"
+    ],
+    "basePath": "/",
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/dataset": {
+            "get": {
+                "summary": "Listing of datasets",
+                "description": "Returns a list of datasets.\nThis endpoint supports pagination per the below parameters.\n",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/startingIndex"
+                    },
+                    {
+                        "$ref": "#/parameters/pageSize"
+                    }
+                ],
+                "tags": [
+                    "Dataset"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The returned datasets when successful",
+                        "schema": {
+                            "$ref": "#/definitions/Records"
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/responses/ResourceDoesNotExistResponse"
+                    },
+                    "500": {
+                        "$ref": "#/responses/Standard500ErrorResponse"
+                    }
+                }
+            }
+        },
+        "/dataset/{dataset_id}": {
+            "get": {
+                "summary": "Listing of metadata for a specific datasets",
+                "description": "Returns a listing of the metadata for a specified datasets",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/datasetId"
+                    },
+                    {
+                        "$ref": "#/parameters/startingIndex"
+                    },
+                    {
+                        "$ref": "#/parameters/pageSize"
+                    }
+                ],
+                "tags": [
+                    "Specific Datasets Metadata"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The specified dataset's metadata",
+                        "schema": {
+                            "$ref": "#/definitions/Records"
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/responses/ResourceDoesNotExistResponse"
+                    },
+                    "500": {
+                        "$ref": "#/responses/Standard500ErrorResponse"
+                    }
+                }
+            }
+        },
+        "/dataset/{dataset_id}/timeseries": {
+            "get": {
+                "summary": "Listing of time series in a specific dataset",
+                "description": "Returns a list of time series in a specified dataset.\nThis endpoint supports pagination per the below parameters.\n",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/startingIndex"
+                    },
+                    {
+                        "$ref": "#/parameters/pageSize"
+                    },
+                    {
+                        "$ref": "#/parameters/datasetId"
+                    }
+                ],
+                "tags": [
+                    "Dataset's Time Series"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of time series in the specified dataset",
+                        "schema": {
+                            "$ref": "#/definitions/Records"
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/responses/ResourceDoesNotExistResponse"
+                    },
+                    "500": {
+                        "$ref": "#/responses/Standard500ErrorResponse"
+                    }
+                }
+            }
+        },
+        "/dataset/{dataset_id}/timeseries/{timeseries_id}": {
+            "get": {
+                "summary": "Metadata of a specific time series in a specific dataset",
+                "description": "Returns the metadata of a specified time series in a specified dataset.\n",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/datasetId"
+                    },
+                    {
+                        "$ref": "#/parameters/timeseriesId"
+                    }
+                ],
+                "tags": [
+                    "Dataset Time Series Metadata"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The specified time series' metadata in the specified dataset",
+                        "schema": {
+                            "$ref": "#/definitions/Metadata"
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/responses/ResourceDoesNotExistResponse"
+                    },
+                    "500": {
+                        "$ref": "#/responses/Standard500ErrorResponse"
+                    }
+                }
+            }
+        },
+        "/dataset/{dataset_id}/timeseries/{timeseries_id}/data": {
+            "get": {
+                "summary": "A specific time series's data",
+                "description": "Returns data of the specified dataset and time series.\n",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/datasetId"
+                    },
+                    {
+                        "$ref": "#/parameters/timeseriesId"
+                    }
+                ],
+                "tags": [
+                    "Time Series Data"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The specified time series' data in the specified dataset.",
+                        "schema": {
+                            "$ref": "#/definitions/Data"
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/responses/ResourceDoesNotExistResponse"
+                    },
+                    "500": {
+                        "$ref": "#/responses/Standard500ErrorResponse"
+                    }
+                }
+            }
+        },
+        "/timeseries": {
+            "get": {
+                "summary": "Listing of time series metadata",
+                "description": "Returns listing of time series metadata.\nThis endpoint supports pagination per the below parameters.\n",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/startingIndex"
+                    },
+                    {
+                        "$ref": "#/parameters/pageSize"
+                    }
+                ],
+                "tags": [
+                    "Time Series"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of time series",
+                        "schema": {
+                            "$ref": "#/definitions/Records"
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/responses/ResourceDoesNotExistResponse"
+                    },
+                    "500": {
+                        "$ref": "#/responses/Standard500ErrorResponse"
+                    }
+                }
+            }
+        },
+        "/timeseries/{timeseries_id}": {
+            "get": {
+                "summary": "Listing of metadata for a specific time series",
+                "description": "Returns a listing of metadata for a specific time series.\nThis endpoint supports pagination per the below parameters.\n",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/timeseriesId"
+                    },
+                    {
+                        "$ref": "#/parameters/startingIndex"
+                    },
+                    {
+                        "$ref": "#/parameters/pageSize"
+                    }
+                ],
+                "tags": [
+                    "Specific Time Series Metadata"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Metadata of the specified time series",
+                        "schema": {
+                            "$ref": "#/definitions/Records"
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/responses/ResourceDoesNotExistResponse"
+                    },
+                    "500": {
+                        "$ref": "#/responses/Standard500ErrorResponse"
+                    }
+                }
+            }
+        },
+        "/timeseries/{timeseries_id}/dataset": {
+            "get": {
+                "summary": "Listing of datasets a specific time series belongs to",
+                "description": "Returns the list of datasets the specified time series belongs to.\nThis endpoint supports pagination per the below parameters.\n",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/startingIndex"
+                    },
+                    {
+                        "$ref": "#/parameters/pageSize"
+                    },
+                    {
+                        "$ref": "#/parameters/timeseriesId"
+                    }
+                ],
+                "tags": [
+                    "Time Series Datasets"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of datasets the time series belongs to",
+                        "schema": {
+                            "$ref": "#/definitions/Records"
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/responses/ResourceDoesNotExistResponse"
+                    },
+                    "500": {
+                        "$ref": "#/responses/Standard500ErrorResponse"
+                    }
+                }
+            }
+        },
+        "/timeseries/{timeseries_id}/dataset/{dataset_id}": {
+            "get": {
+                "summary": "Metadata of a specific time series in a specific dataset",
+                "description": "Returns the metadata of a specified time series in a specified dataset.\n",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/datasetId"
+                    },
+                    {
+                        "$ref": "#/parameters/timeseriesId"
+                    }
+                ],
+                "tags": [
+                    "Dataset Time Series Metadata"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The specified time series' metadata in the specified dataset",
+                        "schema": {
+                            "$ref": "#/definitions/Metadata"
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/responses/ResourceDoesNotExistResponse"
+                    },
+                    "500": {
+                        "$ref": "#/responses/Standard500ErrorResponse"
+                    }
+                }
+            }
+        },
+        "/search": {
+            "get": {
+                "summary": "Search dataset/time series",
+                "description": "Returns the search results of dataset/time series search.\nThis endpoint supports pagination per the below parameters.\n",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/keyword"
+                    },
+                    {
+                        "$ref": "#/parameters/startingIndex"
+                    },
+                    {
+                        "$ref": "#/parameters/pageSize"
+                    }
+                ],
+                "tags": [
+                    "Search"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The fetch results",
+                        "schema": {
+                            "$ref": "#/definitions/Records"
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/responses/ResourceDoesNotExistResponse"
+                    },
+                    "500": {
+                        "$ref": "#/responses/Standard500ErrorResponse"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Records": {
+            "title": "The dataset",
+            "type": "object",
+            "properties": {
+                "startIndex": {
+                    "type": "integer",
+                    "description": "Index of the starting item"
+                },
+                "itemsPerPage": {
+                    "type": "integer",
+                    "description": "Number of items returned in a page of response"
+                },
+                "totalItems": {
+                    "type": "integer",
+                    "description": "The total number of items in dataset"
+                },
+                "items": {
+                    "description": "The dataset items",
+                    "minItems": 0,
+                    "uniqueItems": true,
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Metadata"
+                    }
+                }
+            }
+        },
+        "Metadata": {
+            "title": "The metadata model",
+            "type": "object",
+            "properties": {
+                "uri": {
+                    "type": "string",
+                    "description": "The metadata's URI"
+                },
+                "type": {
+                    "type": "string",
+                    "description": "Type of metadata"
+                },
+                "description": {
+                    "$ref": "#/definitions/MetadataDescription"
+                },
+                "searchBoost": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "MetadataDescription": {
+            "title": "An object describing the metadata",
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "description": "The metadata's title"
+                },
+                "summary": {
+                    "type": "string",
+                    "description": "A summary of the metadata"
+                },
+                "keywords": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "metaDescription": {
+                    "type": "string"
+                },
+                "nationalStatistics": {
+                    "type": "boolean"
+                },
+                "contact": {
+                    "type": "object",
+                    "properties": {
+                        "email": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "telephone": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "realeaseDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "nextRelease": {
+                    "type": "string"
+                },
+                "edition": {
+                    "type": "string"
+                },
+                "datasetId": {
+                    "type": "string"
+                },
+                "datasetUri": {
+                    "type": "string"
+                },
+                "cdid": {
+                    "type": "string"
+                },
+                "unit": {
+                    "type": "string"
+                },
+                "preUnit": {
+                    "type": "string"
+                },
+                "source": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "number": {
+                    "type": "string"
+                },
+                "keyNote": {
+                    "type": "string"
+                },
+                "sampleSize": {
+                    "type": "string"
+                }
+            }
+        },
+        "Data": {
+            "title": "The data",
+            "type": "object",
+            "properties": {
+                "years": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Period"
+                    }
+                },
+                "quarters": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Period"
+                    }
+                },
+                "months": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Period"
+                    }
+                },
+                "relatedDatasets": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "uri": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "relatedDocuments": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "uri": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "relatedData": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "uri": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "versions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Version"
+                    }
+                },
+                "type": {
+                    "type": "string"
+                },
+                "uri": {
+                    "type": "string"
+                },
+                "description": {
+                    "$ref": "#/definitions/MetadataDescription"
+                }
+            }
+        },
+        "Period": {
+            "title": "Time frame",
+            "type": "object",
+            "properties": {
+                "date": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "year": {
+                    "type": "string"
+                },
+                "month": {
+                    "type": "string"
+                },
+                "quarter": {
+                    "type": "string"
+                },
+                "sourceDataset": {
+                    "type": "string"
+                },
+                "updateDate": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "Version": {
+            "title": "T",
+            "type": "object",
+            "properties": {
+                "uri": {
+                    "type": "string"
+                },
+                "updateDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "correctionNotice": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "responses": {
+        "Standard500ErrorResponse": {
+            "description": "An unexpected error occured"
+        },
+        "ResourceDoesNotExistResponse": {
+            "description": "The requested resource does not exist"
+        }
+    },
+    "parameters": {
+        "startingIndex": {
+            "name": "start",
+            "in": "query",
+            "description": "Index of first result item",
+            "required": false,
+            "type": "integer",
+            "default": 0
+        },
+        "pageSize": {
+            "name": "limit",
+            "in": "query",
+            "description": "The maximum number of items to include in the response (page)",
+            "required": false,
+            "type": "integer",
+            "default": 50
+        },
+        "datasetId": {
+            "name": "dataset_id",
+            "in": "path",
+            "description": "ID of the dataset being requested",
+            "required": true,
+            "type": "string"
+        },
+        "timeseriesId": {
+            "name": "timeseries_id",
+            "in": "path",
+            "description": "ID of the time series being requested",
+            "required": true,
+            "type": "string"
+        },
+        "keyword": {
+            "name": "q",
+            "in": "query",
+            "description": "The fetch term",
+            "required": true,
+            "type": "string"
+        }
+    }
+}

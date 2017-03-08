@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e -u -x
+
 echo "Ensuring upstream services are up and running..."
 tests/java/waitforit/wait-for-it.sh -t 0 -h bdd-elasticns -p 9200
 tests/java/waitforit/wait-for-it.sh -t 0 -h bdd-zbdreader -p 8082

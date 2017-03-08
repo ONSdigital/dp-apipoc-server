@@ -1,9 +1,5 @@
 FROM sem247/dp-apipoc-devtools:1.0.1
 
-#WORKDIR /project/src/github.com/ONSdigital
-
-#RUN git clone https://github.com/ONSdigital/dp-apipoc-server.git
-
 COPY handler /project/src/github.com/ONSdigital/dp-apipoc-server/handler
 COPY model /project/src/github.com/ONSdigital/dp-apipoc-server/model
 COPY routing /project/src/github.com/ONSdigital/dp-apipoc-server/routing
