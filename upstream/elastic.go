@@ -41,7 +41,7 @@ type service struct {
 }
 
 func (s *service) Ping() (model.Response, error) {
-	res, c, err := s.elasticClient.Ping("http://localhost:9200").Do()
+	res, c, err := s.elasticClient.Ping(s.url).Do()
 
 	if err != nil {
 		log.Error(err, nil)

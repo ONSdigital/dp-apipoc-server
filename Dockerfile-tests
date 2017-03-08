@@ -1,8 +1,17 @@
 FROM sem247/dp-apipoc-devtools:1.0.1
 
-WORKDIR /project/src/github.com/ONSdigital
+#WORKDIR /project/src/github.com/ONSdigital
 
-RUN git clone https://github.com/ONSdigital/dp-apipoc-server.git
+#RUN git clone https://github.com/ONSdigital/dp-apipoc-server.git
+
+COPY handler /project/src/github.com/ONSdigital/dp-apipoc-server/handler
+COPY model /project/src/github.com/ONSdigital/dp-apipoc-server/model
+COPY routing /project/src/github.com/ONSdigital/dp-apipoc-server/routing
+COPY upstream /project/src/github.com/ONSdigital/dp-apipoc-server/upstream
+COPY vendor /project/src/github.com/ONSdigital/dp-apipoc-server/vendor
+COPY tests /project/src/github.com/ONSdigital/dp-apipoc-server/tests
+COPY main.go /project/src/github.com/ONSdigital/dp-apipoc-server
+COPY run-tests.sh /project/src/github.com/ONSdigital/dp-apipoc-server
 
 ENV API_APP_PORT=3000
 ENV WEBSITE_ROOT=https://www.ons.gov.uk
