@@ -108,14 +108,6 @@ public class ApiRequest {
         }
     }
 
-    public HttpResponse<Record> getDataset(final String id) throws ApiClientException {
-        try {
-            return get(BASE_URL + "/dataset/" + id.trim().toLowerCase()).asObject(Record.class);
-        } catch (UnirestException e) {
-            throw new ApiClientException(e);
-        }
-    }
-
     public HttpResponse<Record> getTimeseries(final String id) throws ApiClientException {
         try {
             VALIDATOR.validateParameter("dataset", dataset);
