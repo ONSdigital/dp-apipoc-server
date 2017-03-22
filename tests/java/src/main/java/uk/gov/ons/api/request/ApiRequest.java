@@ -28,7 +28,6 @@ public class ApiRequest {
     private String timeseries;
 
     private static String BASE_URL;
-    private static final String ONS_WEBSITE_URL = "https://www.ons.gov.uk.api";
 
     private static final Validator VALIDATOR = new Validator();
     private static final Encoder ENCODER = new Encoder();
@@ -52,8 +51,7 @@ public class ApiRequest {
             }
         });
 
-        final String testServerRootUrl = System.getenv("TEST_SERVER_ROOT_URL");
-        BASE_URL = testServerRootUrl != null && !testServerRootUrl.trim().isEmpty() ? testServerRootUrl : ONS_WEBSITE_URL;
+        BASE_URL = System.getenv("API_SERVER_ROOT");
     }
 
     public ApiRequest startIndex(final Integer start) {
@@ -85,6 +83,7 @@ public class ApiRequest {
                     "/timeseries/" + timeseries + "/dataset";
 
             return get(BASE_URL + uri)
+                    .header("Accepts", "application/json")
                     .queryString("start", start)
                     .queryString("limit", limit)
                     .asObject(Records.class);
@@ -100,6 +99,7 @@ public class ApiRequest {
                     "/dataset/" + dataset + "/timeseries";
 
             return get(BASE_URL + uri)
+                    .header("Accepts", "application/json")
                     .queryString("start", start)
                     .queryString("limit", limit)
                     .asObject(Records.class);
@@ -114,7 +114,9 @@ public class ApiRequest {
 
             final String uri = "/dataset/" + dataset + "/timeseries/" + id.trim().toLowerCase();
 
-            return get(BASE_URL + uri).asObject(Record.class);
+            return get(BASE_URL + uri)
+                    .header("Accepts", "application/json")
+                    .asObject(Record.class);
         } catch (UnirestException e) {
             throw new ApiClientException(e);
         }
@@ -123,6 +125,7 @@ public class ApiRequest {
     public HttpResponse<Records> search(final String term) throws ApiClientException {
         try {
             return get(BASE_URL + "/search")
+                    .header("Accepts", "application/json")
                     .queryString("q", term.trim().toLowerCase())
                     .queryString("start", start)
                     .queryString("limit", limit)
@@ -139,7 +142,9 @@ public class ApiRequest {
 
             final String uri = "/dataset/" + dataset + "/timeseries/" + timeseries + "/data";
 
-            return get(BASE_URL + uri).asObject(Data.class);
+            return get(BASE_URL + uri)
+                    .header("Accepts", "application/json")
+                    .asObject(Data.class);
         } catch (UnirestException e) {
             throw new ApiClientException(e);
         }

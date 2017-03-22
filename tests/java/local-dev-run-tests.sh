@@ -8,6 +8,8 @@ docker run --name dp-api-zebedee -p 8082:8082 -d sem247/zbdreader:1.0.0
 waitforit/wait-for-it.sh -t 0 -h localhost -p 9200
 waitforit/wait-for-it.sh -t 0 -h localhost -p 8082
 
+sleep 60
+
 export API_APP_PORT=3000
 export ELASTICSEARCH_ROOT=http://localhost:9200
 export ZEBEDEE_ROOT=http://localhost:8082

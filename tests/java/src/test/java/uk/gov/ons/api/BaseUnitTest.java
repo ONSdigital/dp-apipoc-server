@@ -13,7 +13,7 @@ public class BaseUnitTest extends BaseTest {
 
     @BeforeClass
     public static void prepare() {
-        environmentVariables.set("TEST_SERVER_ROOT_URL", "http://localhost:4040/api");
+        environmentVariables.set("API_SERVER_ROOT", "http://localhost:4040");
     }
 
 }

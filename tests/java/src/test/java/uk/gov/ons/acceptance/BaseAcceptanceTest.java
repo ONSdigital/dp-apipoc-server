@@ -8,13 +8,13 @@ import uk.gov.ons.BaseTest;
 public abstract class BaseAcceptanceTest extends BaseTest {
     protected final String acceptanceScenarios = "acceptance";
 
-    protected final String apiServerUrl = "http://localhost:3000/api";
+    protected final String apiServerUrl = "http://localhost:3000";
 
     @ClassRule
     public static final EnvironmentVariables ENVIRONMENT_VARIABLES = new EnvironmentVariables();
 
     @BeforeClass
     public static void prepare() {
-        ENVIRONMENT_VARIABLES.set("TEST_SERVER_ROOT_URL", "http://localhost:3000/api");
+        ENVIRONMENT_VARIABLES.set("API_SERVER_ROOT", "http://localhost:3000");
     }
 }

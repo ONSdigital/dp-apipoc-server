@@ -15,41 +15,44 @@ public class FakeServer {
     }
 
     public void mockGetDatasets(Integer startIndex, Integer pageSize, String body) {
-        mockGetJsonObject("/api/dataset", startIndex, pageSize, body);
+        mockGetJsonObject("/dataset", startIndex, pageSize, body);
     }
 
     public void mockGetDataset(String datasetId, Integer startIndex, Integer pageSize, String body) {
-        mockGetJsonObject("/api/dataset/" + datasetId, startIndex, pageSize, body);
+        mockGetJsonObject("/dataset/" + datasetId, startIndex, pageSize, body);
     }
 
     public void mockGetTimeseries(String timeseriesId, String body) {
-        mockGetJsonObject("/api/timeseries/" + timeseriesId, body);
+        mockGetJsonObject("/timeseries/" + timeseriesId, body);
     }
 
     public void mockGetTimeseries(String datasetId, String timeseriesId, String body) {
-        mockGetJsonObject("/api/dataset/" + datasetId + "/timeseries/" + timeseriesId, body);
+        mockGetJsonObject("/dataset/" + datasetId + "/timeseries/" + timeseriesId, body);
     }
 
     public void mockGetTimeseries(Integer startIndex, Integer pageSize, String body) {
-        mockGetJsonObject("/api/timeseries", startIndex, pageSize, body);
+        mockGetJsonObject("/timeseries", startIndex, pageSize, body);
     }
 
     public void mockGetTimeseriesInDataset(String datasetId, Integer startIndex, Integer pageSize, String body) {
-        mockGetJsonObject("/api/dataset/" + datasetId + "/timeseries", startIndex, pageSize, body);
+        mockGetJsonObject("/dataset/" + datasetId + "/timeseries", startIndex, pageSize, body);
     }
 
     public void mockSearch(String term, Integer startIndex, Integer pageSize, String body) {
-        mockGetJsonObject("/api/search", term, startIndex, pageSize, body);
+        mockGetJsonObject("/search", term, startIndex, pageSize, body);
     }
 
     public void mockGetData(String datasetId, String timeseriesId, String body) {
-        mockGetJsonObject("/api/dataset/" + datasetId + "/timeseries/" + timeseriesId + "/data", body);
+        mockGetJsonObject("/dataset/" + datasetId + "/timeseries/" + timeseriesId + "/data", body);
     }
 
     private void mockGetJsonObject(String path, Integer startIndex, Integer pageSize, String body) {
         mockServer.when(
                         request()
                                 .withMethod("GET")
+                                .withHeader(
+                                        new Header("Accepts", "application/json")
+                                )
                                 .withPath(path)
                                 .withQueryStringParameters(
                                         new Parameter("start", startIndex.toString()),
@@ -60,7 +63,8 @@ public class FakeServer {
                         response()
                                 .withStatusCode(200)
                                 .withHeaders(
-                                        new Header("Content-Type", "application/json; charset=utf-8")
+                                        new Header("Content-Type", "application/json; charset=utf-8"),
+                                        new Header("Access-Control-Allow-Origin", "*")
                                 )
                                 .withBody(body)
                 );
@@ -70,6 +74,9 @@ public class FakeServer {
         mockServer.when(
                 request()
                         .withMethod("GET")
+                        .withHeader(
+                                new Header("Accepts", "application/json")
+                        )
                         .withPath(path)
                         .withQueryStringParameters(
                                 new Parameter("q", param),
@@ -81,7 +88,8 @@ public class FakeServer {
                         response()
                                 .withStatusCode(200)
                                 .withHeaders(
-                                        new Header("Content-Type", "application/json; charset=utf-8")
+                                        new Header("Content-Type", "application/json; charset=utf-8"),
+                                        new Header("Access-Control-Allow-Origin", "*")
                                 )
                                 .withBody(body)
                 );
@@ -91,13 +99,17 @@ public class FakeServer {
         mockServer.when(
                 request()
                         .withMethod("GET")
+                        .withHeader(
+                                new Header("Accepts", "application/json")
+                        )
                         .withPath(path)
         )
                 .respond(
                         response()
                                 .withStatusCode(200)
                                 .withHeaders(
-                                        new Header("Content-Type", "application/json; charset=utf-8")
+                                        new Header("Content-Type", "application/json; charset=utf-8"),
+                                        new Header("Access-Control-Allow-Origin", "*")
                                 )
                                 .withBody(body)
                 );
