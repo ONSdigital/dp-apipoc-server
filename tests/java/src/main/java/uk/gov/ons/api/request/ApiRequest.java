@@ -83,7 +83,7 @@ public class ApiRequest {
                     "/timeseries/" + timeseries + "/dataset";
 
             return get(BASE_URL + uri)
-                    .header("Accepts", "application/json")
+                    .header("Accept", "application/json")
                     .queryString("start", start)
                     .queryString("limit", limit)
                     .asObject(Records.class);
@@ -99,7 +99,7 @@ public class ApiRequest {
                     "/dataset/" + dataset + "/timeseries";
 
             return get(BASE_URL + uri)
-                    .header("Accepts", "application/json")
+                    .header("Accept", "application/json")
                     .queryString("start", start)
                     .queryString("limit", limit)
                     .asObject(Records.class);
@@ -115,7 +115,7 @@ public class ApiRequest {
             final String uri = "/dataset/" + dataset + "/timeseries/" + id.trim().toLowerCase();
 
             return get(BASE_URL + uri)
-                    .header("Accepts", "application/json")
+                    .header("Accept", "application/json")
                     .asObject(Record.class);
         } catch (UnirestException e) {
             throw new ApiClientException(e);
@@ -125,7 +125,7 @@ public class ApiRequest {
     public HttpResponse<Records> search(final String term) throws ApiClientException {
         try {
             return get(BASE_URL + "/search")
-                    .header("Accepts", "application/json")
+                    .header("Accept", "application/json")
                     .queryString("q", term.trim().toLowerCase())
                     .queryString("start", start)
                     .queryString("limit", limit)
@@ -143,7 +143,7 @@ public class ApiRequest {
             final String uri = "/dataset/" + dataset + "/timeseries/" + timeseries + "/data";
 
             return get(BASE_URL + uri)
-                    .header("Accepts", "application/json")
+                    .header("Accept", "application/json")
                     .asObject(Data.class);
         } catch (UnirestException e) {
             throw new ApiClientException(e);

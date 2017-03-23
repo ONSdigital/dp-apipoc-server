@@ -51,7 +51,7 @@ public class FakeServer {
                         request()
                                 .withMethod("GET")
                                 .withHeader(
-                                        new Header("Accepts", "application/json")
+                                        new Header("Accept", "application/json")
                                 )
                                 .withPath(path)
                                 .withQueryStringParameters(
@@ -75,7 +75,7 @@ public class FakeServer {
                 request()
                         .withMethod("GET")
                         .withHeader(
-                                new Header("Accepts", "application/json")
+                                new Header("Accept", "application/json")
                         )
                         .withPath(path)
                         .withQueryStringParameters(
@@ -100,7 +100,7 @@ public class FakeServer {
                 request()
                         .withMethod("GET")
                         .withHeader(
-                                new Header("Accepts", "application/json")
+                                new Header("Accept", "application/json")
                         )
                         .withPath(path)
         )
