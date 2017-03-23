@@ -15,7 +15,6 @@ func writeResponse(w http.ResponseWriter, code model.Code, res interface{}) {
 
 	if statusCode == http.StatusOK {
 		w.Header().Set("Content-Type", "application/json")
-		//		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.WriteHeader(statusCode)
 		json.NewEncoder(w).Encode(res)
 	} else {
