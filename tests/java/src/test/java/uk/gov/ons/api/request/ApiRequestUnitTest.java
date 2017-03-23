@@ -33,7 +33,7 @@ public class ApiRequestUnitTest extends BaseUnitTest {
     @Before
     public void setup() throws Exception {
         mockServer = startClientAndServer(4040);
-        TimeUnit.SECONDS.sleep(1);
+        TimeUnit.SECONDS.sleep(10);
 
         fakeServer = new FakeServer(mockServer);
     }
@@ -41,6 +41,7 @@ public class ApiRequestUnitTest extends BaseUnitTest {
     @After
     public void tearDown() throws Exception {
         mockServer.stop();
+        TimeUnit.SECONDS.sleep(5);
     }
 
     @Test
