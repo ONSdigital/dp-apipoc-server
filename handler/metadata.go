@@ -1,12 +1,9 @@
 package handler
 
 import (
-	"errors"
 	"net/http"
-	"strconv"
 
 	"github.com/ONSdigital/dp-apipoc-server/upstream"
-	"github.com/ONSdigital/go-ns/log"
 	"github.com/julienschmidt/httprouter"
 )
 
@@ -23,7 +20,7 @@ func NewMetadataHandler(elasticService upstream.ElasticService) *MetadataHandler
 }
 
 func (mh MetadataHandler) GetDatasets(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	startIndex, pageSize, hasErrors := mh.parsePageParameters(r)
+	startIndex, pageSize, hasErrors := parsePageParameters(r)
 
 	if hasErrors == true {
 		w.WriteHeader(http.StatusBadRequest)
@@ -37,7 +34,7 @@ func (mh MetadataHandler) GetDatasets(w http.ResponseWriter, r *http.Request, p 
 }
 
 func (mh MetadataHandler) GetTimeseries(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	startIndex, pageSize, hasErrors := mh.parsePageParameters(r)
+	startIndex, pageSize, hasErrors := parsePageParameters(r)
 
 	if hasErrors == true {
 		w.WriteHeader(http.StatusBadRequest)
@@ -51,7 +48,7 @@ func (mh MetadataHandler) GetTimeseries(w http.ResponseWriter, r *http.Request, 
 }
 
 func (mh MetadataHandler) GetSpecificDataset(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	startIndex, pageSize, hasErrors := mh.parsePageParameters(r)
+	startIndex, pageSize, hasErrors := parsePageParameters(r)
 
 	if hasErrors == true {
 		w.WriteHeader(http.StatusBadRequest)
@@ -65,7 +62,7 @@ func (mh MetadataHandler) GetSpecificDataset(w http.ResponseWriter, r *http.Requ
 }
 
 func (mh MetadataHandler) GetSpecificTimeseries(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	startIndex, pageSize, hasErrors := mh.parsePageParameters(r)
+	startIndex, pageSize, hasErrors := parsePageParameters(r)
 
 	if hasErrors == true {
 		w.WriteHeader(http.StatusBadRequest)
@@ -79,7 +76,7 @@ func (mh MetadataHandler) GetSpecificTimeseries(w http.ResponseWriter, r *http.R
 }
 
 func (mh MetadataHandler) GetSpecificDatasetTimeSeries(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	startIndex, pageSize, hasErrors := mh.parsePageParameters(r)
+	startIndex, pageSize, hasErrors := parsePageParameters(r)
 
 	if hasErrors == true {
 		w.WriteHeader(http.StatusBadRequest)
@@ -93,7 +90,7 @@ func (mh MetadataHandler) GetSpecificDatasetTimeSeries(w http.ResponseWriter, r 
 }
 
 func (mh MetadataHandler) GetSpecificTimeseriesDatasets(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	startIndex, pageSize, hasErrors := mh.parsePageParameters(r)
+	startIndex, pageSize, hasErrors := parsePageParameters(r)
 
 	if hasErrors == true {
 		w.WriteHeader(http.StatusBadRequest)
@@ -115,7 +112,7 @@ func (mh MetadataHandler) GetSpecificTimeSeriesSpecificDataset(w http.ResponseWr
 }
 
 func (mh MetadataHandler) DoSearch(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	startIndex, pageSize, hasErrors := mh.parsePageParameters(r)
+	startIndex, pageSize, hasErrors := parsePageParameters(r)
 
 	if hasErrors == true {
 		w.WriteHeader(http.StatusBadRequest)
@@ -126,41 +123,4 @@ func (mh MetadataHandler) DoSearch(w http.ResponseWriter, r *http.Request, p htt
 
 		writeResponse(w, elasticRes.Code, elasticRes.Body)
 	}
-}
-
-func (mh MetadataHandler) parsePageParameters(r *http.Request) (int, int, HasErrors) {
-	queryValues := r.URL.Query()
-	start := queryValues.Get("start")
-	limit := queryValues.Get("limit")
-
-	var startIndex int
-	var pageSize int = 5
-	var e1 error
-	var e2 error
-	var hasErrors HasErrors
-
-	if start != "" {
-		startIndex, e1 = strconv.Atoi(start)
-		if e1 != nil {
-			log.ErrorR(r, e1, nil)
-			hasErrors = true
-		}
-		if startIndex < 0 {
-			log.ErrorR(r, errors.New("Invalid starting index: must be positive integer"), nil)
-			hasErrors = true
-		}
-	}
-	if limit != "" {
-		pageSize, e2 = strconv.Atoi(limit)
-		if e2 != nil {
-			log.ErrorR(r, e2, nil)
-			hasErrors = true
-		}
-		if pageSize < 0 {
-			log.ErrorR(r, errors.New("Invalid page size: must be positive integer"), nil)
-			hasErrors = true
-		}
-	}
-
-	return startIndex, pageSize, hasErrors
 }

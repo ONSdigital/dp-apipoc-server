@@ -21,6 +21,12 @@
 			"revisionTime": "2017-01-10T09:37:55Z"
 		},
 		{
+			"checksumSHA1": "WQK3+A7rnSSOuTINYvMedzR84pY=",
+			"path": "github.com/cznic/mathutil",
+			"revision": "1447ad269d64ca91aa8d7079baa40b6fc8b965e7",
+			"revisionTime": "2017-03-13T10:28:36Z"
+		},
+		{
 			"checksumSHA1": "GnYsUxBxUHGDBIaCeQbMdYUCzkA=",
 			"path": "github.com/jmoiron/jsonq",
 			"revision": "e874b168d07ecc7808bc950a17998a8aa3141d82",
