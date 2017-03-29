@@ -28,16 +28,16 @@ $(document).ready(function(){
 });
 </script>
 
-<div class="side-nav affix"> <!-- sidebar -->
+<div class="side-nav"> <!-- sidebar -->
     <ul class="nav nav-sidebar hide" id="navigation">
         [: if .NavigationGuides :]
-          [: if .APIs :] 
+          [: if .APIs :]
             <!-- <li class="heading heading-top">Guides</li> -->
-          [: end :] 
+          [: end :]
           [: template "fragments/sidenav_guides" . :]
-          [: if .APIs :] 
+          [: if .APIs :]
             <!-- <li class="heading">Reference</li> -->
-          [: end :] 
+          [: end :]
         [: end :]
         [: template "fragments/sidenav_reference" . :]
         [: template "fragments/sidenav_specification" . :]
