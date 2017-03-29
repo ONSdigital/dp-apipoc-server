@@ -1,0 +1,343 @@
+/*
+ * Base structure
+ */
+
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+  padding-top: 30px;  /* 50 - 20 (the padding-top of .page-header) */
+  margin-bottom:50px; /* For the footer */
+  font-family: 'Open Sans', sans-serif;
+  font-weight: normal;
+  color: #34495e;
+  font-size: 15px;
+}
+
+.debug_body {
+  margin-bottom:400px; /* For the debug footer */
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+.glyphicon {
+    width: 14px;
+    height: 14px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-family: inherit;
+  font-weight: 700;
+  line-height: 1.1;
+  color: inherit;
+}
+h1 {
+  font-size: 33px;
+}
+h2,
+.sub-header {
+  padding-top: 5px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  font-size: 23px;
+}
+h3,
+.sub-sub-header {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 20px;
+  font-weight: bold;
+}
+h4,
+.sub-sub-sub-header {
+  padding-top: 5px;
+  padding-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+h5,
+.sub-sub-sub-sub-header {
+  padding-top: 5px;
+  padding-bottom: 10px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+
+.footer {
+    z-index: 1100;
+    position: absolute;
+    padding-top:15px;
+    width: 100%;
+    left: 0px;
+    background-color: #202020;
+    color: #a8a8a8;
+    bottom: 0;
+    height: 50px;
+    margin: 0;
+}
+
+.footer-debug {
+    z-index: 1100;
+    position: absolute;
+    height: 250px;
+    width: 100%;
+    bottom: 16px;
+    padding-bottom: 15px;
+    color: #202020;
+    background-color: #e5e5e5;
+    border-top: 1px solid #eee;
+}
+
+.footer-debug > div {
+     padding-top: 0px;
+     padding-bottom: 0px;
+ }
+
+.jsonerror {
+    display: block;
+    color: #800000;
+}
+
+
+
+/*
+ * Global add-ons
+ */
+
+.page-header {
+  font-size: 34px;
+  padding-top: 20px;
+}
+/*
+ * Top navigation
+ * Hide default border to remove 1px line.
+ */
+.navbar-fixed-top {
+  border: 0;
+}
+
+/*
+ * Sidebar
+ */
+
+/* Hide for mobile, show later */
+.sidebar {
+  display: none;
+}
+@media (min-width: 768px) {
+  .sidebar {
+    position: fixed;  /* Width gets too narrow with fixed.. don't know why. See guides on index page */
+    top: 71px;
+    bottom: 0;
+    /*  left: 0; */
+    z-index: 1000;
+    display: block;
+    padding: 0 20px 20px 20px;
+    overflow-x: hidden;
+    overflow-y: auto; 
+    /* background-color: #f5f5f5; */
+    /* border-right: 1px solid #eee; */
+  }
+}
+
+.nav-toggle.open {
+     color: green; 
+    /* color: #B522B5; */
+    font-weight: bold;
+}
+.nav > li {
+    padding: 0 0 5px 0;
+}
+/* Sidebar navigation */
+.nav-sidebar {
+  margin-right: -21px; /* 20px padding + 1px border */
+  margin-bottom: 20px;
+  margin-left: -20px;
+}
+.nav-sidebar > li > a {
+  padding: 0 20px 0 14px;
+}
+
+.nav-inner > li > a {
+    font-size: 0.95em;
+    padding: 0;
+}
+.nav-toggle {
+  margin-left: -14px;
+}
+.nav a.nav-selected {
+  font-weight: bold;
+  color: #000000;
+}
+.nav-sidebar > li > h4 {
+  padding: 0 0 0 14px;
+  margin-bottom: 0px;
+  color: #000000;
+}
+.nav-sidebar > li {
+  padding: 0px 5px 5px 10px;
+}
+.nav-sidebar > li > ul {
+  padding: 4px 0 0 30px;
+  list-style: none;
+}
+.nav-sidebar > li > ul > li > ul {
+  /* padding-left: 20px; */
+  list-style: none;
+  margin: 2em 0 0 0 ;
+}
+.nav-sidebar a {
+  cursor:pointer;
+  /*color: #34495e; */
+}
+.nav a {
+  color: #34495e;
+}
+/*
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a:hover,
+.nav-sidebar > .active > a:focus {
+  color: #fff;
+  background-color: #428bca;
+}
+*/
+.nav-toggle.collapsed:before {
+    content: "▸"; /* Right caret */
+    margin-right: 5px;
+}
+.nav-toggle:not(.collapsed):before {
+    content: "▾"; /* down caret */
+    margin-right: 3px;
+}
+
+/*
+ * Main content
+ */
+.main {
+  padding: 20px;
+}
+@media (min-width: 768px) {
+  .main {
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+}
+.main .page-header {
+  margin-top: 0;
+}
+
+
+/*
+ * Placeholder dashboard ideas
+ */
+
+.placeholders {
+  margin-bottom: 30px;
+  text-align: center;
+}
+.placeholders h4 {
+  margin-bottom: 0;
+}
+.placeholder {
+  margin-bottom: 20px;
+}
+.placeholder img {
+  display: inline-block;
+  border-radius: 50%;
+}
+
+pre, code, pre code, .attribute {
+    color: #008000;
+    font-size: 0.97em; 
+}
+
+td pre {
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    font-size: 0.9em;
+    background-color: inherit;
+}
+
+li code, td p code {
+    /* background-color: #f0f0f0; */
+    background-color: inherit;
+}
+
+td p {
+    margin: 0;
+}
+
+td li {
+    font-size: 0.97em;
+}
+
+td.resource {
+    color: #008000;
+    font-family: Menlo,Monaco,Consolas,"Courier New",monospace;  
+    text-transform: none;
+    font-size: 94%
+}
+
+td span.object {
+    /* color: #2f373b; */
+    color: #a0a0a0;
+}
+
+blockquote {
+    font-size:15px;
+    color: #707070;
+}
+
+/* Allows button to be on same row as heading */
+.btn-group{
+    position: relative;
+    top: 0px;
+}
+
+.nomargin {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.bottommargin {
+    margin-top: 0px;
+}
+
+
+.status-desc {
+  font-weight: bold;
+}
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
