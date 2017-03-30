@@ -22,9 +22,9 @@ func main() {
 	log.Namespace = "dp-apipoc-server"
 
 	var port = 3000
-	var elasticUrl = "http://localhost:9200"
+	var elasticUrl = "http://127.0.0.1:9200"
 	var websiteUrl = "https://www.ons.gov.uk"
-	var zebedeeUrl = "http://localhost:8082"
+	var zebedeeUrl = "http://127.0.0.1:8082"
 	var useWebsite = false
 
 	flag.IntVar(&port, "API_APP_PORT", port, "Port number")
