@@ -19,6 +19,50 @@
     <script>hljs.initHighlightingOnLoad();</script>
 
     <title>[: if .Info.Title :][: .Info.Title :][: else :]Office for National Statistics[:end :]: [: .Title :]</title>
+
+    <style>
+        table td,
+        table th {
+            padding: 7px 16px 9px 16px;
+            vertical-align: baseline;
+        }
+
+        .table-enhanced {
+            display: table;
+            border-collapse: collapse;
+            background-color: white;
+            border-bottom: 1px solid #D0D2D3;
+            border-left: 1px solid #D0D2D3;
+            border-right: 1px solid #D0D2D3;
+        }
+
+        .table-enhanced th {
+            text-align: left;
+            position: relative;
+            background-color: #D0D2D3;
+            font-weight: 700;
+        }
+
+        .table-enhanced tr:not(:last-of-type) {
+            border-bottom: solid 1px #D0D2D3;
+        }
+        .standout-block {
+            border: solid 1px #D0D2D3;
+            padding-bottom: 16px;
+            margin-bottom: 16px;
+            background-color: white;
+        }
+
+        .standout-block-padded {
+            padding: 7px 16px 9px 16px;
+        }
+
+        .standout-block-scroll {
+            overflow-x: auto;
+        }
+
+    </style>
+
   </head>
 
   <body class="home_page js viewport-lg">
@@ -33,30 +77,35 @@
                         <h1 class="page-intro__title page-intro__title--home"><span class="page-intro__title page-intro__title--home-big">
                           Welcome to the</span> Office for National Statistics Developer Hub
                         </h1>
-                        <h2></h2>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="wrapper">
+            [: template "fragments/body" . :]
+        </div>
+      [: else :]
         <div class="page-intro background--gallery">
             <div class="wrapper">
                 <div class="col-wrap">
                     <div class="col">
-                        [: template "fragments/body" . :]
+                        <h1 class="page-intro__title margin-top--5">
+                            [: if .Info.Title :]
+                                [:.Info.Title :] reference
+                            [: else :]
+                            [: .Title :] [: .TitleSuffix :]
+                            [: end :]
+                        </h1>
+                        [: if .Method.Description :]
+                            <p class="page-intro__content">[: .Method.Description :]</p>
+                        [: end :]
                     </div>
                 </div>
             </div>
         </div>
-      [: else :]
-        <div class="page-intro background--gallery">
-          <div class="wrapper">
-            <div class="col-wrap">
-              <div class="col">
-                [: template "fragments/body" . :]
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="wrapper">
+            [: template "fragments/body" . :]
+      </div>
       [: end :]
     </main>
 
