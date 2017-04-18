@@ -3,11 +3,11 @@
   [: range $api := .APIs :]
     <li>
         <a id="toggle[: $api.ID :]" class="nav-toggle collapsed" data-toggle="collapse" data-target="#ul[: $api.ID :]">[: $api.Name :]</a> <!-- Add collapsed to make the open.close icon correct direction -->
-        <ul class="nav collapse nav-inner" id="ul[: $api.ID :]"> <!-- add collapse to, erm, collapse! WIP! -->
-          <li><a data-outer="[: $api.ID :]" href="[: $.SpecPath :]/reference/[: $api.ID :]">Summary</a></li>
+        <ul class="nav collapse nav-inner margin-top--0" id="ul[: $api.ID :]"> <!-- add collapse to, erm, collapse! WIP! -->
+          <li class="margin-top--0 margin-bottom--0"><a data-outer="[: $api.ID :]" href="[: $.SpecPath :]/reference/[: $api.ID :]">Summary</a></li>
 
           [: range $method := .Methods :]
-            <li><a data-outer="[: $api.ID :]" href="[: $.SpecPath :]/reference/[: $api.ID :]/[: $method.ID :]">[: $method.NavigationName :]</a></li>
+            <li class="margin-top--0 margin-bottom--0" ><a data-outer="[: $api.ID :]" href="[: $.SpecPath :]/reference/[: $api.ID :]/[: $method.ID :]">[: $method.NavigationName :]</a></li>
           [: end :]
         </ul>
     </li>
@@ -25,7 +25,7 @@
                 [: range $vapi := $versions :]
                   <a href="#" class="nav-toggle collapsed" data-toggle="collapse" data-target="#ul[: $v :][: $vapi.ID :]">[: $vapi.Name :]</a>
                   <ul class="nav collapse nav-inner" id="ul[: $v :][: $vapi.ID :]">
-                    <li><a data-outer="[: $v :][: $vapi.ID :]" href="[: $.SpecPath :]/reference/[: $vapi.ID :]?v=[: $v :]">Summary</a></li>
+                    <li class="margin-top--0 margin-bottom--0 items"><a data-outer="[: $v :][: $vapi.ID :]" href="[: $.SpecPath :]/reference/[: $vapi.ID :]?v=[: $v :]">Summary</a></li>
                     [: range $method := $vapi.Methods :]
                       <li><a href="[: $.SpecPath :]/reference/[: $vapi.ID :]/[: $method.ID :]?v=[: $v :]" data-outer="[: $v :][: $vapi.ID :]">[: $method.NavigationName :]</a></li>
                     [: end :]
