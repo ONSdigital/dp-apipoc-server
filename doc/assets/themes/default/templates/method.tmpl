@@ -1,14 +1,10 @@
 [: template "fragments/reference/version_header" . :]
 
-[: overlay "banner" . :]
-
-[: safehtml .Method.Description :]
-
-[: overlay "description" . :]
-
 <h2 class="sub-header">Request</h2>
 
-<pre>[: uc .Method.Method :] [: .API.URL :][: .Method.Path :]</pre>
+<div class="standout-block standout-block-padded">
+  <pre>[: uc .Method.Method :] [: .API.URL :][: .Method.Path :]</pre>
+</div>
 [: overlay "request" . :]
 
 [: if .Method.PathParams :]
@@ -54,7 +50,7 @@
 <p>The following HTTP status codes may be returned, optionally with a response resource.</p>
 
 <div class="table-responsive">
-  <table class="table table-striped">
+  <table class="table table-striped table-enhanced">
     <thead>
       <tr>
       <th>Status&nbsp;code</th>
