@@ -1,15 +1,18 @@
 <!-- Reference -->
 [: if .APIs :]
+    <li class="heading heading-top margin-top--0"><h2 class="margin-top--1">ONS API</h2></li>
   [: range $api := .APIs :]
     <li>
-        <a id="toggle[: $api.ID :]" class="nav-toggle collapsed" data-toggle="collapse" data-target="#ul[: $api.ID :]">[: $api.Name :]</a> <!-- Add collapsed to make the open.close icon correct direction -->
-        <ul class="nav collapse nav-inner margin-top--0" id="ul[: $api.ID :]"> <!-- add collapse to, erm, collapse! WIP! -->
-          <li class="margin-top--0 margin-bottom--0"><a data-outer="[: $api.ID :]" href="[: $.SpecPath :]/reference/[: $api.ID :]">Summary</a></li>
-
-          [: range $method := .Methods :]
-            <li class="margin-top--0 margin-bottom--0" ><a data-outer="[: $api.ID :]" href="[: $.SpecPath :]/reference/[: $api.ID :]/[: $method.ID :]">[: $method.NavigationName :]</a></li>
-          [: end :]
-        </ul>
+        [: $method := index $api.Methods 0 :]
+        [: if $.Method.ID :]
+            [: if eq $.Method.ID $api.ID :]
+                <span class="nav-active">[: $api.Name :]</span>
+            [: else :]
+                <a id="toggle[: $api.ID :]" class="nav-toggle collapsed" data-toggle="collapse" data-target="#ul[: $api.ID :]" href="[: $.SpecPath :]/reference/[: $api.ID :]/[: $method.ID :]">[: $api.Name :]</a> <!-- Add collapsed to make the open.close icon correct direction -->
+            [: end :]
+        [: else :]
+            <a id="toggle[: $api.ID :]" class="nav-toggle collapsed" data-toggle="collapse" data-target="#ul[: $api.ID :]" href="[: $.SpecPath :]/reference/[: $api.ID :]/[: $method.ID :]">[: $api.Name :]</a>
+        [: end :]
     </li>
   [: end :]
 [: end :]
