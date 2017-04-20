@@ -1,11 +1,11 @@
-<div class="col-wrap col-span--lg-thirds">
-    [: if not (or .APIs .NavigationGuides) :]
-    <div class="col col--md-half col--lg-three-thirds">
+<div class="col-wrap">
+    [: if or .SpecificationList .NavigationGuides :]
+    <div class="col col--lg-three-thirds">
     [: else :]
-    <div class="col col--md-half col--lg-one-third background--mercury">
+    <div class="col col--lg-one-third margin-top--4 margin-bottom-md--4">
         [: template "fragments/sidenav" . :]
     </div>
-    <div class="col col--md-half col--lg-two-thirds">
+    <div class="col col--lg-two-thirds margin-bottom--4">
     [: end :]
         [: yield :]
     </div>
