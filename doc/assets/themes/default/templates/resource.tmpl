@@ -7,9 +7,9 @@
 
 [: overlay "methods" . :]
 
-<ul class="">
+<ul class="margin-top--0 padding-left--2">
   [: range .Resource.Methods :]
-    <li><a href="[: $.SpecPath :]/reference/[: .APIGroup.ID :]/[: .ID :][: if $.Version :]?v=[: $.Version :][: end :]">[: .Method :]</a> - [: .Name :]</li>
+    <li class="margin-top--0 margin-bottom--0"><a href="[: $.SpecPath :]/reference/[: .APIGroup.ID :]/[: .ID :][: if $.Version :]?v=[: $.Version :][: end :]">[: .Method :]</a> - [: .Name :]</li>
   [: end :]
 </ul>
 
