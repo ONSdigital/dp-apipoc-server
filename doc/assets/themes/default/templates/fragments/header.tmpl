@@ -1,4 +1,9 @@
 <header>
+    <div class="beta-banner">
+        <div class="wrapper">
+            <p><span class="font-size--16"><strong style="padding: 2px 7px 3px;text-transform: uppercase;color: #fff; background-color: #323132;">Warning</strong> this is a prototype and the content may not be complete or accurate</span></p>
+        </div>
+    </div>
   <div class="wrapper">
     <div class="header col-wrap">
       <div class="col col--lg-one-third col--md-one-third">
@@ -36,12 +41,13 @@
         </ul>
         <div class="wrapper nav-main--hidden" id="nav-primary" aria-expanded="false">
             <ul class="primary-nav__list">
-                <li class="primary-nav__item [: if .SpecificationList :]primary-nav__item--active[: end :] js-nav hide--sm old-ie--display-block"><a class="primary-nav__link col col--md-7 col--lg-9" href="/">Home</a></li>
-                <li class="primary-nav__item [: if .SpecificationSummary :]primary-nav__item--active[: end :] js-nav"><a class="primary-nav__link col col--md-8 col--lg-10" href="/office-for-national-statistics-api/reference">API reference</a></li>
-                <li class="primary-nav__item js-nav"><a class="primary-nav__link col col--md-8 col--lg-10" href="#">Tutorials</a></li>
-                <li class="primary-nav__item js-nav"><a class="primary-nav__link col col--md-8 col--lg-10" href="#">Client libraries</a></li>
-                <li class="primary-nav__item js-nav"><a class="primary-nav__link col col--md-8 col--lg-10" href="#">Developer forum</a></li>
-                <li class="primary-nav__item js-nav"><a class="primary-nav__link col col--md-8 col--lg-10" href="https://github.com/ONSdigital">GitHub</a></li>
+                <li class="primary-nav__item [: if .SpecificationList :]primary-nav__item--active[: end :] js-nav hide--sm old-ie--display-block"><a class="primary-nav__link col col--md-7 col--lg-14" href="/">Home</a></li>
+                <li class="primary-nav__item [: if or .SpecificationSummary .Method :]primary-nav__item--active[: end :] js-nav"><a class="primary-nav__link col col--md-8 col--lg-15" href="/office-for-national-statistics-api/reference">API reference</a></li>
+                <!--<li class="primary-nav__item js-nav"><a class="primary-nav__link col col&#45;&#45;md-8 col&#45;&#45;lg-10" href="#">Tutorials</a></li>-->
+                <!--<li class="primary-nav__item js-nav"><a class="primary-nav__link col col&#45;&#45;md-8 col&#45;&#45;lg-10" href="#">Client libraries</a></li>-->
+                <!--<li class="primary-nav__item js-nav"><a class="primary-nav__link col col&#45;&#45;md-8 col&#45;&#45;lg-10" href="#">Developer forum</a></li>-->
+                <li class="primary-nav__item [: if not .SpecificationList :][: if .NavigationGuides :]primary-nav__item--active[: end :][: end :] js-nav"><a class="primary-nav__link col col--md-8 col--lg-15" href="/guides/embedding-charts">Embedding charts</a></li>
+                <li class="primary-nav__item js-nav"><a class="primary-nav__link col col--md-8 col--lg-15" href="https://github.com/ONSdigital">GitHub</a></li>
             </ul>
         </div>
     </nav>
