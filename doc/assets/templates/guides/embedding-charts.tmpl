@@ -1,0 +1,84 @@
+
+                <h2>Obtain the URL to use for the embed</h2>
+                <p>Currently this part of the process is a manual step as this functionality has not yet been integrated into the pages themselves on the website. We are currently investigating how best to do this and these will updated these instructions once this has been implemented.</p>
+                <p>To embed the chart you first need the URL of our 'embed' version. This will allow the fields displayed on the chart to be customised and allow the chart to be used on another domain.</p>
+                <p>Below each chart on the website there are the following options
+                    <section class="section__content--markdown">
+                        <div class="markdown-chart-container panel--bottom-mar print--avoid-break">
+                            <h5 class="print--hide font-size--h6">Download this chart</h5>
+                            <a class="btn btn--primary print--hide js-chart-image-src" href="https://www.ons.gov.uk/chartimage?uri=/economy/inflationandpriceindices/bulletins/consumerpriceinflation/sept2016/8ec279b8" download="Figure 5: RPI and RPIJ 12-month rates for the last 10 years: September 2006 to September 2016">Image</a>
+                            <a class="btn btn--primary print--hide" title="Download as csv" href="https://www.ons.gov.uk/generator?uri=/economy/inflationandpriceindices/bulletins/consumerpriceinflation/sept2016/8ec279b8&amp;format=csv">.csv</a>
+                            <a class="btn btn--primary print--hide" title="Download as xls" href="https://www.ons.gov.uk/generator?uri=/economy/inflationandpriceindices/bulletins/consumerpriceinflation/sept2016/8ec279b8&amp;format=xls">.xls</a>
+                        </div>
+                    </section>
+                <p>Copy the link from the image button. The way to do this will vary by browser, but from Chrome you can right-click and select 'Copy Link Address'.
+                <p>This will give you the URL of the chart image.
+                    <br> For example: https://www.ons.gov.uk/chartimage?uri=/economy/inflationandpriceindices/bulletins/consumerpriceinflation/sept2016/cc765147 </p>
+                <p>To get the embedable URL replace <strong>chartimage</strong> with <strong>embed</strong>.
+                    <br>This gives you: https://www.ons.gov.uk/embed?uri=/economy/inflationandpriceindices/bulletins/consumerpriceinflation/sept2016/cc765147</p>
+                <p>This will be the basis for embedding the chart. There are currently two options for how you can do this.
+                <hr>
+
+
+                <h2>Simple method - using an iframe</h2>
+                <p>Once you have the URL to embed the simplest method it to use an iframe to add this into your page. An example is shown below. The size of the chart will then be controlled by the width and height attributes.</p>
+                <pre><code class="language-javascript">
+&#x3C;iframe src=&#x22;https://www.ons.gov.uk/embed?uri=/economy/inflationandpriceindices/bulletins/consumerpriceinflation/sept2016/cc765147&#x26;notes=false&#x26;source=false&#x26;subtitle=false&#x26;title=false&#x22; width= &#x22;475&#x22; height= &#x22;356&#x22; frameborder=&#x22;0&#x22;&#x3E;&#x3C;/iframe&#x3E;
+                </code></pre>
+                <iframe src="https://www.ons.gov.uk/embed?uri=/economy/inflationandpriceindices/bulletins/consumerpriceinflation/sept2016/cc765147&notes=false&source=false&subtitle=false&title=false" width= "475" height= "356" frameborder="0"></iframe>
+                <hr>
+
+                <h2>Responsive method - using Pym.js</h2>
+                <p>Using iframes in a responsive page can be more difficult as sizing its height is tricky — especially if the content of the iframe changes height depending on page width (for example, because of text wrapping or media queries) or events within the iframe. To get round this we normally use <a href = "http://blog.apps.npr.org/pym.js/">Pym.js</a>.</p>
+                <p>To embed a chart using pym you will need the following in your page (amending the chart name and URL as appropriate);
+                <pre><code class="language-markup">
+&#x3C;div id=&#x22;chart1&#x22;&#x3E;&#x3C;/div&#x3E;
+                  </code></pre>
+                <pre><code class="language-javascript">
+&#x3C;script type=&#x22;text/javascript&#x22; src=&#x22;https://pym.nprapps.org/pym.v1.min.js&#x22;&#x3E;&#x3C;/script&#x3E;
+                  </code></pre>
+                <pre><code class="language-javascript">
+&#x3C;script&#x3E;
+var pymParent = new pym.Parent(&#x27;chart1&#x27;, &#x22;https://www.ons.gov.uk/embed?uri=/economy/inflationandpriceindices/bulletins/consumerpriceinflation/sept2016/cc765147&#x22;, {});
+&#x3C;/script&#x3E;
+                    </code></pre>
+                <hr>
+
+                <h2>Customise the chart</h2>
+                The fields displayed by the chart are customisable and the following flags are available. These follow the format <strong>"&#x26;notes=false"</strong> and are included in the URL. By default all are set to <strong>"true"</strong>.
+                <ul>
+                    <li>title</li>
+                    <li>subtitle</li>
+                    <li>source</li>
+                    <li>notes</li>
+                </ul>
+
+                <div class="col-wrap">
+                    <div class="col col--md-half col--lg-half">
+                        <h3>Chart with all options displayed</h3>
+                        <pre class=" language-javascript"><code class=" language-javascript">
+<span class="token keyword">var</span> pymParent <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">pym<span class="token punctuation">.</span>Parent</span><span class="token punctuation">(</span><span class="token string">'chart2'</span><span class="token punctuation">,</span>
+<span class="token string">"https://www.ons.gov.uk/embed?uri=/economy/inflationandpriceindices/bulletins/consumerpriceinflation/sept2016/cc765147"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+              </code></pre>
+                        <div id="chart2"><iframe src="https://www.ons.gov.uk/embed?uri=/economy/inflationandpriceindices/bulletins/consumerpriceinflation/sept2016/cc765147&amp;initialWidth=464&amp;childId=chart2&amp;parentTitle=Chart%20embeds%20instructions&amp;parentUrl=https%3A%2F%2Frobchamberspfc.github.io%2Fchartembed%2F" width="100%" scrolling="no" marginheight="0" frameborder="0" height="921px"></iframe></div>
+                        <script type="text/javascript" src="https://pym.nprapps.org/pym.v1.min.js"></script>
+                        <script>
+                            var pymParent = new pym.Parent('chart2', "https://www.ons.gov.uk/embed?uri=/economy/inflationandpriceindices/bulletins/consumerpriceinflation/sept2016/cc765147", {});
+                        </script>
+                    </div>
+
+                    <div class="col col--md-half col--lg-half">
+                        <h3>Just the chart</h3>
+                        <pre class=" language-javascript"><code class=" language-javascript">
+<span class="token keyword">var</span> pymParent <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">pym<span class="token punctuation">.</span>Parent</span><span class="token punctuation">(</span><span class="token string">'chart3'</span><span class="token punctuation">,</span>
+<span class="token string">"https://www.ons.gov.uk/embed?uri=/economy/inflationandpriceindices/bulletins/consumerpriceinflation/sept2016/cc765147&amp;notes=false&amp;source=false&amp;subtitle=false&amp;title=false"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+              </code></pre>
+                        <div id="chart3"><iframe src="https://www.ons.gov.uk/embed?uri=/economy/inflationandpriceindices/bulletins/consumerpriceinflation/sept2016/cc765147&amp;notes=false&amp;source=false&amp;subtitle=false&amp;title=false&amp;initialWidth=464&amp;childId=chart3&amp;parentTitle=Chart%20embeds%20instructions&amp;parentUrl=https%3A%2F%2Frobchamberspfc.github.io%2Fchartembed%2F" width="100%" scrolling="no" marginheight="0" frameborder="0" height="636px"></iframe></div>
+                        <script type="text/javascript" src="https://pym.nprapps.org/pym.v1.min.js"></script>
+                        <script>
+                            var pymParent = new pym.Parent('chart3', "https://www.ons.gov.uk/embed?uri=/economy/inflationandpriceindices/bulletins/consumerpriceinflation/sept2016/cc765147&notes=false&source=false&subtitle=false&title=false", {});
+                        </script>
+
+                    </div>
+                </div>
+
