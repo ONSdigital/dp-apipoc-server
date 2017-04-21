@@ -20,6 +20,6 @@ RUN set -ex; \
 	apk del .fetch-deps;
 
 COPY api-spec/swagger.json .
-COPY assets .
+COPY assets assets
 
 ENTRYPOINT ./dapperdox -spec-dir=. -force-specification-list=true -bind-addr=:8080
