@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width,initial-scale=1.0,user-scalable=1" name="viewport">
+    <meta name="theme-color" content="#58595B">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+      <!-- Google Tag Manager -->
+      <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-MBCBVQS');</script>
+      <!-- End Google Tag Manager -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src='/js/jquery.wiggle.min.js' type='text/javascript'></script>
+    <script src="/js/explorer.js"          type="text/javascript"></script>
+
+    <link rel="stylesheet" type="text/css" href="//cdn.ons.gov.uk/sixteens/1f354a7/css/main.css">
+    <!--<link  href="/css/xcode.css"   type="text/css" media="screen" rel="stylesheet">-->
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism-okaidia.min.css" />
+    <script src='/js/highlight.pack.js'   type='text/javascript'></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/prism.min.js" type="text/javascript"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <title>[: if .Info.Title :][: .Info.Title :][: else :]Office for National Statistics[:end :]: [: .Title :]</title>
+
+    <style>
+
+        a {
+            text-decoration: underline;
+        }
+        a:not('.btn'):hover {
+            color: #194E79;
+        }
+        .nav-active {
+            font-weight: 700;
+        }
+
+        @media (min-width: 768px) {
+            .primary-nav__item:last-of-type a {
+                border-right: 1px solid #323132;
+            }
+
+        }
+
+        table td,
+        table th {
+            padding: 7px 16px 9px 16px;
+            vertical-align: baseline;
+        }
+
+        .table-enhanced {
+            display: table;
+            border-collapse: collapse;
+            background-color: white;
+            border-bottom: 1px solid #E8E8E8;
+            border-left: 1px solid #E8E8E8;
+            border-right: 1px solid #E8E8E8;
+        }
+
+        .table-enhanced th {
+            text-align: left;
+            position: relative;
+            background-color: #E8E8E8;
+            font-weight: 700;
+        }
+
+        .table-enhanced tr:not(:last-of-type) {
+            border-bottom: solid 1px #E8E8E8;
+        }
+
+        pre {
+            white-space: pre-wrap; /* Since CSS 2.1 */
+            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+            white-space: -pre-wrap; /* Opera 4-6 */
+            white-space: -o-pre-wrap; /* Opera 7 */
+            word-wrap: break-word; /* Internet Explorer 5.5+ */
+            font-family: monospace;
+        }
+
+        td pre {
+            max-width: 220px;
+            width: 220px;
+        }
+
+        .standout-block {
+            border: solid 1px #E8E8E8;
+            padding-bottom: 16px;
+            margin-bottom: 16px;
+            background-color: white;
+        }
+
+        .standout-block-padded {
+            padding: 7px 16px 9px 16px;
+        }
+
+        .standout-block-scroll {
+            overflow-x: auto;
+        }
+
+        .standout-block pre {
+            max-width: 100%;
+            width: 100%;
+        }
+
+        .page-intro p {
+            font-size: 21px;
+            margin-top: 0px;
+            margin-bottom: 48px;
+            padding: 7px 0 9px 0;
+            line-height: 32px;
+        }
+
+        .page-intro__title--home {
+            /*font-weight: 700;*/
+            font-size: 52px;
+            margin: 48px 0 0 0;
+        }
+
+        /*.page-intro p:empty {*/
+            /*display: none;*/
+        /*}*/
+
+    </style>
+
+  </head>
+
+  <body class="home_page js viewport-lg">
+
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MBCBVQS"
+                    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+    [: template "fragments/header" . :]
+
+    <main id="main" role="main" tabindex="-1">
+      [: if .SpecificationList :]
+        <div class="page-intro background--astral" >
+            <div class="wrapper">
+                <div class="col-wrap">
+                    <div class="col">
+                        <h1 class="page-intro__title page-intro__title--home">
+                          Developer Hub
+                        </h1>
+                        <p class="page-intro__content page-intro__content--home-big">
+                            Developer information from the Office for National Statistics.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+      [: else :]
+        <div class="page-intro background--gallery [: if or .SpecificationSummary .Method :][: if not (.Method.Description) :]padding-bottom--5[: end :][: end :]">
+            <div class="wrapper">
+                <div class="col-wrap">
+                    <div class="col">
+                        [: if .SpecificationSummary :]
+                            <h1 class="page-intro__title margin-top--5">[:.Info.Title :] reference</h1>
+                        [: else if .Title :]
+                            <h1 class="page-intro__title margin-top--5">[: .Title :] [: .TitleSuffix :]</h1>
+                        [: end :]
+                        [: if .Method.Description :]
+                            [: safehtml .Method.Description :]
+                        [: end :]
+                    </div>
+                </div>
+            </div>
+        </div>
+      [: end :]
+        <div class="wrapper">
+            [: template "fragments/body" . :]
+        </div>
+    </main>
+
+    [: template "fragments/footer" . :]
+  </body>
+</html>
