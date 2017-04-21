@@ -117,6 +117,12 @@
             line-height: 32px;
         }
 
+        .page-intro__title--home {
+            /*font-weight: 700;*/
+            font-size: 52px;
+            margin: 48px 0 0 0;
+        }
+
         /*.page-intro p:empty {*/
             /*display: none;*/
         /*}*/
@@ -136,13 +142,16 @@
 
     <main id="main" role="main" tabindex="-1">
       [: if .SpecificationList :]
-        <div class="page-intro background--astral padding-bottom--4" >
+        <div class="page-intro background--astral" >
             <div class="wrapper">
                 <div class="col-wrap">
                     <div class="col">
-                        <h1 class="page-intro__title page-intro__title--home"><span class="page-intro__title page-intro__title--home-big">
-                          Welcome to the</span> Office for National Statistics Developer Hub
+                        <h1 class="page-intro__title page-intro__title--home">
+                          Developer Hub
                         </h1>
+                        <p class="page-intro__content page-intro__content--home-big">
+                            Developer information from the Office for National Statistics.
+                        </p>
                     </div>
                 </div>
             </div>
