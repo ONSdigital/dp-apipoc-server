@@ -5,7 +5,7 @@
 [: overlay "description" . :]
 
 [: $c := counter_set -1 :]
-<div>
+<div class="margin-bottom--4">
 [: range $id, $spec := .APISuite :]
     [: $c := counter_add 1 :]
     [: if eq (mod $c 2) 0 :]
@@ -25,9 +25,9 @@
 
           <i class="fa fa-sitemap fa-stack-1x fa-inverse my-fa-icon-inner"></i>
         </div></a>
-           <h3 class="bottommargin" style="margin-top: 5px;">
+           <h2 class="">
              <a href="/[: $spec.ID :]/reference">[:$spec.APIInfo.Title:]</a>
-           </h3>
+           </h2>
            [: safehtml $spec.APIInfo.Description :]
       </div>
     [: if eq (mod $c 2) 1 :]
