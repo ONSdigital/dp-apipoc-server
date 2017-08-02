@@ -7,6 +7,7 @@ ENV DAPPERDOX_TARBALL="https://github.com/DapperDox/dapperdox/releases/download/
 RUN set -ex; \
 	\
 	apk add --no-cache --virtual .fetch-deps \
+        bash \
 		ca-certificates \
 		openssl \
 		tar \
