@@ -22,4 +22,4 @@ RUN set -ex; \
 COPY api-spec/swagger.json .
 COPY assets assets
 
-ENTRYPOINT ./dapperdox -spec-dir=. -force-specification-list=true -bind-addr=:8080
+CMD ./dapperdox -spec-dir=. -force-specification-list=true -bind-addr=:8080

@@ -20,4 +20,4 @@ ENV USE_WEBSITE=false
 
 EXPOSE $API_APP_PORT
 
-ENTRYPOINT dp-apipoc-server
+CMD dp-apipoc-server
