@@ -26,7 +26,7 @@ job "dp-api-poc" {
       config {
         command = "${NOMAD_TASK_DIR}/start-task"
 
-        args = ["./dp-apipoc-server"]
+        args = ["dp-apipoc-server"]
 
         image = "{{ECR_URL}}:latest"
 
