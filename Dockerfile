@@ -1,5 +1,7 @@
 FROM golang:1.8-alpine
 
+RUN apk --no-cache add bash
+
 COPY handler /work/src/github.com/ONSdigital/dp-apipoc-server/handler
 COPY model /work/src/github.com/ONSdigital/dp-apipoc-server/model
 COPY routing /work/src/github.com/ONSdigital/dp-apipoc-server/routing
