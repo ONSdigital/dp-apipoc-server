@@ -7,7 +7,6 @@ ENV DAPPERDOX_TARBALL="https://github.com/DapperDox/dapperdox/releases/download/
 RUN set -ex; \
 	\
 	apk add --no-cache --virtual .fetch-deps \
-        bash \
 		ca-certificates \
 		openssl \
 		tar \
@@ -19,6 +18,8 @@ RUN set -ex; \
 	rm dapperdox.tgz; \
 	\
 	apk del .fetch-deps;
+
+RUN apk --no-cache add bash
 
 COPY api-spec/swagger.json .
 COPY assets assets
