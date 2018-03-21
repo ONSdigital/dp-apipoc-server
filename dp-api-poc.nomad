@@ -16,7 +16,8 @@ job "dp-api-poc" {
 
     constraint {
       attribute = "${node.class}"
-      value     = "web"
+      operator  = "regexp"
+      value     = "web.*"
     }
 
     task "dp-api-poc" {
