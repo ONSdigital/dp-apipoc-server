@@ -50,6 +50,13 @@ job "dp-api-poc" {
         name = "dp-api-poc"
         port = "http"
         tags = ["web"]
+
+        check {
+          type     = "http"
+          path     = "/ops/status"
+          interval = "10s"
+          timeout  = "2s"
+        }
       }
 
       resources {
