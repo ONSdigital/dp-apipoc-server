@@ -20,6 +20,13 @@ job "dp-api-poc" {
       value     = "web.*"
     }
 
+    restart {
+      attempts = 3
+      delay    = "15s"
+      interval = "1m"
+      mode     = "delay"
+    }
+
     task "dp-api-poc" {
       driver = "docker"
 

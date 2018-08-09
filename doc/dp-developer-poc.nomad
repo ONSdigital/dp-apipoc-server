@@ -20,6 +20,13 @@ job "dp-developer-poc" {
       value     = "web.*"
     }
 
+    restart {
+      attempts = 3
+      delay    = "15s"
+      interval = "1m"
+      mode     = "delay"
+    }
+
     task "dp-developer-poc" {
       driver = "docker"
 
