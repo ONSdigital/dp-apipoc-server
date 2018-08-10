@@ -20,6 +20,13 @@ job "dp-api-poc" {
       value     = "web.*"
     }
 
+    restart {
+      attempts = 3
+      delay    = "15s"
+      interval = "1m"
+      mode     = "delay"
+    }
+
     task "dp-api-poc" {
       driver = "docker"
 
@@ -43,6 +50,13 @@ job "dp-api-poc" {
         name = "dp-api-poc"
         port = "http"
         tags = ["web"]
+
+        check {
+          type     = "http"
+          path     = "/ops/status"
+          interval = "10s"
+          timeout  = "2s"
+        }
       }
 
       resources {
