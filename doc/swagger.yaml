@@ -3,7 +3,7 @@ info:
   title: Office for National Statistics API
   description: The description of what this API is about goes here!
   version: "1.0.0"
-host: api.develop.onsdigital.co.uk
+host: api.ons.gov.uk
 schemes:
   - https
 basePath: /
