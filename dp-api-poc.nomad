@@ -16,8 +16,7 @@ job "dp-api-poc" {
 
     constraint {
       attribute = "${node.class}"
-      operator  = "regexp"
-      value     = "web
+      value     = "web"
     }
 
     restart {
