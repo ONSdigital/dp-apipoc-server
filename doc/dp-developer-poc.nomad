@@ -30,7 +30,7 @@ job "dp-developer-poc" {
       driver = "docker"
 
       artifact {
-        source = "s3::https://s3-eu-west-1.amazonaws.com/{{DEPLOYMENT_BUCKET}}/dp-api-poc/{{REVISION}}.tar.gz"
+        source = "s3::https://s3-eu-west-1.amazonaws.com/{{DEPLOYMENT_BUCKET}}/dp-developer-poc/{{REVISION}}.tar.gz"
       }
 
       config {
