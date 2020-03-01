@@ -1,0 +1,10 @@
+FROM onsdigital/dp-concourse-tools-ubuntu
+
+WORKDIR /app/
+
+ADD dp-dataset-api .
+
+ENV WEBSITE_ROOT=https://www.ons.gov.uk
+ENV USE_WEBSITE=false
+
+CMD ./dp-dataset-api
