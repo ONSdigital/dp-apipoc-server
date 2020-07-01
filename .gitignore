@@ -18,3 +18,5 @@ build.meta
 
 # Binary
 dp-apipoc-server
+
+tests/java/.project
