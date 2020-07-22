@@ -36,7 +36,7 @@ job "dp-api-poc" {
       config {
         command = "${NOMAD_TASK_DIR}/start-task"
 
-        args = ["dp-apipoc-server"]
+        args = ["./dp-api-poc"]
 
         image = "{{ECR_URL}}:concourse-{{REVISION}}"
 
