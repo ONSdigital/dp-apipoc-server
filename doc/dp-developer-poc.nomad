@@ -43,7 +43,7 @@ job "dp-developer-poc" {
           "-bind-addr=:8080",
         ]
 
-        image = "{{ECR_URL}}:latest"
+        image = "{{ECR_URL}}:concourse-{{REVISION}}"
 
         port_map {
           http = 8080
@@ -54,6 +54,12 @@ job "dp-developer-poc" {
         name = "dp-developer-poc"
         port = "http"
         tags = ["web"]
+        check {
+          type     = "http"
+          path     = "/"
+          interval = "10s"
+          timeout  = "2s"
+        }
       }
 
       resources {

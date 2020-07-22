@@ -38,7 +38,7 @@ job "dp-api-poc" {
 
         args = ["dp-apipoc-server"]
 
-        image = "{{ECR_URL}}:latest"
+        image = "{{ECR_URL}}:concourse-{{REVISION}}"
 
         port_map {
           http = 8080
