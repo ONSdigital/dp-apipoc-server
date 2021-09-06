@@ -4,31 +4,28 @@ import (
 	"net/http"
 
 	"github.com/ONSdigital/dp-apipoc-server/handler"
-	"github.com/julienschmidt/httprouter"
+	"github.com/gorilla/mux"
 )
 
 func GetRoutes(opsHandler *handler.OpsHandler, metaHandler *handler.MetadataHandler, dataHandler *handler.DataHandler) http.Handler {
-	router := httprouter.New()
+	router := mux.NewRouter()
 
-	router.HEAD("/ops/ping", opsHandler.PingHandler)
-	router.GET("/ops/status", opsHandler.StatusHandler)
+	router.HandleFunc("/ops/ping", opsHandler.PingHandler).Methods("HEAD")
+	router.HandleFunc("/ops/status", opsHandler.StatusHandler).Methods("GET")
 
-	router.GET("/dataset", metaHandler.GetDatasets)
-	router.GET("/timeseries", metaHandler.GetTimeseries)
+	router.HandleFunc("/dataset", metaHandler.GetDatasets).Methods("GET")
+	router.HandleFunc("/dataset/{datasetId}", metaHandler.GetSpecificDataset).Methods("GET")
+	router.HandleFunc("/dataset/{datasetId}/timeseries", metaHandler.GetSpecificDatasetTimeSeries).Methods("GET")
+	router.HandleFunc("/dataset/{datasetId}/timeseries/{timeseriesId}", metaHandler.GetSpecificTimeSeriesSpecificDataset).Methods("GET")
+	router.HandleFunc("/dataset/{datasetId}/timeseries/{timeseriesId}/data", dataHandler.GetData).Methods("GET")
 
-	router.GET("/dataset/:datasetId", metaHandler.GetSpecificDataset)
-	router.GET("/timeseries/:timeseriesId", metaHandler.GetSpecificTimeseries)
+	router.HandleFunc("/timeseries", metaHandler.GetTimeseries).Methods("GET")
+	router.HandleFunc("/timeseries/{timeseriesId}", metaHandler.GetSpecificTimeseries).Methods("GET")
+	router.HandleFunc("/timeseries/{timeseriesId}/dataset", metaHandler.GetSpecificTimeseriesDatasets).Methods("GET")
+	router.HandleFunc("/timeseries/{timeseriesId}/dataset/{datasetId}", metaHandler.GetSpecificTimeSeriesSpecificDataset).Methods("GET")
+	router.HandleFunc("/timeseries/{timeseriesId}/dataset/{datasetId}/data", dataHandler.GetData).Methods("GET")
 
-	router.GET("/dataset/:datasetId/timeseries", metaHandler.GetSpecificDatasetTimeSeries)
-	router.GET("/timeseries/:timeseriesId/dataset", metaHandler.GetSpecificTimeseriesDatasets)
-
-	router.GET("/dataset/:datasetId/timeseries/:timeseriesId", metaHandler.GetSpecificTimeSeriesSpecificDataset)
-	router.GET("/timeseries/:timeseriesId/dataset/:datasetId", metaHandler.GetSpecificTimeSeriesSpecificDataset)
-
-	router.GET("/search", metaHandler.DoSearch)
-
-	router.GET("/dataset/:datasetId/timeseries/:timeseriesId/data", dataHandler.GetData)
-	router.GET("/timeseries/:timeseriesId/dataset/:datasetId/data", dataHandler.GetData)
+	router.HandleFunc("/search", metaHandler.DoSearch).Methods("GET")
 
 	return router
 }

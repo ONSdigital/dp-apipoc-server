@@ -1,17 +1,17 @@
 package main
 
 import (
+	"context"
 	"net/http"
 	"os"
 	"strconv"
 	"time"
 
 	"github.com/ONSdigital/dp-apipoc-server/handler"
-	"github.com/ONSdigital/dp-apipoc-server/routing"
+	router "github.com/ONSdigital/dp-apipoc-server/routing"
 	"github.com/ONSdigital/dp-apipoc-server/upstream"
-	"github.com/ONSdigital/go-ns/handlers/requestID"
-	"github.com/ONSdigital/go-ns/handlers/timeout"
-	"github.com/ONSdigital/go-ns/log"
+	request "github.com/ONSdigital/dp-net/request"
+	"github.com/ONSdigital/log.go/log"
 	"github.com/justinas/alice"
 	"github.com/namsral/flag"
 	"github.com/rs/cors"
@@ -20,6 +20,7 @@ import (
 
 func main() {
 	log.Namespace = "dp-apipoc-server"
+	ctx := context.Background()
 
 	var port = 3000
 	var elasticUrl = "http://127.0.0.1:9200"
@@ -38,7 +39,11 @@ func main() {
 
 	flag.Parse()
 
-	elasticService := upstream.NewElasticService(elasticUrl)
+	elasticService, err := upstream.NewElasticService(elasticUrl)
+	if err != nil {
+		log.Event(ctx, "failed to connect to elasticsearch service", log.ERROR, log.Error(err))
+		os.Exit(1)
+	}
 	zebedeeClient := upstream.NewZebedeeClient(zebedeeUrl)
 	websiteClient := upstream.NewWebsiteClient(websiteUrl)
 
@@ -51,9 +56,8 @@ func main() {
 	h := cors.Default().Handler(routes)
 
 	middleware := []alice.Constructor{
-		requestID.Handler(16),
-		log.Handler,
-		timeout.Handler(10 * time.Second),
+		request.HandlerRequestID(16),
+		// timeout.Handler(10 * time.Second),
 	}
 
 	alice := alice.New(middleware...).Then(h)
@@ -72,7 +76,7 @@ func main() {
 	}
 
 	if err := server.ListenAndServe(); err != nil {
-		log.Error(err, nil)
+		log.Event(ctx, "failed to listen and serve", log.ERROR, log.Error(err))
 		os.Exit(2)
 	}
 }

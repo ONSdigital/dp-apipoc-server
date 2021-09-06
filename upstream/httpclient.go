@@ -1,6 +1,7 @@
 package upstream
 
 import (
+	"context"
 	"encoding/json"
 	"io/ioutil"
 	"net"
@@ -8,12 +9,12 @@ import (
 	"time"
 
 	"github.com/ONSdigital/dp-apipoc-server/model"
-	"github.com/ONSdigital/go-ns/log"
+	"github.com/ONSdigital/log.go/log"
 )
 
 type HttpClient interface {
-	Ping(url string) (model.Response, error)
-	GetData(url string) (model.Response, error)
+	Ping(ctx context.Context, url string) (model.Response, error)
+	GetData(ctx context.Context, url string) (model.Response, error)
 }
 
 func NewHttpClient() HttpClient {
@@ -35,13 +36,13 @@ type httpService struct {
 	httpClient *http.Client
 }
 
-func (s *httpService) Ping(url string) (model.Response, error) {
+func (s *httpService) Ping(ctx context.Context, url string) (model.Response, error) {
 	resp, err := s.httpClient.Get(url)
-
 	if err != nil {
-		log.Error(err, nil)
+		log.Event(ctx, "Ping: failed to retrieve response from http client", log.ERROR, log.Error(err))
 		return model.Response{Code: model.DEPENDENCY_CONNECTION_ERROR, Body: nil}, err
 	}
+
 	if resp.StatusCode == http.StatusOK {
 		return model.Response{Code: model.OK, Body: &model.WebsiteStatus{Status: "RUNNING", StatusCode: resp.StatusCode}}, nil
 	}
@@ -49,11 +50,11 @@ func (s *httpService) Ping(url string) (model.Response, error) {
 	return model.Response{Code: model.OK, Body: &model.WebsiteStatus{Status: "NOT_AVAILABLE", StatusCode: resp.StatusCode}}, err
 }
 
-func (s *httpService) GetData(url string) (model.Response, error) {
+func (s *httpService) GetData(ctx context.Context, url string) (model.Response, error) {
 	resp, err := s.httpClient.Get(url)
 
 	if err != nil {
-		log.Error(err, nil)
+		log.Event(ctx, "GetData: failed to retrieve data", log.ERROR, log.Error(err))
 		return model.Response{Code: model.ERROR, Body: nil}, err
 	}
 
@@ -66,14 +67,14 @@ func (s *httpService) GetData(url string) (model.Response, error) {
 		body, ierr := ioutil.ReadAll(resp.Body)
 
 		if ierr != nil {
-			log.Error(ierr, nil)
+			log.Event(ctx, "GetData: failed to read response body", log.ERROR, log.Error(err))
 			return model.Response{Code: model.ERROR, Body: nil}, ierr
 		}
 
 		var item interface{}
 		e := json.Unmarshal(body, &item)
 		if e != nil {
-			log.Error(e, nil)
+			log.Event(ctx, "GetData: failed to unmarshal response body")
 			return model.Response{Code: model.ERROR, Body: nil}, e
 		}
 

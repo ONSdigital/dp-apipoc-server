@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/ONSdigital/go-ns/log"
+	"github.com/ONSdigital/log.go/log"
 	"github.com/cznic/mathutil"
 )
 
@@ -31,23 +31,25 @@ func parsePageParameters(r *http.Request) (int, int, HasErrors) {
 
 func validate(param string, defaultValue int, lower int, upper int, r *http.Request) (int, HasErrors) {
 	var hasErrors HasErrors
+	ctx := r.Context()
+	logData := log.Data{"param": param}
 
 	if len(param) > 0 {
 		value, err := strconv.Atoi(param)
 		if err != nil {
-			log.ErrorR(r, err, nil)
+			log.Event(ctx, "Invalid parameter", log.ERROR, log.Error(err), logData)
 			hasErrors = true
 		}
 		if value < lower {
 			errStr := fmt.Sprintf("Invalid parameter: must not be less than %d", lower)
 
-			log.ErrorR(r, errors.New(errStr), nil)
+			log.Event(ctx, "Invalid parameter", log.ERROR, log.Error(errors.New(errStr)), logData)
 			hasErrors = true
 		}
 		if value > upper {
 			errStr := fmt.Sprintf("Invalid parameter: must not exceed %d", upper)
 
-			log.ErrorR(r, errors.New(errStr), nil)
+			log.Event(ctx, "Invalid parameter", log.ERROR, log.Error(errors.New(errStr)), logData)
 			hasErrors = true
 		}
 
