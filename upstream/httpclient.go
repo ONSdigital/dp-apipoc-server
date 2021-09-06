@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/ONSdigital/dp-apipoc-server/model"
-	"github.com/ONSdigital/log.go/log"
+	"github.com/ONSdigital/log.go/v2/log"
 )
 
 type HttpClient interface {
@@ -39,7 +39,7 @@ type httpService struct {
 func (s *httpService) Ping(ctx context.Context, url string) (model.Response, error) {
 	resp, err := s.httpClient.Get(url)
 	if err != nil {
-		log.Event(ctx, "Ping: failed to retrieve response from http client", log.ERROR, log.Error(err))
+		log.Error(ctx, "Ping: failed to retrieve response from http client", err)
 		return model.Response{Code: model.DEPENDENCY_CONNECTION_ERROR, Body: nil}, err
 	}
 
@@ -54,7 +54,7 @@ func (s *httpService) GetData(ctx context.Context, url string) (model.Response, 
 	resp, err := s.httpClient.Get(url)
 
 	if err != nil {
-		log.Event(ctx, "GetData: failed to retrieve data", log.ERROR, log.Error(err))
+		log.Error(ctx, "GetData: failed to retrieve data", err)
 		return model.Response{Code: model.ERROR, Body: nil}, err
 	}
 
@@ -67,14 +67,14 @@ func (s *httpService) GetData(ctx context.Context, url string) (model.Response, 
 		body, ierr := ioutil.ReadAll(resp.Body)
 
 		if ierr != nil {
-			log.Event(ctx, "GetData: failed to read response body", log.ERROR, log.Error(err))
+			log.Error(ctx, "GetData: failed to read response body", err)
 			return model.Response{Code: model.ERROR, Body: nil}, ierr
 		}
 
 		var item interface{}
 		e := json.Unmarshal(body, &item)
 		if e != nil {
-			log.Event(ctx, "GetData: failed to unmarshal response body")
+			log.Error(ctx, "GetData: failed to unmarshal response body", e)
 			return model.Response{Code: model.ERROR, Body: nil}, e
 		}
 

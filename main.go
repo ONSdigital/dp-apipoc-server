@@ -10,8 +10,8 @@ import (
 	"github.com/ONSdigital/dp-apipoc-server/handler"
 	router "github.com/ONSdigital/dp-apipoc-server/routing"
 	"github.com/ONSdigital/dp-apipoc-server/upstream"
-	request "github.com/ONSdigital/dp-net/request"
-	"github.com/ONSdigital/log.go/log"
+	request "github.com/ONSdigital/dp-net/v2/request"
+	"github.com/ONSdigital/log.go/v2/log"
 	"github.com/justinas/alice"
 	"github.com/namsral/flag"
 	"github.com/rs/cors"
@@ -41,7 +41,7 @@ func main() {
 
 	elasticService, err := upstream.NewElasticService(elasticUrl)
 	if err != nil {
-		log.Event(ctx, "failed to connect to elasticsearch service", log.ERROR, log.Error(err))
+		log.Error(ctx, "failed to connect to elasticsearch service", err)
 		os.Exit(1)
 	}
 	zebedeeClient := upstream.NewZebedeeClient(zebedeeUrl)
@@ -76,7 +76,7 @@ func main() {
 	}
 
 	if err := server.ListenAndServe(); err != nil {
-		log.Event(ctx, "failed to listen and serve", log.ERROR, log.Error(err))
+		log.Error(ctx, "failed to listen and serve", err)
 		os.Exit(2)
 	}
 }

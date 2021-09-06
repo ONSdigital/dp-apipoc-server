@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/ONSdigital/log.go/log"
+	"github.com/ONSdigital/log.go/v2/log"
 	"github.com/cznic/mathutil"
 )
 
@@ -37,19 +37,19 @@ func validate(param string, defaultValue int, lower int, upper int, r *http.Requ
 	if len(param) > 0 {
 		value, err := strconv.Atoi(param)
 		if err != nil {
-			log.Event(ctx, "Invalid parameter", log.ERROR, log.Error(err), logData)
+			log.Error(ctx, "Invalid parameter", err, logData)
 			hasErrors = true
 		}
 		if value < lower {
 			errStr := fmt.Sprintf("Invalid parameter: must not be less than %d", lower)
 
-			log.Event(ctx, "Invalid parameter", log.ERROR, log.Error(errors.New(errStr)), logData)
+			log.Error(ctx, "Invalid parameter", errors.New(errStr), logData)
 			hasErrors = true
 		}
 		if value > upper {
 			errStr := fmt.Sprintf("Invalid parameter: must not exceed %d", upper)
 
-			log.Event(ctx, "Invalid parameter", log.ERROR, log.Error(errors.New(errStr)), logData)
+			log.Error(ctx, "Invalid parameter", errors.New(errStr), logData)
 			hasErrors = true
 		}
 

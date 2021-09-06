@@ -3,8 +3,8 @@ module github.com/ONSdigital/dp-apipoc-server
 go 1.16
 
 require (
-	github.com/ONSdigital/dp-net v1.0.5-0.20200805150805-cac050646ab5
-	github.com/ONSdigital/log.go v1.1.0
+	github.com/ONSdigital/dp-net/v2 v2.2.0-beta
+	github.com/ONSdigital/log.go/v2 v2.0.9
 	github.com/cznic/mathutil v0.0.0-20170313102836-1447ad269d64
 	github.com/gorilla/mux v1.8.0
 	github.com/jmoiron/jsonq v0.0.0-20150511023944-e874b168d07e

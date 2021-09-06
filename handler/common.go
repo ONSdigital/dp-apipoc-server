@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/ONSdigital/dp-apipoc-server/model"
-	"github.com/ONSdigital/log.go/log"
+	"github.com/ONSdigital/log.go/v2/log"
 )
 
 var statusDict = map[model.Code]interface{}{model.OK: http.StatusOK, model.DEPENDENCY_CONNECTION_ERROR: http.StatusOK, model.NOT_FOUND: http.StatusNotFound, model.ERROR: http.StatusInternalServerError}
@@ -31,6 +31,6 @@ func Max(x, y model.Code) model.Code {
 
 func logOut(r *http.Request, message string, err error, logData log.Data) {
 	if err != nil {
-		log.Event(r.Context(), message, log.ERROR, log.Error(err), logData)
+		log.Error(r.Context(), message, err, logData)
 	}
 }

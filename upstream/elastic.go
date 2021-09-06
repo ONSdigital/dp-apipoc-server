@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 
 	"github.com/ONSdigital/dp-apipoc-server/model"
-	"github.com/ONSdigital/log.go/log"
+	"github.com/ONSdigital/log.go/v2/log"
 	"gopkg.in/olivere/elastic.v3"
 )
 
@@ -43,7 +43,7 @@ type service struct {
 func (s *service) Ping(ctx context.Context) (model.Response, error) {
 	res, c, err := s.elasticClient.Ping(s.url).Do()
 	if err != nil {
-		log.Event(ctx, "failed elasticsearch client ping", log.ERROR, log.Error(err))
+		log.Error(ctx, "Ping: failed ping to elasticsearch client", err)
 		return model.Response{Code: model.DEPENDENCY_CONNECTION_ERROR, Body: &model.ElasticStatus{Status: "NOT_AVAILABLE", StatusCode: 0, PingResponse: nil}}, err
 	}
 
@@ -85,7 +85,7 @@ func (s *service) SearchData(ctx context.Context, term string, start int, limit 
 func (s *service) buildItem(ctx context.Context, query *elastic.SearchService) (model.Response, error) {
 	res, _, err := s.executeQuery(query)
 	if err != nil {
-		log.Event(ctx, "built item: failed to execute query", log.ERROR, log.Error(err))
+		log.Error(ctx, "builtItem: failed to execute query", err)
 		return model.Response{Code: model.ERROR, Body: nil}, err
 	}
 
@@ -100,7 +100,7 @@ func (s *service) buildItems(ctx context.Context, query *elastic.SearchService, 
 	res, hits, err := s.executeQuery(query)
 
 	if err != nil {
-		log.Event(ctx, "built items: failed to execute query", log.ERROR, log.Error(err))
+		log.Error(ctx, "buildItems: failed to execute query", err)
 		return model.Response{Code: model.ERROR, Body: nil}, err
 	}
 
