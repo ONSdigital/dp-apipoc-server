@@ -14,10 +14,10 @@ debug:
 
 .PHONY: test
 test:
-	@echo "no tests to run"
+	go test -race -cover ./...
 
 .PHONY: test-component
-test:
+test-component:
 	@echo "no component tests to run"
 
 .PHONY: lint

@@ -9,9 +9,10 @@ require (
 	github.com/gorilla/mux v1.8.0
 	github.com/jmoiron/jsonq v0.0.0-20150511023944-e874b168d07e
 	github.com/justinas/alice v1.2.0
+	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/mattn/go-isatty v0.0.13 // indirect
-	github.com/namsral/flag v1.7.4-alpha
 	github.com/rs/cors v1.8.0
+	github.com/smartystreets/goconvey v1.6.4
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
 	golang.org/x/text v0.3.7 // indirect
 	gopkg.in/olivere/elastic.v3 v3.0.62

@@ -7,13 +7,13 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/ONSdigital/dp-apipoc-server/config"
 	"github.com/ONSdigital/dp-apipoc-server/handler"
 	router "github.com/ONSdigital/dp-apipoc-server/routing"
 	"github.com/ONSdigital/dp-apipoc-server/upstream"
 	request "github.com/ONSdigital/dp-net/v2/request"
 	"github.com/ONSdigital/log.go/v2/log"
 	"github.com/justinas/alice"
-	"github.com/namsral/flag"
 	"github.com/rs/cors"
 	"gopkg.in/tylerb/graceful.v1"
 )
@@ -22,34 +22,25 @@ func main() {
 	log.Namespace = "dp-apipoc-server"
 	ctx := context.Background()
 
-	var port = 3000
-	var elasticUrl = "http://127.0.0.1:9200"
-	var websiteUrl = "https://www.ons.gov.uk"
-	var zebedeeUrl = "http://127.0.0.1:8082"
-	var useWebsite = false
-
-	flag.IntVar(&port, "API_APP_PORT", port, "Port number")
-
-	flag.StringVar(&elasticUrl, "ELASTICSEARCH_ROOT", elasticUrl, "ElasticSearch URL")
-
-	flag.StringVar(&zebedeeUrl, "ZEBEDEE_ROOT", zebedeeUrl, "Zebedee URL")
-
-	flag.StringVar(&websiteUrl, "WEBSITE_ROOT", websiteUrl, "Website URL")
-	flag.BoolVar(&useWebsite, "USE_WEBSITE", useWebsite, "Use Website")
-
-	flag.Parse()
-
-	elasticService, err := upstream.NewElasticService(elasticUrl)
-	if err != nil {
-		log.Error(ctx, "failed to connect to elasticsearch service", err)
+	cfg, configErr := config.Get()
+	if configErr != nil {
+		log.Fatal(ctx, "error loading app config", configErr)
 		os.Exit(1)
 	}
-	zebedeeClient := upstream.NewZebedeeClient(zebedeeUrl)
-	websiteClient := upstream.NewWebsiteClient(websiteUrl)
+
+	log.Event(ctx, "config on startup", log.INFO, log.Data{"config": cfg})
+
+	elasticService, err := upstream.NewElasticService(cfg.ElasticsearchURL)
+	if err != nil {
+		log.Fatal(ctx, "failed to connect to elasticsearch service", err)
+		os.Exit(1)
+	}
+	zebedeeClient := upstream.NewZebedeeClient(cfg.ZebedeeURL)
+	websiteClient := upstream.NewWebsiteClient(cfg.WebsiteURL)
 
 	opsHandler := handler.NewOpsHandler(elasticService, websiteClient)
 	elHandler := handler.NewMetadataHandler(elasticService)
-	dhHandler := handler.NewDataHandler(elasticService, zebedeeClient, websiteClient, useWebsite)
+	dhHandler := handler.NewDataHandler(elasticService, zebedeeClient, websiteClient, cfg.UseWebsite)
 
 	routes := router.GetRoutes(opsHandler, elHandler, dhHandler)
 
@@ -62,7 +53,7 @@ func main() {
 
 	alice := alice.New(middleware...).Then(h)
 
-	address := ":" + strconv.Itoa(port)
+	address := ":" + strconv.Itoa(cfg.Port)
 
 	server := &graceful.Server{
 		Timeout: 10 * time.Second,
