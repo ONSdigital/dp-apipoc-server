@@ -130,7 +130,7 @@ func (mh MetadataHandler) GetSpecificTimeSeriesSpecificDataset(w http.ResponseWr
 
 	elasticRes, err := mh.elasticService.GetSpecificTimeSeriesSpecificDataset(r.Context(), datasetID, timeseriesID)
 
-	logOut(r, "GetSpecificTimeSeriesSpecificDataset: failed to get a specific dataset from a specific timeseries", err, logData)
+	logOut(r, "GetSpecificTimeSeriesSpecificDataset: failed to get a specific timeseries from a dataset", err, logData)
 
 	writeResponse(w, elasticRes.Code, elasticRes.Body)
 }
