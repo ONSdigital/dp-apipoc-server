@@ -48,6 +48,7 @@ func main() {
 
 	middleware := []alice.Constructor{
 		request.HandlerRequestID(16),
+		router.DeprecationMiddleware(cfg),
 		// timeout.Handler(10 * time.Second),
 	}
 

@@ -3,6 +3,7 @@ package router
 import (
 	"net/http"
 
+	"github.com/ONSdigital/dp-apipoc-server/config"
 	"github.com/ONSdigital/dp-apipoc-server/handler"
 	"github.com/gorilla/mux"
 )
@@ -28,4 +29,23 @@ func GetRoutes(opsHandler *handler.OpsHandler, metaHandler *handler.MetadataHand
 	router.HandleFunc("/search", metaHandler.DoSearch).Methods("GET")
 
 	return router
+}
+
+func DeprecationMiddleware(cfg *config.Configuration) func(http.Handler) http.Handler {
+	return func(h http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
+
+			if cfg.Deprecation.IsDeprecated {
+				w.Header().Set("Deprecation", "true")
+
+				if cfg.Deprecation.Sunset != "" {
+					w.Header().Set("Sunset", cfg.Deprecation.Sunset) // Wed, 11 Nov 2020 23:59:59 GMT
+				}
+
+				if cfg.Deprecation.Link != "" {
+					w.Header().Set("Link", cfg.Deprecation.Link)
+				}
+			}
+		})
+	}
 }

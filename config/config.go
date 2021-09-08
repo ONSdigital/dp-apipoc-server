@@ -7,10 +7,17 @@ import (
 // Configuration structure which hold information for configuring the import API
 type Configuration struct {
 	ElasticsearchURL string `envconfig:"ELASTICSEARCH_ROOT"`
+	Deprecation      Deprecation
 	Port             int    `envconfig:"API_APP_PORT"`
 	UseWebsite       bool   `envconfig:"USE_WEBSITE"`
 	WebsiteURL       string `envconfig:"WEBSITE_ROOT"`
 	ZebedeeURL       string `envconfig:"ZEBEDEE_ROOT"`
+}
+
+type Deprecation struct {
+	IsDeprecated bool   `envconfig:"IS_DEPRECATED"`
+	Link         string `envconfig:"DEPRECATION_LINK"`
+	Sunset       string `envconfig:"DEPRECATION_SUNSET"`
 }
 
 var cfg *Configuration
@@ -23,10 +30,15 @@ func Get() (*Configuration, error) {
 
 	cfg = &Configuration{
 		ElasticsearchURL: "http://127.0.0.1:9200",
-		Port:             3000,
-		UseWebsite:       false,
-		WebsiteURL:       "https://www.ons.gov.uk",
-		ZebedeeURL:       "http://127.0.0.1:8082",
+		Deprecation: Deprecation{
+			IsDeprecated: false,
+			Link:         "",
+			Sunset:       "", // if set should be of format "Wed, 11 Nov 2020 23:59:59 GMT"
+		},
+		Port:       3000,
+		UseWebsite: false,
+		WebsiteURL: "https://www.ons.gov.uk",
+		ZebedeeURL: "http://127.0.0.1:8082",
 	}
 
 	return cfg, envconfig.Process("", cfg)
