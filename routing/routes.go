@@ -31,21 +31,26 @@ func GetRoutes(opsHandler *handler.OpsHandler, metaHandler *handler.MetadataHand
 	return router
 }
 
-func DeprecationMiddleware(cfg *config.Configuration) func(http.Handler) http.Handler {
+func DeprecationMiddleware(deprecation config.Deprecation) func(http.Handler) http.Handler {
 	return func(h http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 
-			if cfg.Deprecation.IsDeprecated {
+			if deprecation.IsDeprecated {
 				w.Header().Set("Deprecation", "true")
-
-				if cfg.Deprecation.Sunset != "" {
-					w.Header().Set("Sunset", cfg.Deprecation.Sunset) // Wed, 11 Nov 2020 23:59:59 GMT
+				if deprecation.Date != "" {
+					w.Header().Set("Deprecation", deprecation.Date)
 				}
 
-				if cfg.Deprecation.Link != "" {
-					w.Header().Set("Link", cfg.Deprecation.Link)
+				if deprecation.Link != "" {
+					w.Header().Set("Link", deprecation.Link)
+				}
+
+				if deprecation.Sunset != "" {
+					w.Header().Set("Sunset", deprecation.Sunset) // Wed, 11 Nov 2020 23:59:59 GMT
 				}
 			}
+
+			h.ServeHTTP(w, req)
 		})
 	}
 }

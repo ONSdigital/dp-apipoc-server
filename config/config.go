@@ -15,6 +15,7 @@ type Configuration struct {
 }
 
 type Deprecation struct {
+	Date         string `envconfig:"DEPRECATION_DATE"`
 	IsDeprecated bool   `envconfig:"IS_DEPRECATED"`
 	Link         string `envconfig:"DEPRECATION_LINK"`
 	Sunset       string `envconfig:"DEPRECATION_SUNSET"`
@@ -31,6 +32,7 @@ func Get() (*Configuration, error) {
 	cfg = &Configuration{
 		ElasticsearchURL: "http://127.0.0.1:9200",
 		Deprecation: Deprecation{
+			Date:         "", // if set should be of format "Wed, 11 Nov 2020 23:59:59 GMT"
 			IsDeprecated: false,
 			Link:         "",
 			Sunset:       "", // if set should be of format "Wed, 11 Nov 2020 23:59:59 GMT"
