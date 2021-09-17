@@ -1,7 +1,5 @@
 #!/bin/bash -eux
 
-cwd=$(pwd)
-
-pushd $cwd/dp-apipoc-server
+pushd dp-apipoc-server
   make lint
 popd

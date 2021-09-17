@@ -1,7 +1,5 @@
 #!/bin/bash -eux
 
-export cwd=$(pwd)
-
-pushd $cwd/dp-dataset-api
+pushd dp-apipoc-server
   make audit
 popd

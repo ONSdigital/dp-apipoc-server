@@ -6,7 +6,7 @@ BIN_DIR?=.
 .PHONY: build
 build:
 	@mkdir -p $(BUILD)/$(BIN_DIR)
-	go build -o $(BUILD)/$(BIN_DIR)/dp-api-poc main.go
+	go build -o $(BUILD)/$(BIN_DIR)/dp-apipoc-server main.go
 
 .PHONY: debug
 debug:
