@@ -15,7 +15,7 @@ Proof of concept API server
 | DEPRECATION_DATE     | ""                     | The date in which the decision was made to deprecate the service e.g. "Wed, 11 Nov 2020 23:59:59 GMT"
 | IS_DEPRECATED        | false                  | Used to indicate a decision has been made to deprecate this service
 | DEPRECATION_LINK     | ""                     | A url to further information of the deprecation of the service or endpoints
-| DEPRECATION_SUNSET   | ""                     | The date of when this service will cease to return data on it's endpoints and instead return blanket 404 status codes, e.g. "Fri, 11 Nov 2022 23:59:59 GMT"
+| DEPRECATION_SUNSET   | ""                     | The date of when this service will cease to return data on its endpoints and instead return blanket 404 status codes, e.g. "Fri, 11 Nov 2022 23:59:59 GMT"
 
 ### Contributing
 
@@ -23,6 +23,6 @@ See [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ### License
 
-Copyright ©‎ 2017, Office for National Statistics (https://www.ons.gov.uk)
+Copyright ©‎ 2017-2021, Office for National Statistics (https://www.ons.gov.uk)
 
 Released under MIT license, see [LICENSE](LICENSE.md) for details.

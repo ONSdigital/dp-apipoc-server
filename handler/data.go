@@ -31,24 +31,24 @@ func (dh DataHandler) GetData(w http.ResponseWriter, r *http.Request) {
 
 	elasticRes, err := dh.elasticService.GetSpecificTimeSeriesSpecificDataset(r.Context(), datasetID, timeseriesID)
 
-	logOut(r, "", err, logData)
+	logOut(r, "GetData failed calling es", err, logData)
 
 	if elasticRes.Code == model.OK {
 		jq := jsonq.NewQuery(elasticRes.Body)
 
 		dataUri, e := jq.String("uri")
 		if e != nil {
-			logOut(r, "", e, logData)
+			logOut(r, "GetData failed to get uri from es result", e, logData)
 			writeResponse(w, model.ERROR, nil)
 		} else {
 			if dh.useWebsite {
 				websiteRes, werr := dh.websiteClient.GetData(r.Context(), dataUri)
-				logOut(r, "", werr, logData)
+				logOut(r, "GetData failed to get data from website", werr, logData)
 
 				writeResponse(w, websiteRes.Code, websiteRes.Body)
 			} else {
 				zebedeeRes, zerr := dh.zebedeeClient.GetData(r.Context(), dataUri)
-				logOut(r, "", zerr, logData)
+				logOut(r, "GetData failed to get data from zebedee", zerr, logData)
 
 				writeResponse(w, zebedeeRes.Code, zebedeeRes.Body)
 			}
