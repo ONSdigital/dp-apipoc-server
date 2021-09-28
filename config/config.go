@@ -4,7 +4,7 @@ import (
 	"github.com/kelseyhightower/envconfig"
 )
 
-// Configuration structure which hold information for configuring the import API
+// Configuration structure holds config information for the app
 type Configuration struct {
 	ElasticsearchURL string `envconfig:"ELASTICSEARCH_ROOT"`
 	Deprecation      Deprecation
