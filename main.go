@@ -22,13 +22,30 @@ func main() {
 	log.Namespace = "dp-apipoc-server"
 	ctx := context.Background()
 
-	cfg, configErr := config.Get()
-	if configErr != nil {
-		log.Fatal(ctx, "error loading app config", configErr)
+	cfg, err := config.Get()
+	if err != nil {
+		log.Fatal(ctx, "error loading app config", err)
 		os.Exit(1)
 	}
 
 	log.Event(ctx, "config on startup", log.INFO, log.Data{"config": cfg})
+
+	if err := cfg.Deprecation.Validate(ctx); err != nil {
+		log.Fatal(ctx, "deprecation configuration incorrect", err)
+		os.Exit(1)
+	}
+
+	var sunsetTime time.Time
+	if cfg.Deprecation.Sunset != "" {
+		sunsetTime, err = time.Parse(time.RFC1123, cfg.Deprecation.Sunset)
+		if err != nil {
+			log.Warn(ctx, "failing to parse configuration of Sunset header needed for service deprecation, "+
+				"continue allowing users access to endpoints", log.FormatErrors([]error{err}))
+
+			// Set sunset value to be empty string to allow users access to endpoints
+			cfg.Deprecation.Sunset = ""
+		}
+	}
 
 	elasticService, err := upstream.NewElasticService(cfg.ElasticsearchURL)
 	if err != nil {
@@ -48,7 +65,7 @@ func main() {
 
 	middleware := []alice.Constructor{
 		request.HandlerRequestID(16),
-		router.DeprecationMiddleware(cfg.Deprecation),
+		router.DeprecationMiddleware(cfg.Deprecation, sunsetTime),
 	}
 
 	alice := alice.New(middleware...).Then(h)

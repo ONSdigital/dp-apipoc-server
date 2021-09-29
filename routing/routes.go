@@ -6,7 +6,6 @@ import (
 
 	"github.com/ONSdigital/dp-apipoc-server/config"
 	"github.com/ONSdigital/dp-apipoc-server/handler"
-	"github.com/ONSdigital/log.go/v2/log"
 	"github.com/gorilla/mux"
 )
 
@@ -33,23 +32,18 @@ func GetRoutes(opsHandler *handler.OpsHandler, metaHandler *handler.MetadataHand
 	return router
 }
 
-func DeprecationMiddleware(deprecation config.Deprecation) func(http.Handler) http.Handler {
+func DeprecationMiddleware(deprecation config.Deprecation, sunsetTime time.Time) func(http.Handler) http.Handler {
 	return func(h http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 
-			if deprecation.Sunset != "" {
-				sunsetTime, err := time.Parse(time.RFC1123, deprecation.Sunset)
-				if err != nil {
-					log.Warn(req.Context(), "failing to parse configuration of Sunset header needed for service deprecation, continue allowing users access to endpoints", log.FormatErrors([]error{err}))
-				}
+			if deprecation.HasDeprecationHeader {
 
-				if sunsetTime.Before(time.Now().UTC()) {
+				// check if time of request exceeds sunset header value
+				if deprecation.Sunset != "" && sunsetTime.Before(time.Now().UTC()) {
 					w.WriteHeader(http.StatusNotFound)
 					return
 				}
-			}
 
-			if deprecation.IsDeprecated {
 				w.Header().Set("Deprecation", "true")
 				if deprecation.Date != "" {
 					w.Header().Set("Deprecation", deprecation.Date)
