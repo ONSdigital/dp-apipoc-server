@@ -1,14 +1,15 @@
 ---
+
 platform: linux
 
 image_resource:
   type: docker-image
   source:
     repository: golang
-    tag: 1.17.1
+    tag: latest
 
 inputs:
   - name: dp-apipoc-server
 
 run:
-  path: dp-apipoc-server/ci/scripts/unit.sh
+  path: dp-apipoc-server/ci/scripts/lint.sh

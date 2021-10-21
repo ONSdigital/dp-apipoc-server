@@ -1,5 +1,5 @@
 #!/bin/bash -eux
 
 pushd dp-apipoc-server
-  make test
+  make audit
 popd

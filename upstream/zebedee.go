@@ -2,13 +2,14 @@ package upstream
 
 import (
 	"bytes"
+	"context"
 
 	"github.com/ONSdigital/dp-apipoc-server/model"
 )
 
 type ZebedeeClient interface {
-	Ping() (model.Response, error)
-	GetData(uri string) (model.Response, error)
+	Ping(ctx context.Context) (model.Response, error)
+	GetData(ctx context.Context, uri string) (model.Response, error)
 	buildRequest(uri string) string
 }
 
@@ -21,14 +22,14 @@ type zebedeeService struct {
 	httpClient HttpClient
 }
 
-func (z *zebedeeService) Ping() (model.Response, error) {
-	return z.httpClient.Ping(z.baseUrl)
+func (z *zebedeeService) Ping(ctx context.Context) (model.Response, error) {
+	return z.httpClient.Ping(ctx, z.baseUrl)
 }
 
-func (z *zebedeeService) GetData(uri string) (model.Response, error) {
+func (z *zebedeeService) GetData(ctx context.Context, uri string) (model.Response, error) {
 	url := z.buildRequest(uri)
 
-	return z.httpClient.GetData(url)
+	return z.httpClient.GetData(ctx, url)
 }
 
 func (z *zebedeeService) buildRequest(uri string) string {

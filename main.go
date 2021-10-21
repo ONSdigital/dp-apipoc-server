@@ -1,64 +1,76 @@
 package main
 
 import (
+	"context"
 	"net/http"
 	"os"
 	"strconv"
 	"time"
 
+	"github.com/ONSdigital/dp-apipoc-server/config"
 	"github.com/ONSdigital/dp-apipoc-server/handler"
-	"github.com/ONSdigital/dp-apipoc-server/routing"
+	router "github.com/ONSdigital/dp-apipoc-server/routing"
 	"github.com/ONSdigital/dp-apipoc-server/upstream"
-	"github.com/ONSdigital/go-ns/handlers/requestID"
-	"github.com/ONSdigital/go-ns/handlers/timeout"
-	"github.com/ONSdigital/go-ns/log"
+	request "github.com/ONSdigital/dp-net/v2/request"
+	"github.com/ONSdigital/log.go/v2/log"
 	"github.com/justinas/alice"
-	"github.com/namsral/flag"
 	"github.com/rs/cors"
 	"gopkg.in/tylerb/graceful.v1"
 )
 
 func main() {
 	log.Namespace = "dp-apipoc-server"
+	ctx := context.Background()
 
-	var port = 3000
-	var elasticUrl = "http://127.0.0.1:9200"
-	var websiteUrl = "https://www.ons.gov.uk"
-	var zebedeeUrl = "http://127.0.0.1:8082"
-	var useWebsite = false
+	cfg, err := config.Get()
+	if err != nil {
+		log.Fatal(ctx, "error loading app config", err)
+		os.Exit(1)
+	}
 
-	flag.IntVar(&port, "API_APP_PORT", port, "Port number")
+	log.Event(ctx, "config on startup", log.INFO, log.Data{"config": cfg})
 
-	flag.StringVar(&elasticUrl, "ELASTICSEARCH_ROOT", elasticUrl, "ElasticSearch URL")
+	if err := cfg.Deprecation.Validate(ctx); err != nil {
+		log.Fatal(ctx, "deprecation configuration incorrect", err)
+		os.Exit(1)
+	}
 
-	flag.StringVar(&zebedeeUrl, "ZEBEDEE_ROOT", zebedeeUrl, "Zebedee URL")
+	var sunsetTime time.Time
+	if cfg.Deprecation.Sunset != "" {
+		sunsetTime, err = time.Parse(time.RFC1123, cfg.Deprecation.Sunset)
+		if err != nil {
+			log.Warn(ctx, "failing to parse configuration of Sunset header needed for service deprecation, "+
+				"continue allowing users access to endpoints", log.FormatErrors([]error{err}))
 
-	flag.StringVar(&websiteUrl, "WEBSITE_ROOT", websiteUrl, "Website URL")
-	flag.BoolVar(&useWebsite, "USE_WEBSITE", useWebsite, "Use Website")
+			// Set sunset value to be empty string to allow users access to endpoints
+			cfg.Deprecation.Sunset = ""
+		}
+	}
 
-	flag.Parse()
-
-	elasticService := upstream.NewElasticService(elasticUrl)
-	zebedeeClient := upstream.NewZebedeeClient(zebedeeUrl)
-	websiteClient := upstream.NewWebsiteClient(websiteUrl)
+	elasticService, err := upstream.NewElasticService(cfg.ElasticsearchURL)
+	if err != nil {
+		log.Fatal(ctx, "failed to connect to elasticsearch service", err)
+		os.Exit(1)
+	}
+	zebedeeClient := upstream.NewZebedeeClient(cfg.ZebedeeURL)
+	websiteClient := upstream.NewWebsiteClient(cfg.WebsiteURL)
 
 	opsHandler := handler.NewOpsHandler(elasticService, websiteClient)
 	elHandler := handler.NewMetadataHandler(elasticService)
-	dhHandler := handler.NewDataHandler(elasticService, zebedeeClient, websiteClient, useWebsite)
+	dhHandler := handler.NewDataHandler(elasticService, zebedeeClient, websiteClient, cfg.UseWebsite)
 
 	routes := router.GetRoutes(opsHandler, elHandler, dhHandler)
 
 	h := cors.Default().Handler(routes)
 
 	middleware := []alice.Constructor{
-		requestID.Handler(16),
-		log.Handler,
-		timeout.Handler(10 * time.Second),
+		request.HandlerRequestID(16),
+		router.DeprecationMiddleware(cfg.Deprecation, sunsetTime),
 	}
 
 	alice := alice.New(middleware...).Then(h)
 
-	address := ":" + strconv.Itoa(port)
+	address := ":" + strconv.Itoa(cfg.Port)
 
 	server := &graceful.Server{
 		Timeout: 10 * time.Second,
@@ -72,7 +84,7 @@ func main() {
 	}
 
 	if err := server.ListenAndServe(); err != nil {
-		log.Error(err, nil)
+		log.Error(ctx, "failed to listen and serve", err)
 		os.Exit(2)
 	}
 }

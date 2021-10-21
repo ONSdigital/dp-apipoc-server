@@ -1,17 +1,29 @@
 SHELL=bash
 
 BUILD=build
-BUILD_ARCH=$(BUILD)/$(GOOS)-$(GOARCH)
 BIN_DIR?=.
-
-export GOOS?=$(shell go env GOOS)
-export GOARCH?=$(shell go env GOARCH)
 
 .PHONY: build
 build:
-	@mkdir -p $(BUILD_ARCH)/$(BIN_DIR)
-	go build -o $(BUILD_ARCH)/$(BIN_DIR)/dp-api-poc main.go
+	@mkdir -p $(BUILD)/$(BIN_DIR)
+	go build -o $(BUILD)/$(BIN_DIR)/dp-api-poc main.go
+
+.PHONY: debug
+debug:
+	HUMAN_LOG=1 go run -race main.go
 
 .PHONY: test
 test:
-	@echo "no tests to run"
+	go test -race -cover ./...
+
+.PHONY: test-component
+test-component:
+	@echo "no component tests to run"
+
+.PHONY: lint
+lint:
+	@echo "no linter to run"
+
+.PHONY: audit
+audit:
+	go list -m all | nancy sleuth

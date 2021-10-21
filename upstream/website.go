@@ -2,13 +2,14 @@ package upstream
 
 import (
 	"bytes"
+	"context"
 
 	"github.com/ONSdigital/dp-apipoc-server/model"
 )
 
 type WebsiteClient interface {
-	Ping() (model.Response, error)
-	GetData(uri string) (model.Response, error)
+	Ping(ctx context.Context) (model.Response, error)
+	GetData(ctx context.Context, uri string) (model.Response, error)
 	buildRequest(uri string) string
 }
 
@@ -21,14 +22,14 @@ type websiteService struct {
 	httpClient HttpClient
 }
 
-func (w *websiteService) Ping() (model.Response, error) {
-	return w.httpClient.Ping(w.baseUrl)
+func (w *websiteService) Ping(ctx context.Context) (model.Response, error) {
+	return w.httpClient.Ping(ctx, w.baseUrl)
 }
 
-func (w *websiteService) GetData(uri string) (model.Response, error) {
+func (w *websiteService) GetData(ctx context.Context, uri string) (model.Response, error) {
 	url := w.buildRequest(uri)
 
-	return w.httpClient.GetData(url)
+	return w.httpClient.GetData(ctx, url)
 }
 
 func (w *websiteService) buildRequest(uri string) string {
