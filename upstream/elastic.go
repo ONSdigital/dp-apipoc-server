@@ -1,22 +1,23 @@
 package upstream
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/ONSdigital/dp-apipoc-server/model"
-	"github.com/ONSdigital/go-ns/log"
+	"github.com/ONSdigital/log.go/v2/log"
 	"gopkg.in/olivere/elastic.v3"
 )
 
 type ElasticService interface {
-	Ping() (model.Response, error)
-	GetByType(document string, start int, limit int) (model.Response, error)
-	GetById(document string, field string, dataId string, start int, limit int) (model.Response, error)
-	GetSpecificTimeSeriesSpecificDataset(datasetId string, timeseriesId string) (model.Response, error)
-	SearchData(term string, start int, limit int) (model.Response, error)
+	Ping(ctx context.Context) (model.Response, error)
+	GetByType(ctx context.Context, document string, start int, limit int) (model.Response, error)
+	GetById(ctx context.Context, document string, field string, dataId string, start int, limit int) (model.Response, error)
+	GetSpecificTimeSeriesSpecificDataset(ctx context.Context, datasetId string, timeseriesId string) (model.Response, error)
+	SearchData(ctx context.Context, term string, start int, limit int) (model.Response, error)
 
-	buildItem(query *elastic.SearchService) (model.Response, error)
-	buildItems(query *elastic.SearchService, start int, limit int) (model.Response, error)
+	buildItem(ctx context.Context, query *elastic.SearchService) (model.Response, error)
+	buildItems(ctx context.Context, query *elastic.SearchService, start int, limit int) (model.Response, error)
 
 	buildQueryByType(document string, start int, limit int) *elastic.SearchService
 	buildQueryByField(document string, field string, term string, start int, limit int) *elastic.SearchService
@@ -25,14 +26,13 @@ type ElasticService interface {
 	executeQuery(query *elastic.SearchService) ([]interface{}, int64, error)
 }
 
-func NewElasticService(url string) ElasticService {
+func NewElasticService(url string) (ElasticService, error) {
 	client, err := elastic.NewClient(elastic.SetURL(url), elastic.SetSniff(false))
 	if err != nil {
-		log.Error(err, nil)
-		panic(err)
+		return nil, err
 	}
 
-	return &service{url: url, elasticClient: client}
+	return &service{url: url, elasticClient: client}, nil
 }
 
 type service struct {
@@ -40,18 +40,17 @@ type service struct {
 	elasticClient *elastic.Client
 }
 
-func (s *service) Ping() (model.Response, error) {
+func (s *service) Ping(ctx context.Context) (model.Response, error) {
 	res, c, err := s.elasticClient.Ping(s.url).Do()
-
 	if err != nil {
-		log.Error(err, nil)
+		log.Error(ctx, "Ping: failed ping to elasticsearch client", err)
 		return model.Response{Code: model.DEPENDENCY_CONNECTION_ERROR, Body: &model.ElasticStatus{Status: "NOT_AVAILABLE", StatusCode: 0, PingResponse: nil}}, err
 	}
 
 	return model.Response{Code: model.OK, Body: &model.ElasticStatus{Status: "RUNNING", StatusCode: c, PingResponse: res}}, nil
 }
 
-func (s *service) GetSpecificTimeSeriesSpecificDataset(datasetId string, timeseriesId string) (model.Response, error) {
+func (s *service) GetSpecificTimeSeriesSpecificDataset(ctx context.Context, datasetId string, timeseriesId string) (model.Response, error) {
 	qs := elastic.NewBoolQuery().
 		Must(elastic.NewMatchQuery("description.datasetId", datasetId)).
 		Must(elastic.NewMatchQuery("description.cdid", timeseriesId))
@@ -62,32 +61,31 @@ func (s *service) GetSpecificTimeSeriesSpecificDataset(datasetId string, timeser
 		Query(qs).
 		Sort("uri", true)
 
-	return s.buildItem(query)
+	return s.buildItem(ctx, query)
 }
 
-func (s *service) GetByType(document string, start int, limit int) (model.Response, error) {
+func (s *service) GetByType(ctx context.Context, document string, start int, limit int) (model.Response, error) {
 	query := s.buildQueryByType(document, start, limit)
 
-	return s.buildItems(query, start, limit)
+	return s.buildItems(ctx, query, start, limit)
 }
 
-func (s *service) GetById(document string, field string, dataId string, start int, limit int) (model.Response, error) {
+func (s *service) GetById(ctx context.Context, document string, field string, dataId string, start int, limit int) (model.Response, error) {
 	query := s.buildQueryByField(document, field, dataId, start, limit)
 
-	return s.buildItems(query, start, limit)
+	return s.buildItems(ctx, query, start, limit)
 }
 
-func (s *service) SearchData(term string, start int, limit int) (model.Response, error) {
+func (s *service) SearchData(ctx context.Context, term string, start int, limit int) (model.Response, error) {
 	query := s.buildSearchQuery(term, start, limit)
 
-	return s.buildItems(query, start, limit)
+	return s.buildItems(ctx, query, start, limit)
 }
 
-func (s *service) buildItem(query *elastic.SearchService) (model.Response, error) {
+func (s *service) buildItem(ctx context.Context, query *elastic.SearchService) (model.Response, error) {
 	res, _, err := s.executeQuery(query)
-
 	if err != nil {
-		log.Error(err, nil)
+		log.Error(ctx, "builtItem: failed to execute query", err)
 		return model.Response{Code: model.ERROR, Body: nil}, err
 	}
 
@@ -98,11 +96,11 @@ func (s *service) buildItem(query *elastic.SearchService) (model.Response, error
 	return model.Response{Code: model.OK, Body: res[0]}, nil
 }
 
-func (s *service) buildItems(query *elastic.SearchService, start int, limit int) (model.Response, error) {
+func (s *service) buildItems(ctx context.Context, query *elastic.SearchService, start int, limit int) (model.Response, error) {
 	res, hits, err := s.executeQuery(query)
 
 	if err != nil {
-		log.Error(err, nil)
+		log.Error(ctx, "buildItems: failed to execute query", err)
 		return model.Response{Code: model.ERROR, Body: nil}, err
 	}
 
@@ -119,7 +117,6 @@ func (s *service) executeQuery(query *elastic.SearchService) ([]interface{}, int
 	searchResult, err := query.Do()
 
 	if err != nil {
-		log.Error(err, nil)
 		return nil, 0, err
 	}
 
@@ -134,7 +131,6 @@ func (s *service) executeQuery(query *elastic.SearchService) ([]interface{}, int
 			var item interface{}
 			e := json.Unmarshal(*h.Source, &item)
 			if e != nil {
-				log.Error(e, nil)
 				return nil, 0, e
 			}
 
