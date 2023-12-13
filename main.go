@@ -65,6 +65,7 @@ func main() {
 
 	middleware := []alice.Constructor{
 		request.HandlerRequestID(16),
+		log.Middleware,
 		router.DeprecationMiddleware(cfg.Deprecation, sunsetTime),
 	}
 
