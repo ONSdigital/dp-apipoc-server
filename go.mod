@@ -2,6 +2,9 @@ module github.com/ONSdigital/dp-apipoc-server
 
 go 1.19
 
+// [CVE-2023-48795] CWE-354: Improper Validation of Integrity Check Value
+replace golang.org/x/crypto => golang.org/x/crypto v0.17.0
+
 require (
 	github.com/ONSdigital/dp-net/v2 v2.11.2
 	github.com/ONSdigital/log.go/v2 v2.4.3
