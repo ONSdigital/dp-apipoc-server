@@ -1,9 +1,11 @@
-dp-apipoc-server
-================
+
+# dp-apipoc-server
+
+:warning: **This service is soon to be deprecated** :warning:
 
 Proof of concept API server
 
-### Configuration
+## Configuration
 
 | Environment variable | Default                | Description
 | -------------------- | ---------------------- | -----------
@@ -16,13 +18,19 @@ Proof of concept API server
 | IS_DEPRECATED        | false                  | Used to indicate a decision has been made to deprecate this service
 | DEPRECATION_LINK     | ""                     | A url to further information of the deprecation of the service or endpoints
 | DEPRECATION_SUNSET   | ""                     | The date of when this service will cease to return data on its endpoints and instead return blanket 404 status codes, e.g. "Fri, 11 Nov 2022 23:59:59 GMT"
+| DEPRECATION_OUTAGES  | ""                     | The periods[^outages] during which the service will temporarily return 404 for all non-health requests
 
-### Contributing
+[^outages]: a list of periods, each comma-separated:
+  each period is an outage duration, followed by the `@` character, and then the start time in UTC/GMT
+  (formatted per golang's `time.Duration` and `time.DateTime`, respectively)
+  e.g. "2h@2024-08-21 12:00:00,8h@2024-08-22 12:00:00" (has two outage periods)
+
+## Contributing
 
 See [CONTRIBUTING](CONTRIBUTING.md) for details.
 
-### License
+## License
 
-Copyright ©‎ 2017-2021, Office for National Statistics (https://www.ons.gov.uk)
+Copyright © 2017-2024, Office for National Statistics (https://www.ons.gov.uk)
 
 Released under MIT license, see [LICENSE](LICENSE.md) for details.
