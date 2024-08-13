@@ -39,7 +39,8 @@ func DeprecationMiddleware(deprecation config.Deprecation, sunsetTime time.Time)
 			if deprecation.HasDeprecationHeader {
 
 				// check if time of request exceeds sunset header value
-				if deprecation.Sunset != "" && sunsetTime.Before(time.Now().UTC()) {
+				now := time.Now().UTC()
+				if deprecation.Sunset != "" && sunsetTime.Before(now) {
 					w.WriteHeader(http.StatusNotFound)
 					return
 				}
@@ -55,6 +56,23 @@ func DeprecationMiddleware(deprecation config.Deprecation, sunsetTime time.Time)
 
 				if deprecation.Sunset != "" {
 					w.Header().Set("Sunset", deprecation.Sunset) // Wed, 11 Nov 2020 23:59:59 GMT
+				}
+
+				// check path is not health endpoint (want that to continue to work)
+				isSpecialRequestPath := req.URL.Path[0:5] == `/ops/`
+				if !isSpecialRequestPath {
+					// check if time of request is during a deprecation-outage
+					for _, outage := range deprecation.Outages {
+						if outage.Start.Before(now) {
+							if outage.End.After(now) {
+								w.WriteHeader(http.StatusNotFound)
+								return
+							}
+						} else {
+							// Outages are sorted by Start time
+							break // skip later outages
+						}
+					}
 				}
 			}
 

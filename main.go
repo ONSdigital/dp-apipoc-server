@@ -30,11 +30,6 @@ func main() {
 
 	log.Event(ctx, "config on startup", log.INFO, log.Data{"config": cfg})
 
-	if err := cfg.Deprecation.Validate(ctx); err != nil {
-		log.Fatal(ctx, "deprecation configuration incorrect", err)
-		os.Exit(1)
-	}
-
 	var sunsetTime time.Time
 	if cfg.Deprecation.Sunset != "" {
 		sunsetTime, err = time.Parse(time.RFC1123, cfg.Deprecation.Sunset)
