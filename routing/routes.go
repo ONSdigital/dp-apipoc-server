@@ -58,7 +58,7 @@ func DeprecationMiddleware(deprecation config.Deprecation, sunsetTime time.Time)
 					w.Header().Set("Sunset", deprecation.Sunset) // Wed, 11 Nov 2020 23:59:59 GMT
 				}
 
-				// check not health endpoint
+				// check path is not health endpoint (want that to continue to work)
 				isSpecialRequestPath := req.URL.Path[0:5] == `/ops/`
 				if !isSpecialRequestPath {
 					// check if time of request is during a deprecation-outage
