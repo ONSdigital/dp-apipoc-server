@@ -38,12 +38,7 @@ func DeprecationMiddleware(deprecation config.Deprecation, sunsetTime time.Time)
 
 			if deprecation.HasDeprecationHeader {
 
-				// check if time of request exceeds sunset header value
 				now := time.Now().UTC()
-				if deprecation.Sunset != "" && sunsetTime.Before(now) {
-					w.WriteHeader(http.StatusNotFound)
-					return
-				}
 
 				w.Header().Set("Deprecation", "true")
 				if deprecation.Date != "" {
