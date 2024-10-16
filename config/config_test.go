@@ -30,6 +30,7 @@ func TestConfig(t *testing.T) {
 				So(cfg.Deprecation.Link, ShouldEqual, "")
 				So(cfg.Deprecation.Sunset, ShouldEqual, "")
 				So(cfg.Deprecation.Outages, ShouldHaveLength, 0)
+				So(cfg.Deprecation.Message, ShouldEqual, "")
 			})
 		})
 	})
@@ -54,6 +55,7 @@ func TestSuccessfulConfiguredDeprecationValidation(t *testing.T) {
 		os.Setenv("DEPRECATION_LINK", "www.ons.gov.uk")
 		os.Setenv("DEPRECATION_SUNSET", "Wed, 29 Sept 2021 23:59:59 GMT")
 		os.Setenv("DEPRECATION_OUTAGES", "2h@2023-10-09 13:59:59,3h@2022-10-09 23:59:59")
+		os.Setenv("DEPRECATION_MESSAGE", "This endpoint is deprecated")
 
 		Convey("When the config is obtained and validated", func() {
 			cfg, err := Get()

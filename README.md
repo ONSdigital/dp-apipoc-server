@@ -18,6 +18,7 @@ Proof of concept API server
 | DEPRECATION_LINK       | ""                     | A url to further information of the deprecation of the service or endpoints[^deprecate]
 | DEPRECATION_SUNSET     | ""                     | The date of when this service will cease to return data on its endpoints and instead return blanket 404 status codes, e.g. "Fri, 11 Nov 2022 23:59:59 GMT"[^deprecate]
 | DEPRECATION_OUTAGES    | ""                     | The periods[^outages] during which the service will temporarily return 404 for all non-health requests[^deprecate]
+| DEPRECATION_MESSAGE    | "" | Message to be given on API response to deprecated endpoints 
 
 [^outages]: a list of periods, each comma-separated:
   each period is an outage duration, followed by the `@` character, and then the start time in UTC/GMT

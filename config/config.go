@@ -29,6 +29,7 @@ type Deprecation struct {
 	Date                 string   `envconfig:"DEPRECATION_DATE"`
 	HasDeprecationHeader bool     `envconfig:"HAS_DEPRECATION_HEADER"`
 	Link                 string   `envconfig:"DEPRECATION_LINK"`
+	Message              string   `envconfig:"DEPRECATION_MESSAGE"`
 	Sunset               string   `envconfig:"DEPRECATION_SUNSET"`
 	OutageStrings        []string `envconfig:"DEPRECATION_OUTAGES"`
 	Outages              []Outage `envconfig:"-"`
@@ -52,6 +53,7 @@ func Get() (*Configuration, error) {
 			Date:                 "", // if set should be of format "Wed, 11 Nov 2020 23:59:59 GMT"
 			HasDeprecationHeader: false,
 			Link:                 "",
+			Message:              "",
 			Sunset:               "", // if set should be of format "Wed, 11 Nov 2020 23:59:59 GMT"
 		},
 		Port:       3000,
@@ -72,7 +74,7 @@ func Get() (*Configuration, error) {
 func (cfg *Configuration) Validate() error {
 
 	if !cfg.Deprecation.HasDeprecationHeader {
-		if cfg.Deprecation.Date != "" || cfg.Deprecation.Link != "" || cfg.Deprecation.Sunset != "" || len(cfg.Deprecation.OutageStrings) > 0 {
+		if cfg.Deprecation.Date != "" || cfg.Deprecation.Link != "" || cfg.Deprecation.Sunset != "" || cfg.Deprecation.Message != "" || len(cfg.Deprecation.OutageStrings) > 0 {
 			return errors.New(deprecationErrorMessage)
 		}
 	}

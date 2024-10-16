@@ -1,6 +1,7 @@
 package router
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 
@@ -60,7 +61,7 @@ func DeprecationMiddleware(deprecation config.Deprecation, sunsetTime time.Time)
 					for _, outage := range deprecation.Outages {
 						if outage.Start.Before(now) {
 							if outage.End.After(now) {
-								w.WriteHeader(http.StatusNotFound)
+								http.Error(w, deprecation.Message, http.StatusNotFound)
 								return
 							}
 						} else {
