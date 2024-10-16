@@ -46,7 +46,7 @@ func DeprecationMiddleware(deprecation config.Deprecation, sunsetTime time.Time)
 				}
 
 				if deprecation.Link != "" {
-					w.Header().Set("Link", deprecation.Link)
+					w.Header().Set("Link", fmt.Sprintf("<%s>; rel=\"sunset\"", deprecation.Link))
 				}
 
 				if deprecation.Sunset != "" {
